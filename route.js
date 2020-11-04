@@ -1,7 +1,7 @@
 class route {
     constructor(startLocation = "Chapel Hill"){
         this.startLocation = startLocation
-        this.desticantion = ""
+        this.destination = ""
         this.stops = []
         this.distance = 0
         this.cost = 0
