@@ -1,7 +1,7 @@
 class route {
     constructor(startLocation = "Chapel Hill"){
         this.startLocation = startLocation
-        this.desticantion = ""
+        this.destination = ""
         this.stops = []
         this.distance = 0
         this.cost = 0
@@ -37,5 +37,9 @@ class route {
     checkGoogleMaps(){
         // will eventually check if google recognizes the stop
         return true
+    }
+
+    getGasPrices(){
+        //API key: http://api.eia.gov/series/?api_key=dd2080a6766dea4065bfde327132dced&series_id=TOTAL.RUUCUUS.M
     }
 }

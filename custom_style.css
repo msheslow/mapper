@@ -31,3 +31,7 @@
 .headerMove + .content {
     padding-top: 80px;
 }
+#map {
+    height:400px;
+    width:100%
+}
