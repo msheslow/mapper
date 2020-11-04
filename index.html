@@ -9,12 +9,100 @@
         <title>Mapper</title>
     </head>
     <body>
-        <h1 style="text-align: center; font-size: 40px;">Mapper: Easily plan the <i>ultimate</i> road trip</h1>
+        <a href="login.html"><h1 style="text-align: center; font-size: 40px;">Mapper: Easily plan the <i>ultimate</i> road trip</h1></a>
         <div>
             <img src="https://scontent-iad3-1.xx.fbcdn.net/v/t1.15752-0/p280x280/121385251_3393782160712885_5742362295498810685_n.png?_nc_cat=107&_nc_sid=ae9488&_nc_ohc=iOU0DHejy_wAX-pE9cY&_nc_ht=scontent-iad3-1.xx&oh=6323ac33ea5a6b9859e77ae586a3f4ef&oe=5FA9B099">
         </div>
         <input id="location" placeholder="Charlotte" type="text">Where are you?</input> </br>
         <input id="location" placeholder="Big Sky" type="text">Where do you want to be?</input>
-    
+
+        <br></br>
+
+        <h1>View Google Map Below</h1>
+        <div id="map"></div>
+        <script>
+            function initMap() {
+                // Map Options
+                let options = {
+                    zoom: 3,
+                    center: {lat:35.9132, lng:-79.0558}
+                }
+
+                // New map
+                let map = new google.maps.Map(document.getElementById('map'), options);
+
+            /*
+                // Add start marker
+                let s_marker = new google.maps.Marker({
+                    position: options.center,
+                    map: map
+                });
+
+                // Add destination marker
+                let d_marker = new google.maps.Marker({
+                    position: {lat: 45.2618, lng:-111.3080},
+                    map: map
+                });
+
+                // Add start info window
+                let s_infoWindow = new google.maps.InfoWindow({
+                    content: '<h1>Start</h1>'
+                });
+
+                // Add s_infoWindow as marker click event listener
+                s_marker.addListener('click', function() {
+                    s_infoWindow.open(map, s_marker);
+                });
+
+                 // Add destination info window
+                let d_infoWindow = new google.maps.InfoWindow({
+                    content: '<h1>Destination</h1>'
+                });
+                
+                // Add d_infoWindow as marker click event listener
+                d_marker.addListener('click', function() {
+                    d_infoWindow.open(map, d_marker);
+                });
+            */
+
+            
+
+                // Array of Markers
+                let markers = [
+                    // test marker #1
+                    {
+                        coordinates: {lat: 45.2618, lng:-111.3080},
+                        content: '<h1>this is a marker - u clicked me. thanks</h1>'
+                    },
+                ];
+
+                // Loop thru markers
+                for (let i = 0; i < markers.length; i++) {
+                    addMarker(markers[i]);
+                }
+
+
+                function addMarker(properties) {
+                    let marker = new google.maps.Marker({
+                        position: properties.coordinates,
+                        map: map
+                    });
+
+                    // check if content exists
+                    if (properties.content) {
+                        let infoWindow = new google.maps.InfoWindow({
+                            content: properties.content
+                        });
+
+                        marker.addListener('click', function() {
+                            infoWindow.open(map, marker);
+                        });
+                    }
+                }
+
+            }
+        </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhcNo_EDGsF_lGfThVgAVtweh_DlciUCQ&callback=initMap"></script>
+
     </body>
 </html>

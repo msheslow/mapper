@@ -1,1 +1,5 @@
 /* CSS Style for Mapper */
+#map {
+    height:400px;
+    width:100%
+}
