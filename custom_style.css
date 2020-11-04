@@ -1,1 +1,33 @@
 /* CSS Style for Mapper */
+
+/* Header Links*/
+.header-right {
+    float: right;
+    padding-top: 20px;
+}
+
+.titleLogo {
+    font-size: 60px;
+    color: black;
+}
+
+/* Main Header */
+.pageHeader {
+    overflow: hidden;
+    background-color: lightblue;
+    padding: 20px 10px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+/* Header follows scroll */
+.headerMove {
+    position: fixed;
+    top: 0;
+    width: 100%
+  }
+
+/* Eliminates header lag on scroll */
+.headerMove + .content {
+    padding-top: 80px;
+}
