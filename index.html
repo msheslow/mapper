@@ -12,97 +12,106 @@
         <main>
         </main>
     
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="node_modules/axios/dist/axios.min.js"></script>
-    <script src="https://kit.fontawesome.com/3e308f3171.js" crossorigin="anonymous"></script>
-    <script type="module" src="mapper.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="node_modules/axios/dist/axios.min.js"></script>
+        <script src="https://kit.fontawesome.com/3e308f3171.js" crossorigin="anonymous"></script>
+        <script type="module" src="mapper.js"></script>
+
+        <div class="pac-card" id="pac-card">
+            <div>
+              <div id="title">Search routes here:</div>
+            </div>
+            <div id="pac-container">
+                <br>
+                <input id="start" type="text" placeholder="Enter a start location" />
+                <input id="end" type="text" placeholder="Enter an end location" />
+            </div>
+            <input id="generate-map" type="button" value="Click here to generate route">
+          </div>
 
 
-    <h1>View Google Map Below</h1>
-    <div id="map"></div>
-    <script>
-        function initMap() {
-            // Map Options
-            let options = {
-                zoom: 3,
-                center: {lat:35.9132, lng:-79.0558}
-            }
+        <h1>View Google Map Below</h1>
+        <div id="map"></div>
+        <script>
+            function initMap() {
+                // Map Options
+                let directionsService = new google.maps.DirectionsService;
+                let directionsDisplay = new google.maps.DirectionsRenderer;
+                let options = {
+                    zoom: 3,
+                    center: {lat:35.9132, lng:-79.0558}
+                }
 
-            // New map
-            let map = new google.maps.Map(document.getElementById('map'), options);
+                // New map
+                let map = new google.maps.Map(document.getElementById('map'), options);
+                directionsDisplay.setMap(map);
 
-        /*
-            // Add start marker
-            let s_marker = new google.maps.Marker({
-                position: options.center,
-                map: map
-            });
+                let eventHandler = function() {
+                    makeRoute(directionsService, directionsDisplay);
+                };
 
-            // Add destination marker
-            let d_marker = new google.maps.Marker({
-                position: {lat: 45.2618, lng:-111.3080},
-                map: map
-            });
+                let startInput = document.getElementById('start');
+                let endInput = document.getElementById('end');
 
-            // Add start info window
-            let s_infoWindow = new google.maps.InfoWindow({
-                content: '<h1>Start</h1>'
-            });
+                document.getElementById('generate-map').addEventListener('click', eventHandler);
 
-            // Add s_infoWindow as marker click event listener
-            s_marker.addListener('click', function() {
-                s_infoWindow.open(map, s_marker);
-            });
-
-             // Add destination info window
-            let d_infoWindow = new google.maps.InfoWindow({
-                content: '<h1>Destination</h1>'
-            });
-            
-            // Add d_infoWindow as marker click event listener
-            d_marker.addListener('click', function() {
-                d_infoWindow.open(map, d_marker);
-            });
-        */
-
+                let start_autocomplete = new google.maps.places.Autocomplete(startInput);
+                let end_autocomplete = new google.maps.places.Autocomplete(endInput);
         
+                // Set the data fields to return when the user selects a place.
+                start_autocomplete.setFields(["address_components"]);
+                end_autocomplete.setFields(["address_components"]);
 
-            // Array of Markers
-            let markers = [
-                // test marker #1
-                {
-                    coordinates: {lat: 45.2618, lng:-111.3080},
-                    content: '<h1>this is a marker - u clicked me. thanks</h1>'
-                },
-            ];
+                // Array of Markers
+                let markers = [
+                    // test marker #1
+                    {
+                        coordinates: {lat: 45.2618, lng:-111.3080},
+                        content: '<h1>this is a marker - u clicked me. thanks</h1>'
+                    },
+                ];
 
-            // Loop thru markers
-            for (let i = 0; i < markers.length; i++) {
-                addMarker(markers[i]);
-            }
+                // Loop thru markers
+                for (let i = 0; i < markers.length; i++) {
+                    addMarker(markers[i]);
+                }
 
 
-            function addMarker(properties) {
-                let marker = new google.maps.Marker({
-                    position: properties.coordinates,
-                    map: map
-                });
-
-                // check if content exists
-                if (properties.content) {
-                    let infoWindow = new google.maps.InfoWindow({
-                        content: properties.content
+                function addMarker(properties) {
+                    let marker = new google.maps.Marker({
+                        position: properties.coordinates,
+                        map: map
                     });
 
-                    marker.addListener('click', function() {
-                        infoWindow.open(map, marker);
-                    });
+                    // check if content exists
+                    if (properties.content) {
+                        let infoWindow = new google.maps.InfoWindow({
+                            content: properties.content
+                        });
+
+                        marker.addListener('click', function() {
+                            infoWindow.open(map, marker);
+                        });
+                    }
                 }
             }
 
-        }
-    </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhcNo_EDGsF_lGfThVgAVtweh_DlciUCQ&callback=initMap"></script>
+            function makeRoute(directionsService, directionsDisplay) {
+                directionsService.route({
+                    origin: document.getElementById('start').value,
+                    destination: document.getElementById('end').value,
+                    travelMode: 'DRIVING'
+                },function(response, status) {
+                    if (status === 'OK') {
+                        directionsDisplay.setDirections(response);
+                    } else {
+                        window.alert('Directions request failed due to ' + status);
+                    }
+                });
+            }
+        </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhcNo_EDGsF_lGfThVgAVtweh_DlciUCQ&callback=initMap"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     </body>
 
 </html>
