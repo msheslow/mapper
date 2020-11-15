@@ -3,7 +3,7 @@ export class route {
         this.startLocation = startLocation
         this.destination = destination
         this.stops = []
-        this.states = ["UT", "CO", "NV"]
+        this.states = ["Utah", "Colorado", "Nevada"]
         this.distance = 0
         this.cost = 0
         this.preferences = preferences
@@ -38,7 +38,7 @@ export class route {
 
     addStatesTravelled(){
         //will eventually find all the states that the route crosses to recommend stops
-        this.states[0]="NC"
+        this.states[0]="North Carolina"
     }
 
     checkGoogleMaps(){
