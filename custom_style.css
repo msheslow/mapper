@@ -1,5 +1,7 @@
 /* CSS Style for Mapper */
-
+#root{
+    background-color: #235789;
+}
 /* Header Links*/
 .header-right {
     float: right;
@@ -11,10 +13,23 @@
     color: black;
 }
 
+.userIcon {
+    font-size: 30px;
+    color: white;
+    padding-bottom: 40px;
+}
+
+.text1 {
+    color: #F78888;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+}
+
 /* Main Header */
 .pageHeader {
     overflow: hidden;
-    background-color: lightblue;
+    background-color: #5DA2D5;
     padding: 20px 10px;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
@@ -29,7 +44,7 @@
 
 /* Eliminates header lag on scroll */
 .headerMove + .content {
-    padding-top: 80px;
+    padding-top: 105px;
 }
 #map {
     height:400px;

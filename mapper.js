@@ -6,11 +6,15 @@ function loadPage(){
         <div class="pageHeader" id="fixedHeader">
             <a href="#index" class="titleLogo title">Mapper&nbsp&nbsp<i class="fas fa-map-pin"></i></a>
                 <div class="header-right">
-                    <button class="about button is-rounded"> About</button>
-                    <button class="login button is-rounded"> Get started</button>
+                    <button class="headerButton button is-rounded"> About</button>
+                    <button class="headerButton button is-rounded"> Get started</button>
+                    <a href="#" class="userIcon"><i class="fas fa-user"></i></a>
                 </div>
         </div>
         <div class="content">
+            <div class="box">
+                <span class="text1" style="text-align: center;">Plan your ultimate road trip.<span>
+            </div>
             <div class="columns">
                 <div class="column is-two-thirds" id="left">
                     <div class="box">
