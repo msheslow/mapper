@@ -1,10 +1,12 @@
-class route {
-    constructor(startLocation = "Chapel Hill"){
+export class route {
+    constructor(startLocation = "Chapel Hill", destination = "San Francisco", preferences){
         this.startLocation = startLocation
-        this.destination = ""
+        this.destination = destination
         this.stops = []
+        this.states = ["UT", "CO", "NV"]
         this.distance = 0
         this.cost = 0
+        this.preferences = preferences
     }
 
     addStop(stopName){
@@ -34,6 +36,11 @@ class route {
         this.cost = 1000
     }
 
+    addStatesTravelled(){
+        //will eventually find all the states that the route crosses to recommend stops
+        this.states[0]="NC"
+    }
+
     checkGoogleMaps(){
         // will eventually check if google recognizes the stop
         return true
@@ -41,5 +48,14 @@ class route {
 
     getGasPrices(){
         //API key: http://api.eia.gov/series/?api_key=dd2080a6766dea4065bfde327132dced&series_id=TOTAL.RUUCUUS.M
+    }
+}
+
+export class Preferences {
+    constructor (acceptablePhysicalExertion = 0, localHistory = 0, nationalHistory = 0, peopleOfInterest = []){
+        this.acceptablePhysicalExertion= acceptablePhysicalExertion
+        this.localHistory = localHistory
+        this.nationalHistory = nationalHistory
+        this.peopleOfInterest = peopleOfInterest
     }
 }

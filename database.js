@@ -1,3 +1,4 @@
+
 // //Schema:
 // // CREATE TABLE "nationalParks" (
 // "index" INTEGER,
@@ -55,22 +56,142 @@ let db = new sqlite3.Database('db.sqlite', (e) => {
 let sql = `
 SELECT *
 FROM nationalParks
-WHERE State = "UT"
+WHERE State = "CA"
 `
+function executeSearch (sql) {
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+    return rows
+    });
+}
 
-db.all(sql, [], (err, rows) => {
-  if (err) {
-    throw err;
-  }
-  rows.forEach((row) => {
-    console.log(row);
-  });
-});
+function writeSearch(route){
+    sql = ""
+    for (state of route.states){
+        sql = sql+`
+        SELECT parkName as Name, State
+        FROM nationalParks NP
+        WHERE NP.State = "${state}" 
+        UNION
+        SELECT propertyName as Name, State
+        FROM nationalRegister NR, stateCodes SC
+        WHERE (SC.state_id="${state}" AND NR.State LIKE SC.state_name AND (NR.localSignificance = ${route.preferences.localHistory} OR NR.stateSignificance=${route.preferences.localHistory} OR NR.nationalSignificance= ${route.preferences.nationalHistory}))
+        UNION`
+    }
+    sql = sql.substring(0, sql.length-5)
+    return executeSearch(sql)
+}
 
+
+
+function closeDB(){
+    db.close((e) => {
+    if (e) {
+        return console.error(e.message);
+    }
+    console.log('Close the database connection.');
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Route {
+    constructor(startLocation = "Chapel Hill", destination = "San Francisco", preferences){
+        this.startLocation = startLocation
+        this.destination = destination
+        this.stops = []
+        this.states = ["UT", "CO", "NV"]
+        this.distance = 0
+        this.cost = 0
+        this.preferences = preferences
+    }
+
+    addStop(stopName){
+        if (this.checkGoogleMaps()){
+            this.stops.push(stopName)
+            return true
+        }
+        return false
+    }
+
+    removeStop(stopName) {
+        this.stops = this.stops.filter(a => a!= stopName)
+    }
+
+    recommendStops(numberOfStops = this.distance/20){
+        //will eventually return the requested number of stopsrecommendStops(numbertops= this
+        return ["greensboro", "winston-salem", "hickory", "asheville", "know"]
+    }
+
+    autofill(numberOfPlaces){
+        return ["greensboro", "winston-salem", "hickory", "asheville", "know"]
+    }
+
+    formRoute(){
+        //will eventually use dijkstra's algorithm to order stops
+        this.distance = 1000
+        this.cost = 1000
+    }
+
+    addStatesTravelled(){
+        //will eventually find all the states that the route crosses to recommend stops
+        this.states[0]="NC"
+    }
+
+    checkGoogleMaps(){
+        // will eventually check if google recognizes the stop
+        return true
+    }
+
+    getGasPrices(){
+        //API key: http://api.eia.gov/series/?api_key=dd2080a6766dea4065bfde327132dced&series_id=TOTAL.RUUCUUS.M
+    }
+}
+
+class Preferences {
+    constructor (acceptablePhysicalExertion = 0, localHistory = 0, nationalHistory = 0, peopleOfInterest = []){
+        this.acceptablePhysicalExertion= acceptablePhysicalExertion
+        this.localHistory = localHistory
+        this.nationalHistory = nationalHistory
+        this.peopleOfInterest = peopleOfInterest
+    }
+}
+
+let preferences = new Preferences(0, 0, 0, [])
+
+let route = new Route("chapel hill", "charlotte", preferences )
+
+writeSearch(route)
 // close the database connection
-db.close((e) => {
-  if (e) {
-    return console.error(e.message);
-  }
-  console.log('Close the database connection.');
-});
