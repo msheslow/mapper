@@ -18,8 +18,8 @@
         <div class="pageHeader" id="fixedHeader">
             <a href="./index.html" class="titleLogo title">Mapper&nbsp&nbsp<i class="fas fa-route"></i></a>
                 <div class="header-right">
-                    <a href="./aboutUs.html" class="button is-rounded">About us</a>
-                    <a href="./login.html" class="button is-rounded">Get started</a>
+                    <a href="./aboutUs.html" class="button top is-rounded">About us</a>
+                    <a href="./login.html" class="button top is-rounded">Get started</a>
                     <a href="./user.html" class="userIcon"><i class="fas fa-user"></i></a>
                 </div>
         </div>
@@ -52,12 +52,26 @@
             <div class="columns">
                 <div class="column is-one-third" id="left">
                     <div class="box left">
-                        <text style="font-size: 30px;">Your Trip</text><br>
-                        <button class="button is-rounded is-small" id="addWaypoint">Add stop</button>
-                        <button class="button is-rounded is-small" id="saveTrip">Save trip</button>
+                        <text style="font-size: 30px;">Add a waypoint</text><br>
+                        <input class="input is-small" style="width: 75%;"id="add" type="text" placeholder="Add a stop"/>
+                        <button class="button is-rounded is-small" id="addWaypoint">Add stop</button><br><br>
+                        <div style="text-align:center;">
+                        <button class="button is-rounded is-small" id="saveTrip">Save trip</button>&nbsp&nbsp&nbsp&nbsp
                         <button class="button is-rounded is-small" id="startOver">Start over</button>
-                            <div id="listStops">
-
+                        </div>
+                        <br>
+                            <div id="listWaypoints">
+                                <text style="font-size: 30px;">Your Trip</text><br>
+                                <div class="waypointCard box" style="background-color: #ECECEC;">
+                                    <div class="columns">
+                                        <div class="column is-four-fifths">
+                                            <span style="font-size: 20px; color: black;">Waypoint Name</span>
+                                        </div>
+                                        <div class="column" style="text-align: right;">
+                                            <button class="button del is-rounded is-small" id="delete"><i class="far fa-trash-alt"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                     </div>
                 </div>
