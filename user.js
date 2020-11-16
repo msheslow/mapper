@@ -1,12 +1,13 @@
 class user {
-    constructor(userName, password, preferences){
+    constructor(userName, password){
         this.userName = userName
         this.password = password
         this.preferences = preferences
+        this.trips = []
     }
 
-    updatePreferences(preferences){
-        this.preferences = preferences
+    addTrip(route){
+        trips
     }
 
     updatePassword(password) {
@@ -14,10 +15,3 @@ class user {
     }
 }
 
-class preferences{
-    constructor(nature= false, historical = false, restaurant = false){
-        this.nature = nature 
-        this.historical = historical
-        this.restaurant = restaurant
-    }
-}

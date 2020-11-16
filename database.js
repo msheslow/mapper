@@ -50,12 +50,16 @@ let db = new sqlite3.Database('db.sqlite', (e) => {
   if (e) {
     return console.error(e.message);
   }
-  console.log('Connected');
 });
 
 let sql 
+
+function getAllPlaces(){
+    sql = `SELECT Name FROM combinedSites`
+    executeSearch(sql)
+}
+
 function executeSearch (sql) {
-    console.log("reached")
     db.all(sql, [], (err, rows) => {
         if (err) {
             throw err;
@@ -71,19 +75,27 @@ function writeSearch(route){
     sql = ""
     for (state of route.states){
         sql = sql+`
-        SELECT Name, State, Description
-        FROM allSites 
+        SELECT *
+        FROM combinedSites 
         WHERE State LIKE "${state}" 
-        UNION
-        SELECT Name, State, Description
-        FROM nationalRegister NR
-        WHERE  nationalSignificance =1 AND NR.State LIKE "${state}" 
         UNION`
     }
     sql = sql.substring(0, sql.length-5)
     return executeSearch(sql)
 }
 
+function createTrip(username, startLocation, endLocation){
+    let sqlAddCommand = `INSERT INTO trips VALUES (${username}, ${startLocation}, ${endLocation})`
+}
+
+function addTripStop(tripID, stopID){
+    let sqlStopCommand = `INSERT INTO stops VALUES (${stopID}, ${tripID})`
+}
+
+function addUser(usern4ame, password){
+    let sqlCheckUserName = `SELECT * FROM users WHERE username ="${username}"`
+    let sqlUserCommand = `INSERT INTO stops VALUES (${username}, ${password})`
+}
 
 
 function closeDB(){
@@ -194,4 +206,7 @@ let preferences = new Preferences(0, 0, 0, [])
 let route = new Route("chapel hill", "charlotte", preferences )
 
 writeSearch(route)
+
+//getAllPlaces()
+closeDB()
 // close the database connection
