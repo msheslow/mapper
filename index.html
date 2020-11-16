@@ -16,11 +16,11 @@
         <main>
         <div id="root">
         <div class="pageHeader" id="fixedHeader">
-            <a href="#index" class="titleLogo title">Mapper&nbsp&nbsp<i class="fas fa-route"></i></a>
+            <a href="./index.html" class="titleLogo title">Mapper&nbsp&nbsp<i class="fas fa-route"></i></a>
                 <div class="header-right">
-                    <button class="aboutButton button is-rounded"> About us</button>
-                    <button class="headerButton button is-rounded"> Get started</button>
-                    <a href="#" class="userIcon"><i class="fas fa-user"></i></a>
+                    <a href="./aboutUs.html" class="button is-rounded">About us</a>
+                    <a href="./login.html" class="button is-rounded">Get started</a>
+                    <a href="./user.html" class="userIcon"><i class="fas fa-user"></i></a>
                 </div>
         </div>
         <div class="content">
@@ -52,7 +52,13 @@
             <div class="columns">
                 <div class="column is-one-third" id="left">
                     <div class="box left">
-                        List of stops
+                        <text style="font-size: 30px;">Your Trip</text><br>
+                        <button class="button is-rounded is-small" id="addWaypoint">Add stop</button>
+                        <button class="button is-rounded is-small" id="saveTrip">Save trip</button>
+                        <button class="button is-rounded is-small" id="startOver">Start over</button>
+                            <div id="listStops">
+
+                            </div>
                     </div>
                 </div>
                 <div class="column is-two-thirds" id="right">
