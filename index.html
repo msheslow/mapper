@@ -37,6 +37,7 @@
             function initMap() {
                 let directionsService = new google.maps.DirectionsService;
                 let directionsDisplay = new google.maps.DirectionsRenderer;
+                
                 let options = {
                     zoom: 3,
                     center: {lat:35.9132, lng:-79.0558}
@@ -111,6 +112,7 @@
                         window.alert('Directions request failed due to ' + status);
                     }
                 });
+                console.log(directionsDisplay.getDirections());
             }
 
 
