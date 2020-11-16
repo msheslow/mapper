@@ -6,15 +6,42 @@
         <link rel="stylesheet" href="node_modules/bulma/css/bulma.css" />
         <link rel="stylesheet" href="custom_style.css"/>
         <link href="https://fonts.googleapis.com/css?family=Shrikhand&display=swap" rel="stylesheet">
-        <title>Mapper</title>
+        <title>Mapper | Login</title>
     </head>
 </html>
 <body>
-    <div>Login</div>
-    <form>
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username">
-        <label for="password">Password</label>
-        <input type="text" id="password" name="password">
-    </form>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="node_modules/axios/dist/axios.min.js"></script>
+        <script src="https://kit.fontawesome.com/3e308f3171.js" crossorigin="anonymous"></script>
+
+        <main>
+        <div id="root">
+            <div class="pageHeader" id="fixedHeader">
+                <a href="./index.html" class="titleLogo title">Mapper&nbsp&nbsp<i class="fas fa-route"></i></a>
+                    <div class="header-right">
+                        <a href="./aboutUs.html" class="button is-rounded">About us</a>
+                        <a href="./login.html" class="button is-rounded">Get started</a>
+                        <a href="./user.html" class="userIcon"><i class="fas fa-user"></i></a>
+                    </div>
+            </div>
+            <div class="content" style="height: 400px;">
+                <div style="text-align: center;">
+                    <span style="font-size: 40px; color: white;"><b>Login</b></span>
+                    <form><br>
+                        <label style="color: white;" for="username">Username</label><br>
+                        <input class="input is-small is-rounded" style="width: 250px;" type="text" id="username" name="username">
+                        <br><br>
+                        <label style="color: white;" for="password">Password</label><br>
+                        <input class="input is-small is-rounded" style="width: 250px;" type="text" id="password" name="password">
+                    </form>
+                    <br>
+                    <button class="button is-rounded" style="width: 100px;" id="loginButton">Login</button>
+                    <br>
+                    <br>
+                    <span style="color: white;">Don't have an account yet?</span><br>
+                    <a href="#"><u>Get started here.</u></a>
+                </div>
+            </div>
+        </div>
+        </main>
 </body>

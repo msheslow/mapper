@@ -65,15 +65,20 @@
                     <div id="map"></div>
                 </div>
             </div>
-            <div class="" id="attractions">
-                <div class="box">
-                An attraction box
+            <div id="attractions">
+                <div class="box" style="border-radius: 20px; margin-left: 10px; margin-right:10px; margin-bottom: 10px;">
+                    <div class="columns">
+                        <div class="column is-half">
+                            <span style="font-size: 30px;"><b>Title of Location<b></span><br><br>
+                            <span>Description of location</span>
+                        </div>
+                        <div class="column is-half" style="text-align: center;">
+                        <img>Image of Location</img>
+                        </div>
+                    </div>
                 </div>
-                <div class="box">
-                An attraction box
-                </div>
-        </div>       
-    </div>
+            </div>       
+        </div>
         </main>
 
         <script>
@@ -152,8 +157,9 @@
                 },function(response, status) {
                     if (status === 'OK') {
                         directionsDisplay.setDirections(response);
+                        window.scrollTo(0, 700);
                     } else {
-                        window.alert('Directions request failed due to ' + status);
+                        window.alert('Please enter an origin and destination, then click "Plan Route"');
                     }
                 });
                 console.log(directionsDisplay.getDirections());
