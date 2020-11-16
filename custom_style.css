@@ -8,9 +8,31 @@
     padding-top: 20px;
 }
 
+.leftUpperBox {
+    background: rgba(204, 204, 204, 0.8);
+    border: 2px solid #235789;
+}
+
+.leftUpperText{
+    color: black;
+}
+
+.input{
+    padding: 10px;
+}
+
+
 .titleLogo {
     font-size: 60px;
     color: black;
+}
+
+.upper{
+    background-image: url("https://www.tripsavvy.com/thmb/_-smTM34WNa3lGFMdFTbIZEoi3M=/2844x1053/filters:fill(auto,1)/icefields-parkway-road-trip-641871108-c9c504640f8849c5bdef26c8eee4d1bb.jpg");
+    width: fixed;
+    background-repeat: no-repeat;
+    background-position: 0px -200px; 
+    z-index: -2;
 }
 
 .userIcon {
@@ -33,22 +55,27 @@
     padding: 20px 10px;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+    width: 100%;
+    z-index: 1;
 }
 
-/* Header follows scroll */
-.headerMove {
-    position: fixed;
-    top: 0;
-    width: 100%
-  }
-
-/* Eliminates header lag on scroll */
-.headerMove + .content {
-    padding-top: 105px;
-}
 #map {
-    height:400px;
-    width:100%
+    height:600px;
+    width:100%;
+    border-radius: 20px;
+}
+
+#left {
+    padding-left: 20px;
+}
+
+#right {
+    padding-right: 20px;
+}
+
+.left {
+    height: auto;
+    min-height: 600px;
 }
 
 .pac-card {

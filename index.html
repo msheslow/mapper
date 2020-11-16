@@ -6,32 +6,70 @@
         <link rel="stylesheet" href="node_modules/bulma/css/bulma.css" />
         <link rel="stylesheet" href="custom_style.css"/>
         <link href="https://fonts.googleapis.com/css?family=Shrikhand&display=swap" rel="stylesheet">
-        <title>Mapper</title>
+        <title>Mapper | Home</title>
     </head>
     <body>
-        <main>
-        </main>
-    
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="node_modules/axios/dist/axios.min.js"></script>
         <script src="https://kit.fontawesome.com/3e308f3171.js" crossorigin="anonymous"></script>
-        <script type="module" src="mapper.js"></script>
 
-        <div class="pac-card" id="pac-card">
-            <div>
-              <div id="title">Search routes here:</div>
+        <main>
+        <div id="root">
+        <div class="pageHeader" id="fixedHeader">
+            <a href="#index" class="titleLogo title">Mapper&nbsp&nbsp<i class="fas fa-route"></i></a>
+                <div class="header-right">
+                    <button class="aboutButton button is-rounded"> About us</button>
+                    <button class="headerButton button is-rounded"> Get started</button>
+                    <a href="#" class="userIcon"><i class="fas fa-user"></i></a>
+                </div>
+        </div>
+        <div class="content">
+            <div class="upper columns box" style="height: 600px; margin: 10px;">
+                <div class="column is-two-thirds" id="leftUpper">
+                    <div class="leftUpperBox box">
+                        <div class="leftUpperText">
+                        <text style="font-size: 80px;">Plan your ultimate road trip.</text><br>
+                        <text style="font-size: 20px;">Tell us where you're starting and where you're heading. We'll help you plan everything in between.</text>
+                        <br>
+                        <br>
+                        <div class="columns box" style="max-width: 70%; background-color: #235789;">
+                            <div class="column is-one-half">
+                                <text style="font-size: 20px; color: white;">Start</text></br>
+                                <input class="input is-medium" id="start" type="text" placeholder="Enter a start location"/>
+                            </div>
+                            <div class="column is-one-half">
+                            <text style="font-size: 20px; color: white;">Destination</text></br>
+                            <input class="input is-medium" id="end" type="text" placeholder="Enter an end location"/>
+                            </div>
+                            <br>
+                            <br>
+                        </div>
+                            <button class="button is-rounded" id="generate-map">Plan route</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="pac-container">
-                <br>
-                <input id="start" type="text" placeholder="Enter a start location"></input>
-                <input id="end" type="text" placeholder="Enter an end location"></input>
+            <div class="columns">
+                <div class="column is-one-third" id="left">
+                    <div class="box left">
+                        List of stops
+                    </div>
+                </div>
+                <div class="column is-two-thirds" id="right">
+                    <div id="map"></div>
+                </div>
             </div>
-            <input id="generate-map" type="button" value="Click here to generate route">
-          </div>
+            <div class="" id="attractions">
+                <div class="box">
+                An attraction box
+                </div>
+                <div class="box">
+                An attraction box
+                </div>
+        </div>       
+    </div>
+        </main>
 
-
-        <h1>View Google Map Below</h1>
-        <div id="map"></div>
         <script>
             // This initMap function builds the map. initMap() is set as the callback for the google maps API request.
             function initMap() {
@@ -112,7 +150,6 @@
                     }
                 });
             }
-
 
         </script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhcNo_EDGsF_lGfThVgAVtweh_DlciUCQ&libraries=places&callback=initMap"></script>
