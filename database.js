@@ -54,24 +54,29 @@ let db = new sqlite3.Database('db.sqlite', (e) => {
 
 let sql 
 
+//returns all destinations in database
 function getAllPlaces(){
     sql = `SELECT Name FROM combinedSites`
     executeSearch(sql)
 }
 
-function executeSearch (sql) {
+//executes the sql comand passed as a parameter
+function executeSearch (sql){
+    let ans = []
     db.all(sql, [], (err, rows) => {
         if (err) {
             throw err;
         }
-    for (row of rows){
-        console.log(row)
-    }
-    return rows
+        console.log(rows)
+    // for (row of rows){
+    //     console.log(row)
+    // }
+    return ans
     });
 }
 
-function writeSearch(route){
+//Finds all the sites in the state listed in the route object
+function getSitesInStates(route){
     sql = ""
     for (state of route.states){
         sql = sql+`
@@ -84,20 +89,69 @@ function writeSearch(route){
     return executeSearch(sql)
 }
 
+// Creates a database instance for a trip
 function createTrip(username, startLocation, endLocation){
-    let sqlAddCommand = `INSERT INTO trips VALUES (${username}, ${startLocation}, ${endLocation})`
+    let sqlAddCommand = `INSERT INTO trips VALUES ("${username}", "${startLocation}", "${endLocation}")`
+    return executeSearch(sqlAddCommand)
 }
 
+// removes a user's trip
+function removeTrip(tripID){ 
+    executeSearch(`DELETE FROM stops WHERE tripID = "${tripID}"`)
+    return executeSearch(`DELETE FROM trips WHERE rowid = "${tripID}"`)
+}
+
+// Creates stops on trip that can be matched by ID to respective trip
 function addTripStop(tripID, stopID){
-    let sqlStopCommand = `INSERT INTO stops VALUES (${stopID}, ${tripID})`
+    let sqlStopCommand = `INSERT INTO stops VALUES ("${stopID}", "${tripID}")`
+    return executeSearch(sqlStopCommand)
 }
 
-function addUser(usern4ame, password){
-    let sqlCheckUserName = `SELECT * FROM users WHERE username ="${username}"`
-    let sqlUserCommand = `INSERT INTO stops VALUES (${username}, ${password})`
+// Removes stop on trip
+function removeTripStop(tripID, stopID){
+    let sqlRemoveStopCommand = `DELETE FROM stops WHERE stopID = "${stopID}" AND tripID="${tripID}"`
+    return executeSearch(sqlRemoveStopCommand)
+}
+
+//returns all of a user's saved trip numbers
+function getUsersTripNumbers(username){
+    let getTripIDsSQL = `SELECT DISTINCT T.rowid FROM stops S, trips T, users U WHERE U.username = "${username}" AND U.username = T.username AND T.rowid = S.tripID`
+    executeSearch(getTripIDsSQL)
 }
 
 
+
+//returns start location, destination, and stops for trip
+function getTripDetails(tripID){
+    let tripRequestSQL = `SELECT T.startLocation, T.endLocation, S.stopID FROM stops S, trips T WHERE T.rowid = "${tripID}" AND T.rowid = S.tripID`
+    executeSearch(tripRequestSQL)
+}
+
+// creates a new user
+function addUser(username, password){
+    let sqlCheckUserName = `SELECT * from users WHERE username = "${username}" `
+    let sqlUserCommand = `INSERT INTO users (username, password) VALUES ("${username}", "${password}")`
+    //Checks if user is already in database, if not adds user
+    db.all(sqlCheckUserName, [], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+    //handles case where user needs to be added
+    if (rows.length == 0) {
+        db.all(sqlUserCommand, [], (err, rows) => {
+            if (err) {
+                throw err;
+            }
+            return "Success"
+        });
+    }
+    });
+    //Adds user to database and returns "Success"
+    return "User already exists"
+}
+
+
+// closes database
 function closeDB(){
     db.close((e) => {
     if (e) {
@@ -205,8 +259,16 @@ let preferences = new Preferences(0, 0, 0, [])
 
 let route = new Route("chapel hill", "charlotte", preferences )
 
-writeSearch(route)
-
-//getAllPlaces()
+//writeSearch(route)
+// console.log(executeSearch(`SELECT T.rowid FROM trips T, stops S WHERE T.rowid=S.tripID`))
+// addUser("arisf", "arispassword")
+// createTrip("arisf", "Wake Forest", "Sedona, AZ")
+// addTripStop(1,"Great Sand Dunes National Park")
+// getUsersTripNumbers("arisf")
+// addUser("asd", "arisotherpassowrd")
+// getTripDetails(1)
+// removeTripStop(2, "Black Canyon of the Gunnison")
+// getTripDetails(2)
+// removeTrip(1)
 closeDB()
 // close the database connection
