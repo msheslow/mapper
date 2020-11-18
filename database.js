@@ -119,6 +119,8 @@ app.get('/secret/:username', (req, res) => {
     res.json(result);
 } );
 
+//returns trip details
+
 
 
 
