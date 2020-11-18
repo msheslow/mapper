@@ -53,11 +53,11 @@
                 <div class="column is-one-third" id="left">
                     <div class="box left">
                         <text style="font-size: 30px;">Add a waypoint</text><br>
-                        <input class="input is-small" style="width: 75%;"id="add" type="text" placeholder="Add a stop"/>
-                        <button class="button is-rounded is-small" id="addWaypoint">Add stop</button><br><br>
+                        <input class="input is-small" style="width: 75%;" id="addWaypoint" type="text" placeholder="Add a stop"/>
+                        <button class="button is-rounded is-small" id="add">Add stop</button><br><br>
                         <div style="text-align:center;">
-                        <button class="button is-rounded is-small" id="saveTrip">Save trip</button>&nbsp&nbsp&nbsp&nbsp
-                        <button class="button is-rounded is-small" id="startOver">Start over</button>
+                            <button class="button is-rounded is-small" id="saveTrip">Save trip</button>&nbsp&nbsp&nbsp&nbsp
+                            <button class="button is-rounded is-small" id="startOver">Start over</button>
                         </div>
                         <br>
                             <div id="listWaypoints">
@@ -80,6 +80,8 @@
                 </div>
             </div>
             <div id="attractions">
+
+
                 <div class="box" style="border-radius: 20px; margin-left: 10px; margin-right:10px; margin-bottom: 10px;">
                     <div class="columns">
                         <div class="column is-half">
@@ -91,97 +93,19 @@
                         </div>
                     </div>
                 </div>
+
+
             </div>       
         </div>
         </main>
 
-        <script>
-            // This initMap function builds the map. initMap() is set as the callback for the google maps API request.
-            function initMap() {
-                let directionsService = new google.maps.DirectionsService;
-                let directionsDisplay = new google.maps.DirectionsRenderer;
-                
-                let options = {
-                    zoom: 3,
-                    center: {lat:35.9132, lng:-79.0558}
-                }
-
-                // New map object initialized at <div id="map"> 
-                let map = new google.maps.Map(document.getElementById('map'), options);
-                directionsDisplay.setMap(map);
-
-                // eventHandler function for onsite action
-                let eventHandler = function() {
-                    makeRoute(directionsService, directionsDisplay);
-                };
-                document.getElementById('generate-map').addEventListener('click', eventHandler);
-
-
-                // Sets the selected <input> html elements to become autocomplete objects
-                let start_autocomplete = new google.maps.places.Autocomplete(
-                        document.getElementById('start'),
-                        {
-                            types: ['(regions)'],
-                            componentRestrictions: {'country': ['US']},
-                            fields: ['place_id', 'geometry', 'name']
-                });
-
-                let end_autocomplete = new google.maps.places.Autocomplete(
-                        document.getElementById('end'),
-                        {
-                            types: ['(regions)'],
-                            componentRestrictions: {'country': ['US']},
-                            fields: ['place_id', 'geometry', 'name']
-                });
-
-                // Array of Markers that are places on the map
-                let markers = [];
-
-                // This for-loop places all the markers in the marker array onto the map by repeatedly calling the addMarker function
-                for (let i = 0; i < markers.length; i++) {
-                    addMarker(markers[i]);
-                }
-
-                // This addMarker function will place a single specified marker onto the map
-                function addMarker(properties) {
-                    let marker = new google.maps.Marker({
-                        position: properties.coordinates,
-                        map: map
-                    });
-
-    
-                    if (properties.content) {
-                        let infoWindow = new google.maps.InfoWindow({
-                            content: properties.content
-                        });
-
-                        marker.addListener('click', function() {
-                            infoWindow.open(map, marker);
-                        });
-                    }
-                }
-            }
-
-            // makeRoute draws the route line between two locations on the map
-            function makeRoute(directionsService, directionsDisplay) {
-                directionsService.route({
-                    origin: document.getElementById('start').value,
-                    destination: document.getElementById('end').value,
-                    travelMode: 'DRIVING'
-                },function(response, status) {
-                    if (status === 'OK') {
-                        directionsDisplay.setDirections(response);
-                        window.scrollTo(0, 700);
-                    } else {
-                        window.alert('Please enter an origin and destination, then click "Plan Route"');
-                    }
-                });
-                console.log(directionsDisplay.getDirections());
-            }
-
-        </script>
+        <script src="./mapper.js"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhcNo_EDGsF_lGfThVgAVtweh_DlciUCQ&libraries=places&callback=initMap"></script>
         <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
+
+
     </body>
 
 </html>
