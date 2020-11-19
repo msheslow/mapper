@@ -52,7 +52,7 @@ app.get('/logout', (req, res) => {
 })
 
 //returns JSON object with all trips
-app.get('/secret/:username', (req, res) => {
+app.get('/secret/:username', async (req, res) => {
     if (req.session.user == undefined) {
         res.status(403).send("Unauthorized");
         return;
