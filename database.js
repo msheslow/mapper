@@ -70,7 +70,7 @@ app.get('/secret/:username', async (req, res) => {
     }
 
     let result = await getUsersTripNumbers(req.params.username)
-    res.json(result);
+    res.json(result);   
 } );
 
 
