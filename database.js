@@ -1,49 +1,3 @@
-
-// //Schema:
-// // CREATE TABLE "nationalParks" (
-// "index" INTEGER,
-//   "parkCode" TEXT,
-//   "parkName" TEXT,
-//   "State" TEXT,
-//   "Acres" INTEGER,
-//   "Latitude" REAL,
-//   "Longitude" REAL
-// )
-
-// CREATE TABLE "nationalRegister" (
-// "index" INTEGER,
-//   "iden" REAL,
-//   "propertyName" TEXT,
-//   "Restricted Address" INTEGER,
-//   "Name of Multiple Property Listing" TEXT,
-//   "State" TEXT,
-//   "County" TEXT,
-//   "City" TEXT,
-//   "Street & Number" TEXT,
-//   "Architects/Builders" TEXT,
-//   "localSignificance" INTEGER,
-//   "stateSignificance" INTEGER,
-//   "nationalSignificance" INTEGER,
-//   "internationalSignificance" INTEGER,
-//   "Level of Significance - Not Indicated" INTEGER,
-//   "Significant Persons" TEXT,
-//   "External Link" TEXT
-// , cityLat REAL, cityLong REAL)
-
-// CREATE TABLE "zipCodes" (
-// "index" INTEGER,
-//   "zip" INTEGER,
-//   "latitude" REAL,
-//   "longitude" REAL,
-//   "city" TEXT,
-//   "state_id" TEXT,
-//   "state_name" TEXT,
-//   "population" INTEGER,
-//   "density" REAL,
-//   "county_name" TEXT,
-//   "timezone" TEXT
-// )
-
 const sqlite3 = require('sqlite3').verbose();
 const express = require('express')
 const app = express()
@@ -119,6 +73,8 @@ app.get('/secret/:username', (req, res) => {
     res.json(result);
 } );
 
+
+app.listen(3050)
 //returns trip details
 
 
