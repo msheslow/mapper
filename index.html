@@ -14,89 +14,100 @@
         <script src="https://kit.fontawesome.com/3e308f3171.js" crossorigin="anonymous"></script>
 
         <main>
-        <div id="root">
-        <div class="pageHeader" id="fixedHeader">
-            <a href="./index.html" class="titleLogo title">Mapper&nbsp&nbsp<i class="fas fa-route"></i></a>
-                <div class="header-right">
-                    <a href="./aboutUs.html" class="button top is-rounded">About us</a>
-                    <a href="./login.html" class="button top is-rounded">Get started</a>
-                    <a href="./user.html" class="userIcon"><i class="fas fa-user"></i></a>
-                </div>
-        </div>
-        <div class="content">
-            <div class="upper columns box" style="height: 600px; margin: 10px;">
-                <div class="column is-two-thirds" id="leftUpper">
-                    <div class="leftUpperBox box">
-                        <div class="leftUpperText">
-                        <text style="font-size: 80px;">Plan your ultimate road trip.</text><br>
-                        <text style="font-size: 20px;">Tell us where you're starting and where you're heading. We'll help you plan everything in between.</text>
-                        <br>
-                        <br>
-                        <div class="columns box" style="max-width: 70%; background-color: #235789;">
-                            <div class="column is-one-half">
-                                <text style="font-size: 20px; color: white;">Start</text></br>
-                                <input class="input is-medium" id="start" type="text" placeholder="Enter a start location"/>
-                            </div>
-                            <div class="column is-one-half">
-                            <text style="font-size: 20px; color: white;">Destination</text></br>
-                            <input class="input is-medium" id="end" type="text" placeholder="Enter an end location"/>
-                            </div>
-                            <br>
-                            <br>
+            <div id="root">
+                <div class="pageHeader" id="fixedHeader">
+                    <a href="./index.html" class="titleLogo title">Mapper&nbsp&nbsp<i class="fas fa-route"></i></a>
+                        <div class="header-right">
+                            <a href="./aboutUs.html" class="button top is-rounded">About us</a>
+                            <a href="./login.html" class="button top is-rounded">Get started</a>
+                            <a href="./user.html" class="userIcon"><i class="fas fa-user"></i></a>
                         </div>
-                            <button class="button is-rounded" id="generate-map">Plan route</button>
+                </div>
+                <div class="content">
+                    <div class="upper columns box" style="height: 600px; margin: 10px;">
+                        <div class="column is-two-thirds" id="leftUpper">
+                            <div class="leftUpperBox box">
+                                <div class="leftUpperText">
+                                <text style="font-size: 80px;">Plan your ultimate road trip.</text><br>
+                                <text style="font-size: 20px;">Tell us where you're starting and where you're heading. We'll help you plan everything in between.</text>
+                                <br>
+                                <br>
+                                <div class="columns box" style="max-width: 70%; background-color: #235789;">
+                                    <div class="column is-one-half">
+                                        <text style="font-size: 20px; color: white;">Start</text></br>
+                                        <input class="input is-medium" id="start" type="text" placeholder="Enter a start location"/>
+                                    </div>
+                                    <div class="column is-one-half">
+                                    <text style="font-size: 20px; color: white;">Destination</text></br>
+                                    <input class="input is-medium" id="end" type="text" placeholder="Enter an end location"/>
+                                    </div>
+                                    <br>
+                                    <br>
+                                </div>
+                                    <button class="button is-rounded" id="generate-map">Plan route</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column is-one-third" id="left">
-                    <div class="box left">
-                        <text style="font-size: 30px;">Add a waypoint</text><br>
-                        <input class="input is-small" style="width: 75%;" id="addWaypoint" type="text" placeholder="Add a stop"/>
-                        <button class="button is-rounded is-small" id="add">Add stop</button><br><br>
-                        <div style="text-align:center;">
-                            <button class="button is-rounded is-small" id="saveTrip">Save trip</button>&nbsp&nbsp&nbsp&nbsp
-                            <button class="button is-rounded is-small" id="startOver">Start over</button>
-                        </div>
-                        <br>
-                            <div id="listWaypoints">
-                                <text style="font-size: 30px;">Your Trip</text><br>
-                                <div class="waypointCard box" style="background-color: #ECECEC;">
-                                    <div class="columns">
-                                        <div class="column is-four-fifths">
-                                            <span style="font-size: 20px; color: black;">Waypoint Name</span>
-                                        </div>
-                                        <div class="column" style="text-align: right;">
-                                            <button class="button del is-rounded is-small" id="delete"><i class="far fa-trash-alt"></i></button>
+                    <div class="columns">
+                        <div class="column is-one-third" id="left">
+                            <div class="box left">
+                                <text style="font-size: 30px;">My Trip</text><br>
+                                <div id="listWaypoints">
+                                    <div class="waypointCard box" style="background-color: #ECECEC;">
+                                        <div class="columns">
+                                            <div class="column is-four-fifths">
+                                                <span style="font-size: 20px; color: black;">Waypoint Name</span>
+                                            </div>
+                                            <div class="column" style="text-align: right;">
+                                                <button class="button del is-rounded is-small" id="delete"><i class="far fa-trash-alt"></i></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="column is-two-thirds" id="right">
+                            <div id="map"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="column is-two-thirds" id="right">
-                    <div id="map"></div>
-                </div>
+                    <div id="attractions">
+                        <div class="columns">
+                            <div class="column is-4" id="attractionsOne">
+
+                                <div class="box" style="margin-left: 10px;">
+                                    <text style="font-size: 30px;">Add a waypoint</text><br>
+                                    <input class="input is-small" style="width: 75%;" id="addWaypoint" type="text" placeholder="Add a stop"/>
+                                    <button class="button is-rounded is-small" id="add">Add stop</button><br><br>
+                                    <div style="text-align:center;">
+                                        <button class="button is-rounded is-small" id="saveTrip">Save trip</button>&nbsp&nbsp&nbsp&nbsp
+                                        <button class="button is-rounded is-small" id="startOver">Start over</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="column is-4" id="attractionsTwo">
+
+                                <div class="box">
+                                    <span style="font-size: 30px;"><b>Title of Location</b></span>
+                                    <button class="button is-rounded"><i class="fas fa-plus-circle"></i></button><br>
+                                    <span style="color: gray; font-size: 14px; font-weight: normal;">Description of location</span>
+                                </div>
+
+                            </div>
+                            <div class="column is-4" id="attractionsThree">
+
+                                <div class="box" style="margin-right: 10px;">
+                                    <span style="font-size: 30px;"><b>Title of Location</b></span>
+                                    <button class="button is-rounded"><i class="fas fa-plus-circle"></i></button><br>
+                                    <span style="color: gray; font-size: 14px; font-weight: normal;">Description of location</span><br>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>       
             </div>
-            <div id="attractions">
-
-
-                <div class="box" style="border-radius: 20px; margin-left: 10px; margin-right:10px; margin-bottom: 10px;">
-                    <div class="columns">
-                        <div class="column is-half">
-                            <span style="font-size: 30px;"><b>Title of Location<b></span><br><br>
-                            <span>Description of location</span>
-                        </div>
-                        <div class="column is-half" style="text-align: center;">
-                        <img>Image of Location</img>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>       
-        </div>
         </main>
 
         <script src="./mapper.js"></script>
