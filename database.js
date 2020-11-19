@@ -1,5 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
-const express = require('express')
+const express = require('express');
+const cors = require('cors');
 const app = express()
 const { exec } = require('child_process');
 const expressSession = require('express-session');
@@ -10,10 +11,16 @@ app.use(expressSession({
     resave: false,
     saveUninitialized: false
 }));
+app.use(cors({
+    origin: '*'
+  }));
+
+
 
 // Start of Express wrappers
 // request for login authentication, must include username as 'user' and password as 'password' in body
 app.post('/login', async (req, res) => {
+    console.log("Woohoo login!")
     let user = req.body.user
     let password = req.body.password
     let result = await checkLogin(user, password)
@@ -26,8 +33,13 @@ app.post('/login', async (req, res) => {
     } else {
         req.session.username = user;
         res.json(true);
+        console.log("correct")
         return;
     }
+})
+
+app.post('/test', async (req, res) => {
+    console.log("Woohoo login!")
 })
 
 //adds user to database

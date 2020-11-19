@@ -43,5 +43,21 @@
                 </div>
             </div>
         </div>
+        <script>
+            async function LoginButtonHandler(event){
+            event.preventDefault();
+            let result = await axios ({
+                method: 'post',
+                url: 'https://localhost:3030/test',
+                withCredentials: true,
+                data: {
+                    user: $('#username').val(),
+                    password: $('#password').val()
+                },
+            });
+            }
+
+            $('main').on('click', '#loginButton', LoginButtonHandler);
+        </script>
         </main>
 </body>
