@@ -1,84 +1,92 @@
-// JavaScript for mapper app
+// Google Maps mapping script
 
-function loadPage(){
-    return $(`
-    <div id="root">
-        <div class="pageHeader" id="fixedHeader">
-            <a href="#index" class="titleLogo title">Mapper&nbsp&nbsp<i class="fas fa-route"></i></a>
-                <div class="header-right">
-                    <button class="headerButton button is-rounded"> About</button>
-                    <button class="headerButton button is-rounded"> Get started</button>
-                    <a href="#" class="userIcon"><i class="fas fa-user"></i></a>
-                </div>
-        </div>
-        <div class="content">
-            <div class="upper columns box" style="height: 600px; margin: 10px;">
-                <div class="column is-two-thirds" id="leftUpper">
-                    <div class="leftUpperBox box">
-                        <div class="leftUpperText">
-                        <text style="font-size: 80px;">Plan your ultimate road trip.</text><br>
-                        <text style="font-size: 20px;">Tell us where you're starting and where you're heading. We'll help you plan everything in between.</text>
-                        <br>
-                        <br>
-                        <div class="columns box" style="max-width: 70%; background-color: #235789;">
-                            <div class="column is-one-half">
-                                <text style="font-size: 20px; color: white;">Start</text></br>
-                                <input class="input is-medium" id="start" type="text" placeholder="Enter a start location"/>
-                            </div>
-                            <div class="column is-one-half">
-                            <text style="font-size: 20px; color: white;">Destination</text></br>
-                            <input class="input is-medium" id="end" type="text" placeholder="Enter an end location"/>
-                            </div>
-                            <br>
-                            <br>
-                        </div>
-                            <button class="button is-rounded" id="generate-map">Plan route</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column is-two-thirds" id="left">
-                    <div class="box">
-                    Content to go in the left box, explain who we are on this side
-                    </div>
-                </div>
-                <div class="column" id="right">
-                    <div class="box">
-                    Content to go in the right box, dynamically build list of stops on this side
-                    </div>
-                </div>
-            </div>
-            <div class="" id="attractions">
-                <div class="box">
-                An attraction box
-                </div>
-                <div class="box">
-                An attraction box
-                </div>
-        </div>       
-    </div>`);
+// This initMap function builds the map. initMap() is set as the callback for the google maps API request.
+function initMap() {
+    let directionsService = new google.maps.DirectionsService;
+    let directionsDisplay = new google.maps.DirectionsRenderer;
+    
+    let options = {
+        zoom: 3,
+        center: {lat:35.9132, lng:-79.0558}
+    }
+
+    // New map object initialized at <div id="map"> 
+    let map = new google.maps.Map(document.getElementById('map'), options);
+    directionsDisplay.setMap(map);
+
+    // eventHandler function for onsite action
+    let eventHandler = function() {
+        makeRoute(directionsService, directionsDisplay);
+    };
+    document.getElementById('generate-map').addEventListener('click', eventHandler);
+
+
+    // Sets the selected <input> html elements to become autocomplete objects
+    let start_autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('start'),
+            {
+                types: ['(regions)'],
+                componentRestrictions: {'country': ['US']},
+                fields: ['place_id', 'geometry', 'name']
+    });
+
+    let end_autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('end'),
+            {
+                types: ['(regions)'],
+                componentRestrictions: {'country': ['US']},
+                fields: ['place_id', 'geometry', 'name']
+    });
+
+    let addWaypoint_autocomplete = new google.maps.places.Autocomplete(
+        document.getElementById('addWaypoint'),
+        {
+            types: ['(regions)'],
+            componentRestrictions: {'country': ['US']},
+            fields: ['place_id', 'geometry', 'name']
+    });
+
+    // Array of Markers that are places on the map
+    let markers = [];
+
+    // This for-loop places all the markers in the marker array onto the map by repeatedly calling the addMarker function
+    for (let i = 0; i < markers.length; i++) {
+        addMarker(markers[i]);
+    }
+
+    // This addMarker function will place a single specified marker onto the map
+    function addMarker(properties) {
+        let marker = new google.maps.Marker({
+            position: properties.coordinates,
+            map: map
+        });
+
+
+        if (properties.content) {
+            let infoWindow = new google.maps.InfoWindow({
+                content: properties.content
+            });
+
+            marker.addListener('click', function() {
+                infoWindow.open(map, marker);
+            });
+        }
+    }
 }
 
-export async function renderPage(){
-    let main = $('main');
-    main.empty();
-    main.append(loadPage());
-
-    main.on('click', '.create', newTweetHandler); // this works
+// makeRoute draws the route line between two locations on the map
+function makeRoute(directionsService, directionsDisplay) {
+    directionsService.route({
+        origin: document.getElementById('start').value,
+        destination: document.getElementById('end').value,
+        travelMode: 'DRIVING'
+    },function(response, status) {
+        if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+            window.scrollTo(0, 700);
+        } else {
+            window.alert('Please enter an origin and destination, then click "Plan Route"');
+        }
+    });
+    console.log(directionsDisplay.getDirections());
 }
-
-function headerScroll() {
-    let header = document.getElementById("fixedHeader");
-    let offset = header.offsetTop;
-  if (window.pageYOffset > offset) {
-    header.classList.add("headerMove");
-  } else {
-    header.classList.remove("headerMove");
-  }
-}
-
-$(window).on("load", renderPage); // Renders the home page
-
-// For responsive header with scroll
-window.onscroll = function() {headerScroll()};
