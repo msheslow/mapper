@@ -43,7 +43,6 @@ app.post('/createlogin', async (req, res) => {
     let password = req.body.password
     let result = await addUser(user, password)
     if (result == "Success"){
-        console.log(user)
         req.session.username = user;
         res.json(true);
         return;
@@ -56,7 +55,6 @@ app.post('/createlogin', async (req, res) => {
 // allows user to logout
 app.get('/logout', (req, res) => {
     delete req.session.username;
-    console.log(req.session.username)
     res.json(true);
 })
 
@@ -69,6 +67,25 @@ app.get('/tripids', async (req, res) => {
     let result = await getUsersTripNumbers(req.session.username)
     res.json(result);   
 } );
+
+//adds user to database
+app.post('/gettrip/:id', async (req, res) => {
+    let tripID = req.params.id
+    let username = req.session.username
+    if (username == undefined) {
+        res.status(403).send("Unauthorized");
+        return;
+    }
+    
+    let result = await getTripDetails(tripID, username)
+    if (result == -1){
+        res.status(403).send("Not your trip")
+        return;
+    } else {
+        res.json(result)
+        return
+    } 
+})
 
 
 const port = 3030;
@@ -108,21 +125,6 @@ async function searchWrapper(sql){
         })
     })
 }
-
-
-// async function executeSearch (sql){
-//     let ans = []
-//     db.all(sql, [],  (err, rows) => {
-//         if (err) {
-//             throw err;
-//         }
-//         console.log(rows)
-//         for (row of rows){
-//             ans.push(row)
-//         }
-//     });
-//     return ans
-// }
 
 
 //Finds all the sites in the state listed in the route object
@@ -173,9 +175,13 @@ async function getUsersTripNumbers(username){
 
 
 //returns start location, destination, and stops for trip
-function getTripDetails(tripID){
+async function getTripDetails(tripID, username){
+    let tripOwner = await searchWrapper(`SELECT username FROM trips`)
+    if (tripOwner.rows.username != username){
+        return -1
+    }
     let tripRequestSQL = `SELECT T.startLocation, T.endLocation, S.stopID FROM stops S, trips T WHERE T.rowid = "${tripID}" AND T.rowid = S.tripID`
-    searchWrapper(tripRequestSQL)
+    return searchWrapper(tripRequestSQL)
 }
 
 //checks if login details are valid
