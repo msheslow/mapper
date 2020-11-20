@@ -38,31 +38,6 @@ app.post('/login', async (req, res) => {
     }
 })
 
-// app.post('/login', (req,res) => {
-
-//     console.log(req)
-//     let user = req.body.user;
-//     let password = req.body.password;
-
-//     // let user_data = login_data.get(user);
-//     // if (user_data == null) {
-//     //     res.status(404).send("Not found");
-//     //     return;
-//     // }
-//     // if (user_data.password == password) {
-//     //     console.log("User " + user + " credentials valid");
-//     //     req.session.user = user;
-//     //     res.json(true);
-//     //     return;
-//     // }
-//     res.status(403).send("Unauthorized");
-// });
-
-
-app.post('/test', async (req, res) => {
-    console.log("Woohoo login!")
-    res.status("reached")
-})
 
 //adds user to database
 app.post('/createlogin', async (req, res) => {
@@ -257,7 +232,7 @@ function closeDB(){
 //writeSearch(route)
 async function test(){
 
-    let ans = await checkLogin("arisf", "notarispassword")
+    let ans = await addUser("arisf", "notarispassword")
     console.log(ans)  
 }
 test()
