@@ -1,0 +1,25 @@
+{
+  "name": "mapper",
+  "version": "1.0.0",
+  "description": "COMP 426 Final Project - Mapper",
+  "main": "mapper.js",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "bulma": "^0.9.1",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/msheslow/mapper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/msheslow/mapper/issues"
+  },
+  "homepage": "https://github.com/msheslow/mapper#readme"
+}
