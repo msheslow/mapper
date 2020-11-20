@@ -22,7 +22,6 @@ app.post('/login', async (req, res) => {
     let user = req.body.user
     
     let password = req.body.password
-    console.log(password)
     let result = await checkLogin(user, password)
     if (result == "User does not exist"){
         res.status(404).send("Not found");
@@ -33,7 +32,6 @@ app.post('/login', async (req, res) => {
     } else {
         req.session.username = user;
         res.json(true);
-        console.log("correct")
         return;
     }
 })
@@ -45,6 +43,7 @@ app.post('/createlogin', async (req, res) => {
     let password = req.body.password
     let result = await addUser(user, password)
     if (result == "Success"){
+        console.log(user)
         req.session.username = user;
         res.json(true);
         return;
@@ -56,29 +55,18 @@ app.post('/createlogin', async (req, res) => {
 
 // allows user to logout
 app.get('/logout', (req, res) => {
-    delete req.session.user;
+    delete req.session.username;
+    console.log(req.session.username)
     res.json(true);
 })
 
 //returns JSON object with all trips
-app.get('/secret/:username', async (req, res) => {
-    if (req.session.user == undefined) {
+app.get('/tripids', async (req, res) => {
+    if (req.session.username == undefined) {
         res.status(403).send("Unauthorized");
         return;
     }
-
-    let s = Secret.findByID(req.params.username);
-    if (s == null) {
-        res.status(404).send("User not found");
-        return;
-    }
-
-    if (s.owner != req.session.user) {
-        res.status(403).send("Unauthorized");
-        return;
-    }
-
-    let result = await getUsersTripNumbers(req.params.username)
+    let result = await getUsersTripNumbers(req.session.username)
     res.json(result);   
 } );
 
@@ -177,7 +165,7 @@ function removeTripStop(tripID, stopID){
 
 //returns all of a user's saved trip numbers
 async function getUsersTripNumbers(username){
-    let getTripIDsSQL = `SELECT DISTINCT T.rowid FROM stops S, trips T, users U WHERE U.username = "${username}" AND U.username = T.username AND T.rowid = S.tripID`
+    let getTripIDsSQL = `SELECT DISTINCT T.rowid as tripID FROM stops S, trips T, users U WHERE U.username = "${username}" AND U.username = T.username AND T.rowid = S.tripID`
     let resu = await searchWrapper(getTripIDsSQL)
     return resu
 }
@@ -233,7 +221,6 @@ function closeDB(){
 async function test(){
 
     let ans = await addUser("arisf", "notarispassword")
-    console.log(ans)  
 }
 test()
 // addUser("arisf", "arispassword")
