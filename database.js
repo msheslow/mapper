@@ -1,27 +1,26 @@
 const sqlite3 = require('sqlite3').verbose();
 const express = require('express');
-const cors = require('cors');
 const app = express()
 const { exec } = require('child_process');
 const expressSession = require('express-session');
-const { text } = require('body-parser');
+const bodyParser= require('body-parser');
+app.use(bodyParser.json());
+
 app.use(expressSession({
     name: "mapperSessionCookie",
     secret: ["username", "tripID"],
     resave: false,
     saveUninitialized: false
 }));
-app.use(cors({
-    origin: '*'
-  }));
 
 
 
 // Start of Express wrappers
 // request for login authentication, must include username as 'user' and password as 'password' in body
+
 app.post('/login', async (req, res) => {
-    console.log("Woohoo login!")
     let user = req.body.user
+    
     let password = req.body.password
     let result = await checkLogin(user, password)
     if (result == "User does not exist"){
@@ -33,14 +32,10 @@ app.post('/login', async (req, res) => {
     } else {
         req.session.username = user;
         res.json(true);
-        console.log("correct")
         return;
     }
 })
 
-app.post('/test', async (req, res) => {
-    console.log("Woohoo login!")
-})
 
 //adds user to database
 app.post('/createlogin', async (req, res) => {
@@ -59,46 +54,45 @@ app.post('/createlogin', async (req, res) => {
 
 // allows user to logout
 app.get('/logout', (req, res) => {
-    delete req.session.user;
+    delete req.session.username;
     res.json(true);
 })
 
 //returns JSON object with all trips
-app.get('/secret/:username', async (req, res) => {
-    if (req.session.user == undefined) {
+app.get('/tripids', async (req, res) => {
+    if (req.session.username == undefined) {
         res.status(403).send("Unauthorized");
         return;
     }
-
-    let s = Secret.findByID(req.params.username);
-    if (s == null) {
-        res.status(404).send("User not found");
-        return;
-    }
-
-    if (s.owner != req.session.user) {
-        res.status(403).send("Unauthorized");
-        return;
-    }
-
-    let result = await getUsersTripNumbers(req.params.username)
-    res.json(result);
+    let result = await getUsersTripNumbers(req.session.username)
+    res.json(result);   
 } );
 
+//adds user to database
+app.post('/gettrip/:id', async (req, res) => {
+    let tripID = req.params.id
+    let username = req.session.username
+    if (username == undefined) {
+        res.status(403).send("Unauthorized");
+        return;
+    }
+    
+    let result = await getTripDetails(tripID, username)
+    if (result == -1){
+        res.status(403).send("Not your trip")
+        return;
+    } else {
+        res.json(result)
+        return
+    } 
+})
 
-app.listen(3050)
+
+const port = 3030;
+app.listen(port, () => {
+    console.log("User Login Example up and running on port " + port);
+});
 //returns trip details
-
-
-
-
-
-
-
-
-
-
-
 
 //Start of database wrappers
 
@@ -126,29 +120,11 @@ async function searchWrapper(sql){
             if (err) {
                 reject(err)
             } else {
-                resolve({rows: rows})
+                resolve({rows: rows[0]})
             }
         })
     })
 }
-
-
-// async function executeSearch (sql){
-//     let ans = []
-//     db.all(sql, [],  (err, rows) => {
-//         if (err) {
-//             throw err;
-//         }
-//         console.log(rows)
-//         for (row of rows){
-//             ans.push(row)
-//         }
-//     });
-//     return ans
-// }
-
-
-
 
 
 //Finds all the sites in the state listed in the route object
@@ -191,7 +167,7 @@ function removeTripStop(tripID, stopID){
 
 //returns all of a user's saved trip numbers
 async function getUsersTripNumbers(username){
-    let getTripIDsSQL = `SELECT DISTINCT T.rowid FROM stops S, trips T, users U WHERE U.username = "${username}" AND U.username = T.username AND T.rowid = S.tripID`
+    let getTripIDsSQL = `SELECT DISTINCT T.rowid as tripID FROM stops S, trips T, users U WHERE U.username = "${username}" AND U.username = T.username AND T.rowid = S.tripID`
     let resu = await searchWrapper(getTripIDsSQL)
     return resu
 }
@@ -199,9 +175,13 @@ async function getUsersTripNumbers(username){
 
 
 //returns start location, destination, and stops for trip
-function getTripDetails(tripID){
+async function getTripDetails(tripID, username){
+    let tripOwner = await searchWrapper(`SELECT username FROM trips`)
+    if (tripOwner.rows.username != username){
+        return -1
+    }
     let tripRequestSQL = `SELECT T.startLocation, T.endLocation, S.stopID FROM stops S, trips T WHERE T.rowid = "${tripID}" AND T.rowid = S.tripID`
-    searchWrapper(tripRequestSQL)
+    return searchWrapper(tripRequestSQL)
 }
 
 //checks if login details are valid
@@ -209,12 +189,12 @@ async function checkLogin(username, password) {
     let sqlCheckUserName = `SELECT * from users WHERE username = "${username}" `
     //Checks if user is already in database, if not adds user
     let res = await searchWrapper(sqlCheckUserName)
-    if (res.length == undefined) {
+    if (res.rows == undefined) {
         return "User does not exist"
-    } else if (res.rows[0].password ==password){
+    } else if (res.rows.password ==password){
         return "Success"
     }
-    return "Incorrect passowrd"
+    return "Incorrect password"
 }
 
 // creates a new user
@@ -243,106 +223,10 @@ function closeDB(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class Route {
-    constructor(startLocation = "Chapel Hill", destination = "San Francisco", preferences){
-        this.startLocation = startLocation
-        this.destination = destination
-        this.stops = []
-        this.states = ["Utah", "Colorado", "Nevada"]
-        this.distance = 0
-        this.cost = 0
-        this.preferences = preferences
-    }
-
-    addStop(stopName){
-        if (this.checkGoogleMaps()){
-            this.stops.push(stopName)
-            return true
-        }
-        return false
-    }
-
-    removeStop(stopName) {
-        this.stops = this.stops.filter(a => a!= stopName)
-    }
-
-    recommendStops(numberOfStops = this.distance/20){
-        //will eventually return the requested number of stopsrecommendStops(numbertops= this
-        return ["greensboro", "winston-salem", "hickory", "asheville", "know"]
-    }
-
-    autofill(numberOfPlaces){
-        return ["greensboro", "winston-salem", "hickory", "asheville", "know"]
-    }
-
-    formRoute(){
-        //will eventually use dijkstra's algorithm to order stops
-        this.distance = 1000
-        this.cost = 1000
-    }
-
-    addStatesTravelled(){
-        //will eventually find all the states that the route crosses to recommend stops
-        this.states[0]="NC"
-    }
-
-    checkGoogleMaps(){
-        // will eventually check if google recognizes the stop
-        return true
-    }
-
-    getGasPrices(){
-        //API key: http://api.eia.gov/series/?api_key=dd2080a6766dea4065bfde327132dced&series_id=TOTAL.RUUCUUS.M
-    }
-}
-
-class Preferences {
-    constructor (acceptablePhysicalExertion = 0, localHistory = 0, nationalHistory = 0, peopleOfInterest = []){
-        this.acceptablePhysicalExertion= acceptablePhysicalExertion
-        this.localHistory = localHistory
-        this.nationalHistory = nationalHistory
-        this.peopleOfInterest = peopleOfInterest
-    }
-}
-
-let preferences = new Preferences(0, 0, 0, [])
-
-let route = new Route("chapel hill", "charlotte", preferences )
-
 //writeSearch(route)
 async function test(){
-    let ans = await checkLogin("arif", "arispassword")
-    console.log(ans)  
+
+    let ans = await addUser("arisf", "notarispassword")
 }
 test()
 // addUser("arisf", "arispassword")
@@ -356,5 +240,6 @@ test()
 // removeTrip(1)
 // let res = checkLogin("arisf", "arispassword")
 // console.log("res"+res)
+
 // closeDB()
 // close the database connection
