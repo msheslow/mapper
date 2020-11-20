@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "COMP 426 Final Project - Mapper",
   "main": "mapper.js",
+  "engines": {
+    "node": "12.x"
+  },
   "dependencies": {
     "axios": "^0.21.0",
     "bulma": "^0.9.1",
