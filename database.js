@@ -19,6 +19,7 @@ app.use(expressSession({
 // request for login authentication, must include username as 'user' and password as 'password' in body
 
 app.post('/login', async (req, res) => {
+    console.log("reached")
     let user = req.body.user
     
     let password = req.body.password
@@ -58,7 +59,7 @@ app.get('/logout', (req, res) => {
     res.json(true);
 })
 
-//returns JSON object with all trips
+//returns JSON object with all trips for logged in user
 app.get('/tripids', async (req, res) => {
     if (req.session.username == undefined) {
         res.status(403).send("Unauthorized");
@@ -68,7 +69,7 @@ app.get('/tripids', async (req, res) => {
     res.json(result);   
 } );
 
-//adds user to database
+//gets the details for the trip specified, sets that trip as the current trip
 app.post('/gettrip/:id', async (req, res) => {
     let tripID = req.params.id
     let username = req.session.username
@@ -76,7 +77,7 @@ app.post('/gettrip/:id', async (req, res) => {
         res.status(403).send("Unauthorized");
         return;
     }
-    
+    req.session.tripID = tripID
     let result = await getTripDetails(tripID, username)
     if (result == -1){
         res.status(403).send("Not your trip")
@@ -87,6 +88,40 @@ app.post('/gettrip/:id', async (req, res) => {
     } 
 })
 
+// add stop to trip, stopID must be passed in body of request
+app.post('/addstop', async (req, res) => {
+    let tripID = req.session.tripID
+    let username = req.session.username
+    let stopID = req.params.stopID
+    if (username == undefined) {
+        res.status(403).send("Unauthorized");
+        return;
+    }
+    let result = await getTripDetails(tripID, username)
+    if (result == -1){
+        res.status(403).send("Not your trip")
+        return;
+    } else {
+        let returnedStop = await addTripStop(tripID, stopID)
+        res.json(returnedStop)
+        return
+    } 
+})
+
+//starts new trip
+app.post('/starttrip', async (req, res) => {
+    let startLocation = req.body.startLocation
+    let destination = req.body.destination
+    let result = await createTrip(req.session.username, startLocation, destination)
+    if (result == "Trip Exists"){
+        res.status(403).send("Trip Exists")
+        return;
+    } else {
+        req.session.tripID = result
+        res.json(result)
+        return
+    } 
+})
 
 const port = 3030;
 app.listen(port, () => {
@@ -128,7 +163,7 @@ async function searchWrapper(sql){
 
 
 //Finds all the sites in the state listed in the route object
-function getSitesInStates(route){
+async function getSitesInStates(route){
     sql = ""
     for (state of route.states){
         sql = sql+`
@@ -138,13 +173,26 @@ function getSitesInStates(route){
         UNION`
     }
     sql = sql.substring(0, sql.length-5)
-    return searchWrapper(sql)
+    return await searchWrapper(sql)
 }
 
 // Creates a database instance for a trip
-function createTrip(username, startLocation, endLocation){
+async function createTrip(username, startLocation, endLocation){
+    // let sqlTrip = `SELECT * from trips `
+    // //WHERE username = "${username}" AND startLocation = "${startLocation}" AND endLocation = "${endLocation}"
+    // //Checks if user is already in database, if not adds user
+    // let res = await searchWrapper(sqlTrip)
+    // console.log(res)
+    // if (res.rows != undefined) {
+    //     console.log("trip exists")
+    //     return "Trip Exists"
+    // } 
     let sqlAddCommand = `INSERT INTO trips VALUES ("${username}", "${startLocation}", "${endLocation}")`
-    return searchWrapper(sqlAddCommand)
+    await searchWrapper(sqlAddCommand)
+
+    let rowid = await searchWrapper(`SELECT rowid as tripID FROM trips WHERE username = "${username}" AND startLocation = "${startLocation}" AND endLocation = "${endLocation}"`)
+    console.log(rowid)
+    return rowid
 }
 
 // removes a user's trip
@@ -223,12 +271,13 @@ function closeDB(){
 
 
 
-//writeSearch(route)
-async function test(){
-
-    let ans = await addUser("arisf", "notarispassword")
-}
-test()
+// //writeSearch(route)
+// async function test(){
+//     // await createTrip("arisf", "Houston", "Denver")
+//     //console.log(await searchWrapper(`INSERT INTO trips (username, startLocation, endLocation) VALUES ("arisf", "Houston", "Dallas")`))
+//     console.log(await searchWrapper(`SELECT * FROM trips`))
+// }
+//test()
 // addUser("arisf", "arispassword")
 // createTrip("arisf", "Wake Forest", "Sedona, AZ")
 // addTripStop(1,"Great Sand Dunes National Park")
