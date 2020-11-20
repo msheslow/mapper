@@ -10,11 +10,12 @@
   "dependencies": {
     "axios": "^0.21.0",
     "bulma": "^0.9.1",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "server": "^1.0.31"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node mapper.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

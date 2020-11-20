@@ -73,8 +73,6 @@ async function initMap() {
             });
         }
     }
-
-    
 }
 
 // makeRoute draws the route line between two locations on the map
