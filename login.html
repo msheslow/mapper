@@ -45,15 +45,12 @@
         <script>
             async function LoginButtonHandler(event){
             event.preventDefault();
-            let result = await axios ({
-                method: 'post',
-                url: 'https://localhost:3030/test',
-                withCredentials: true,
-                data: {
-                    user: $('#username').val(),
-                    password: $('#password').val()
-                },
-            });
+            try {
+                let result= await axios.post('https://localhost:3030/login', { user: $('#username').val(),
+                password: $('#password').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
+            } catch {
+                console.log("Didn't work lol")
+            }
             }
 
             $('main').on('click', '#loginButton', LoginButtonHandler);

@@ -3,6 +3,7 @@ const express = require('express');
 const app = express()
 const { exec } = require('child_process');
 const expressSession = require('express-session');
+const cors = require('cors');
 const bodyParser= require('body-parser');
 app.use(bodyParser.json());
 
@@ -14,13 +15,11 @@ app.use(expressSession({
 }));
 
 
-
 // Start of Express wrappers
 // request for login authentication, must include username as 'user' and password as 'password' in body
 
 app.post('/login', async (req, res) => {
     let user = req.body.user
-    
     let password = req.body.password
     let result = await checkLogin(user, password)
     if (result == "User does not exist"){
