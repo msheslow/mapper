@@ -19,7 +19,6 @@ app.use(expressSession({
 // request for login authentication, must include username as 'user' and password as 'password' in body
 
 app.post('/login', async (req, res) => {
-    console.log("reached")
     let user = req.body.user
     
     let password = req.body.password
