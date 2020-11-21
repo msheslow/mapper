@@ -109,6 +109,8 @@ app.post('/addstop', async (req, res) => {
     } 
 })
 
+
+
 //starts new trip
 app.post('/starttrip', async (req, res) => {
     let startLocation = req.body.startLocation
@@ -126,6 +128,16 @@ app.post('/starttrip', async (req, res) => {
         res.json(result)
         return
     } 
+})
+
+//starts new trip
+app.post('/deletetrip', async (req, res) => {
+    if (req.session.tripID == undefined){
+        res.status(403).send("missing credentials")
+    }
+    await searchWrapper(`DELETE FROM stops WHERE tripID = "${req.session.tripID}"`)
+    await searchWrapper(`DELETE FROM trips WHERE rowid = "${req.session.tripID}"`)
+    res.json(true)
 })
 
 app.listen(port, () => {
