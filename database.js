@@ -113,7 +113,11 @@ app.post('/addstop', async (req, res) => {
 app.post('/starttrip', async (req, res) => {
     let startLocation = req.body.startLocation
     let destination = req.body.destination
+    if (startLocation == undefined || destination == undefined || req.session.username == undefined){
+        res.status(403).send("missing credentials")
+    }
     let result = await createTrip(req.session.username, startLocation, destination)
+    console.log(result)
     if (result == "Trip Exists"){
         res.status(403).send("Trip Exists")
         return;
@@ -178,20 +182,17 @@ async function getSitesInStates(route){
 
 // Creates a database instance for a trip
 async function createTrip(username, startLocation, endLocation){
-    // let sqlTrip = `SELECT * from trips `
-    // //WHERE username = "${username}" AND startLocation = "${startLocation}" AND endLocation = "${endLocation}"
-    // //Checks if user is already in database, if not adds user
-    // let res = await searchWrapper(sqlTrip)
-    // console.log(res)
-    // if (res.rows != undefined) {
-    //     console.log("trip exists")
-    //     return "Trip Exists"
-    // } 
+    let sqlTrip = `SELECT * from trips WHERE username = "${username}" AND startLocation = "${startLocation}" AND endLocation = "${endLocation}"`
+    //Checks if user is already in database, if not adds user
+    let res = await searchWrapper(sqlTrip)
+    console.log(res)
+    if (res.rows[0] != undefined) {
+        return "Trip Exists"
+    } 
     let sqlAddCommand = `INSERT INTO trips VALUES ("${username}", "${startLocation}", "${endLocation}")`
     await searchWrapper(sqlAddCommand)
 
     let rowid = await searchWrapper(`SELECT rowid as tripID FROM trips WHERE username = "${username}" AND startLocation = "${startLocation}" AND endLocation = "${endLocation}"`)
-    console.log(rowid)
     return rowid
 }
 
