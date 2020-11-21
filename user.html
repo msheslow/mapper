@@ -72,16 +72,16 @@
 
 
         <script>
-        function tripCardAssembler(aTrip){
+        function tripCardAssembler(aTrip, aTripID){
             return (`<div class="box" style="margin-top: 10px;">
                         <div class="columns">
                             <div class="column is-2">
-                                <span style="font-size: 18px; color: gray;">Trip ID: ${aTrip.tripID}</span>
+                                <span style="font-size: 18px; color: gray;">Trip ID: ${aTripID}</span>
                                 <br>
                                 <span style="font-size: 50px;"><i class="fas fa-car-side"></i></span>
                             </div>
                             <div class="column is-6">
-                                <span style="font-size: 25px;">${aTrip.start} <i style="font-size: 40px;" class="fas fa-long-arrow-alt-right"></i> ${aTrip.destination}</span>
+                                <span style="font-size: 25px;">${aTrip.data.rows[0].startLocation} <i style="font-size: 40px;" class="fas fa-long-arrow-alt-right"></i> ${aTrip.data.rows[0].endLocation}</span>
                             </div>
                             <div class="column is-2" style="text-align: center;">
                                 <span style="font-size: 18px; color: gray;">${aTrip.data.rows.length} stops</span><br><br>
@@ -109,7 +109,7 @@
                 let aTrip = await axios.get('http://mapper-project.herokuapp.com/gettrip/' + result.data.rows[i].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
                 console.log("aTrip")
                 console.log(aTrip);
-                $('#userTrips').append(tripCardAssembler(aTrip));
+                $('#userTrips').append(tripCardAssembler(aTrip, result.data.rows[i].tripID));
             }
         }
 
