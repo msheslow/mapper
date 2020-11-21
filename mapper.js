@@ -17,13 +17,12 @@ async function initMap() {
 
     // eventHandler function for onsite action
     let planRouteHandler = async function() {
-        start_point = document.getElementById('start').value;
-        end_point = document.getElementById('end').value;
         makeRoute(directionsService, directionsDisplay);
     };
 
     let waypointHandler = async function() {
         waypoints.push(document.getElementById('addWaypoint').value);
+        console.log(waypoints[0]);
         addRoute(directionsService, directionsDisplay, waypoints);
     };
     
