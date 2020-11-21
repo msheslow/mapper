@@ -71,7 +71,7 @@ app.get('/tripids', async (req, res) => {
 } );
 
 //gets the details for the trip specified, sets that trip as the current trip
-app.post('/gettrip/:id', async (req, res) => {
+app.get('/gettrip/:id', async (req, res) => {
     let tripID = req.params.id
     let username = req.session.username
     if (username == undefined) {
