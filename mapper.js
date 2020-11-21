@@ -16,7 +16,7 @@ async function initMap() {
 
     // eventHandler function for onsite action
     let eventHandler = async function() {
-        await makeRoute(directionsService, directionsDisplay);
+        makeRoute(directionsService, directionsDisplay);
     };
     
     document.getElementById('generate-map').addEventListener('click', eventHandler);
@@ -91,7 +91,7 @@ async function makeRoute(directionsService, directionsDisplay) {
     });
 
     async function start() {
-        window.setTimeout(stateTrav,200, directionsDisplay);
+        window.setTimeout(stateTrav,1000, directionsDisplay);
     }
     start();
 }
