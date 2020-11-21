@@ -4,6 +4,7 @@
 async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
+    let waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
     
     let options = {
         zoom: 3,
@@ -15,11 +16,21 @@ async function initMap() {
     await directionsDisplay.setMap(map);
 
     // eventHandler function for onsite action
-    let eventHandler = async function() {
-        await makeRoute(directionsService, directionsDisplay);
+    let planRouteHandler = async function() {
+        makeRoute(directionsService, directionsDisplay);
+    };
+
+    let waypointHandler = async function() {
+        let newWaypoint = {
+            location: document.getElementById('addWaypoint').value,
+            stopover: false
+        }
+        waypoints.push(newWaypoint);
+        addRoute(directionsService, directionsDisplay, waypoints);
     };
     
-    document.getElementById('generate-map').addEventListener('click', eventHandler);
+    document.getElementById('generate-map').addEventListener('click', planRouteHandler);
+    document.getElementById('add').addEventListener('click', waypointHandler);
 
 
     // Sets the selected <input> html elements to become autocomplete objects
@@ -91,7 +102,29 @@ async function makeRoute(directionsService, directionsDisplay) {
     });
 
     async function start() {
-        window.setTimeout(stateTrav,200, directionsDisplay);
+        window.setTimeout(stateTrav,1000, directionsDisplay);
+    }
+    start();
+}
+
+async function addRoute(directionsService, directionsDisplay, waypoints) {
+    await directionsService.route({
+        origin: document.getElementById('start').value,
+        destination: document.getElementById('end').value,
+        travelMode: 'DRIVING',
+        waypoints: waypoints,
+        optimizeWaypoints: true
+    },async function(response, status) {
+        if (status === 'OK') {
+            await directionsDisplay.setDirections(response);
+            window.scrollTo(0, 700);
+        } else {
+            window.alert('Please enter an origin and destination, then click "Plan Route"');
+        }
+    });
+
+    async function start() {
+        window.setTimeout(stateTrav,1000, directionsDisplay);
     }
     start();
 }

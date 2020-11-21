@@ -120,7 +120,7 @@
             async function createTripHandler(event){
             event.preventDefault();
             try {
-                let result= await axios.post('https://localhost:3030/starttrip', { startLocation: $('#start').val(),
+                let result= await axios.post('https://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
                 destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
             } catch {
                 console.log("Didn't work lol")
@@ -131,7 +131,7 @@
             async function createStopHandler(event){
             event.preventDefault();
             try {
-                let result= await axios.post('https://localhost:3030/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
             } catch {
                 console.log("Didn't work lol")
             }
@@ -141,7 +141,7 @@
             async function createStopHandler(event){
             event.preventDefault();
             try {
-                let result= await axios.post('https://localhost:3030/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
             } catch {
                 console.log("Didn't work lol")
             }
@@ -149,7 +149,7 @@
 
             $('main').on('click', '#generate-map', createTripHandler);
             $('main').on('click', '#add', createStopHandler);
-            $('main').on('click', '#anotherAdd', anotherStopHandler);
+            $('main').on('click', '#anotherAdd', anotherStopHandler);// wat dis is?
 
 
         </script>
