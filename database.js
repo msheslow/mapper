@@ -94,20 +94,16 @@ app.post('/addstop', async (req, res) => {
     let tripID = req.session.tripID
     let username = req.session.username
     let stopID = req.body.stopID
-    console.log("tripid: "+tripID+" username: "+username+" stopID: "+stopID)
     if (username == undefined || tripID == undefined) {
         res.status(403).send("Unauthorized");
         return;
     }
     let result = await getTripDetails(tripID, username)
-    console.log("result"+result)
     if (result == -1){
         res.status(403).send("Not your trip")
         return;
     } else {
         let returnedStop = await addTripStop(tripID, stopID)
-        console.log(returnedStop)
-        console.log(await searchWrapper(`SELECT * FROM stops WHERE tripID = "${tripID}"`))
         res.json(returnedStop)
         return
     } 
@@ -206,7 +202,7 @@ function removeTrip(tripID){
 }
 
 // Creates stops on trip that can be matched by ID to respective trip
-function addTripStop(tripID, stopID){
+async function addTripStop(tripID, stopID){
     let sqlStopCommand = `INSERT INTO stops VALUES ("${stopID}", "${tripID}")`
     
     return await searchWrapper(sqlStopCommand)
