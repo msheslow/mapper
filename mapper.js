@@ -26,7 +26,7 @@ async function initMap() {
     };
     
     document.getElementById('generate-map').addEventListener('click', planRouteHandler);
-    document.getElementById('addWaypoint').addEventListener('click', waypointHandler);
+    document.getElementById('add').addEventListener('click', waypointHandler);
 
 
     // Sets the selected <input> html elements to become autocomplete objects
@@ -105,9 +105,6 @@ async function makeRoute(directionsService, directionsDisplay) {
 
 async function addRoute(directionsService, directionsDisplay, waypoints) {
     await directionsService.route({
-        origin: document.getElementById('start').value,
-        destination: document.getElementById('end').value,
-        travelMode: 'DRIVING',
         waypoints: waypoints,
         optimizeWaypoints: true
     },async function(response, status) {
