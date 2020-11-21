@@ -98,6 +98,14 @@
 
         async function loadTrips() {
             let result= await axios.get('http://mapper-project.herokuapp.com/tripids', { headers: {'Access-Control-Allow-Origin': '*'}});
+            console.log("result")
+            console.log(result)
+            console.log("result.data.rows")
+            console.log(result.data.rows)
+            console.log("result.data.rows[0].tripID")
+            console.log(result.data.rows[0].tripID)
+            console.log("result.data.rows.length")
+            console.log(result.data.rows.length)
             for (i=0; i < result.data.rows.length; i++) {
                 let aTrip = await axios.get('http://mapper-project.herokuapp.com/gettrip/' + result.data.rows[i], { headers: {'Access-Control-Allow-Origin': '*'}});
                 console.log(aTrip);
