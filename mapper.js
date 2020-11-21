@@ -4,6 +4,7 @@
 async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
+    let waypoints = [] // THIS NEEDS TO BE PULLED FROM SERVER 
     
     let options = {
         zoom: 3,
@@ -15,11 +16,14 @@ async function initMap() {
     await directionsDisplay.setMap(map);
 
     // eventHandler function for onsite action
-    let eventHandler = async function() {
+    let planRouteHandler = async function() {
         makeRoute(directionsService, directionsDisplay);
     };
+
+
     
-    document.getElementById('generate-map').addEventListener('click', eventHandler);
+    document.getElementById('generate-map').addEventListener('click', planRouteHandler);
+    document.getElementById('addWaypoint').addEventListener('click', planRouteHandler);
 
 
     // Sets the selected <input> html elements to become autocomplete objects
@@ -80,7 +84,8 @@ async function makeRoute(directionsService, directionsDisplay) {
     await directionsService.route({
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
-        travelMode: 'DRIVING'
+        travelMode: 'DRIVING',
+        waypoints: waypoints.push(document.getElementById('addWaypoint').value)
     },async function(response, status) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
