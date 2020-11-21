@@ -51,6 +51,7 @@
                 let result= await axios.post('http://mapper-project.herokuapp.com/createlogin', { user: $('#username').val(),
                 password: $('#password').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
                 console.log("Created a new user!")
+                window.location.replace("http://mapper-project.herokuapp.com/index.html"); // redirect to index.html after login
             } catch {
                 console.log("Didn't work lol")
             }

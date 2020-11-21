@@ -48,6 +48,7 @@
             try {
                 let result= await axios.post('http://mapper-project.herokuapp.com/login', { user: $('#username').val(),
                 password: $('#password').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                console.log("It worked!")
             } catch {
                 console.log("Didn't work lol")
             }

@@ -97,15 +97,15 @@
         }
 
         async function loadTrips() {
-            event.preventDefault();
             try {
-                let result= await axios.get('https://mapper-project.herokuapp.com/tripids', { headers: {'Access-Control-Allow-Origin': '*'}});
+                let result= await axios.get('http://mapper-project.herokuapp.com/tripids', { headers: {'Access-Control-Allow-Origin': '*'}});
+                console.log(result);
             } catch {
                 console.log("Didn't work lol")
             }
             // generally correct but not sure if naming and data access is correct yet, need to check backend
             for (i=0; i < result.rows.length; i++) {
-                let aTrip = await axios.get('https://mapper-project.herokuapp.com/gettrip/' + result.rows[i], { headers: {'Access-Control-Allow-Origin': '*'}});
+                let aTrip = await axios.get('http://mapper-project.herokuapp.com/gettrip/' + result.rows[i], { headers: {'Access-Control-Allow-Origin': '*'}});
                 $('#userTrips').append(tripCardAssembler(aTrip));
             }
         }
