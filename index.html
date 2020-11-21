@@ -53,7 +53,8 @@
                         <div class="column is-one-third" id="left">
                             <div class="box left">
                                 <text style="font-size: 30px;">My Trip</text><br>
-                                <div id="listWaypoints">
+                                <div id="originWaypoint">
+
                                     <div class="waypointCard box" style="background-color: #ECECEC;">
                                         <div class="columns">
                                             <div class="column is-four-fifths">
@@ -64,6 +65,35 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                </div>
+                                <div id="listWaypoints">
+
+                                    <div class="waypointCard box" style="background-color: #ECECEC;">
+                                        <div class="columns">
+                                            <div class="column is-four-fifths">
+                                                <span style="font-size: 20px; color: black;">Waypoint Name</span>
+                                            </div>
+                                            <div class="column" style="text-align: right;">
+                                                <button class="button del is-rounded is-small" id="delete"><i class="far fa-trash-alt"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div id="destinationWaypoint">
+
+                                    <div class="waypointCard box" style="background-color: #ECECEC;">
+                                        <div class="columns">
+                                            <div class="column is-four-fifths">
+                                                <span style="font-size: 20px; color: black;">Waypoint Name</span>
+                                            </div>
+                                            <div class="column" style="text-align: right;">
+                                                <button class="button del is-rounded is-small" id="delete"><i class="far fa-trash-alt"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -116,6 +146,32 @@
         <script src="node_modules/axios/dist/axios.js"></script>
 
         <script>
+            function startEndCardAssembler(waypoint){
+            return (`<div class="waypointCard box" style="background-color: #ECECEC;">
+                                        <div class="columns">
+                                            <div class="column is-four-fifths">
+                                                <span style="font-size: 20px; color: black;">${waypoint}</span>
+                                            </div>
+                                            <div class="column" style="text-align: right;">
+                                            </div>
+                                        </div>
+                                    </div>`)
+
+        }
+
+            function waypointCardAssembler(waypoint){
+            return (`<div class="waypointCard box" style="background-color: #ECECEC;">
+                                        <div class="columns">
+                                            <div class="column is-four-fifths">
+                                                <span style="font-size: 20px; color: black;">${waypoint}</span>
+                                            </div>
+                                            <div class="column" style="text-align: right;">
+                                                <button class="button del is-rounded is-small" id="delete"><i class="far fa-trash-alt"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>`)
+
+        }
             // Start trip, startLocation and destination
             async function createTripHandler(event){
             event.preventDefault();
@@ -123,6 +179,8 @@
                 let result= await axios.post('http://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
                 destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
                 console.log("Created a trip!")
+                $('#originWaypoint').append(startEndCardAssembler($('#start').val()));
+                $('#destinationWaypoint').append(startEndCardAssembler($('#end').val()));
             } catch {
                 console.log("Didn't work lol")
                 window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
@@ -141,7 +199,7 @@
             }
 
              // Add a stop from suggested, stopID (this is not done)
-            async function createStopHandler(event){
+            async function anotherStopHandler(event){
             event.preventDefault();
             try {
                 let result= await axios.post('http://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});

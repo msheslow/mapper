@@ -139,7 +139,7 @@ app.post('/starttrip', async (req, res) => {
     console.log(result)
     if (result == "Trip Exists"){
         res.status(403).send("Trip Exists")
-        return;
+        return
     } else {
         req.session.tripID = result
         res.json(result)
@@ -244,7 +244,6 @@ async function createTrip(username, startLocation, endLocation){
 // Creates stops on trip that can be matched by ID to respective trip
 async function addTripStop(tripID, stopID){
     let sqlStopCommand = `INSERT INTO stops VALUES ("${stopID}", "${tripID}")`
-    
     return await searchWrapper(sqlStopCommand)
 }
 
