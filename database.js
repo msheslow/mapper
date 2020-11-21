@@ -6,6 +6,9 @@ const expressSession = require('express-session');
 const cors = require('cors');
 const bodyParser= require('body-parser');
 app.use(bodyParser.json());
+let port = process.env.PORT || 8080
+
+app.use(express.static(__dirname))
 
 app.use(expressSession({
     name: "mapperSessionCookie",
@@ -121,7 +124,6 @@ app.post('/starttrip', async (req, res) => {
     } 
 })
 
-const port = 3030;
 app.listen(port, () => {
     console.log("User Login Example up and running on port " + port);
 });
