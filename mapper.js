@@ -22,8 +22,11 @@ async function initMap() {
     };
 
     let waypointHandler = async function() {
-        waypoints.push(document.getElementById('addWaypoint').value);
-        console.log(waypoints[0]);
+        let newWaypoint = {
+            location: document.getElementById('addWaypoint').value,
+            stopover: false
+        }
+        waypoints.push(newWaypoint);
         addRoute(directionsService, directionsDisplay, waypoints);
     };
     
