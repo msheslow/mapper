@@ -103,6 +103,11 @@
             } catch {
                 console.log("Didn't work lol")
             }
+            return result;
+        }
+
+        async function getResult() {
+            const result= await loadTrips();
             // generally correct but not sure if naming and data access is correct yet, need to check backend
             for (i=0; i < result.data.rows.length; i++) {
                 let aTrip = await axios.get('http://mapper-project.herokuapp.com/gettrip/' + result.data.rows[i], { headers: {'Access-Control-Allow-Origin': '*'}});
@@ -110,7 +115,8 @@
                 $('#userTrips').append(tripCardAssembler(aTrip));
             }
         }
-        window.onload = loadTrips();
+
+        window.onload = getResult();
         </script>
 
     </body>
