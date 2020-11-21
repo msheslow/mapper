@@ -118,6 +118,16 @@ app.post('/deletestop', async (req, res) => {
     res.json(true)
 })
 
+//deletes stop specified in the body
+app.post('/stopsinstates', async (req, res) => {
+    let states = req.body.states 
+    if (states == undefined ){
+        res.status(403).send("Please states you would like to see")
+    }
+    let results = await getSitesInStates(states)
+    res.json(results)
+})
+
 //starts new trip
 app.post('/starttrip', async (req, res) => {
     let startLocation = req.body.startLocation
@@ -199,10 +209,10 @@ async function searchWrapper(sql){
 }
 
 
-//Finds all the sites in the state listed in the route object
-async function getSitesInStates(route){
+//Finds all the sites in the state listed in the route object, states must be spelled out strings in an array
+async function getSitesInStates(states){
     sql = ""
-    for (state of route.states){
+    for (state of states){
         sql = sql+`
         SELECT *
         FROM combinedSites 
@@ -229,11 +239,7 @@ async function createTrip(username, startLocation, endLocation){
     return rowid
 }
 
-// removes a user's trip
-function removeTrip(tripID){ 
-    searchWrapper(`DELETE FROM stops WHERE tripID = "${tripID}"`)
-    return searchWrapper(`DELETE FROM trips WHERE rowid = "${tripID}"`)
-}
+
 
 // Creates stops on trip that can be matched by ID to respective trip
 async function addTripStop(tripID, stopID){
@@ -242,11 +248,7 @@ async function addTripStop(tripID, stopID){
     return await searchWrapper(sqlStopCommand)
 }
 
-// Removes stop on trip
-function removeTripStop(tripID, stopID){
-    let sqlRemoveStopCommand = `DELETE FROM stops WHERE stopID = "${stopID}" AND tripID="${tripID}"`
-    return searchWrapper(sqlRemoveStopCommand)
-}
+
 
 //returns all of a user's saved trip numbers
 async function getUsersTripNumbers(username){
