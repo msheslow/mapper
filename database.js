@@ -93,17 +93,21 @@ app.post('/gettrip/:id', async (req, res) => {
 app.post('/addstop', async (req, res) => {
     let tripID = req.session.tripID
     let username = req.session.username
-    let stopID = req.params.stopID
-    if (username == undefined) {
+    let stopID = req.body.stopID
+    console.log("tripid: "+tripID+" username: "+username+" stopID: "+stopID)
+    if (username == undefined || tripID == undefined) {
         res.status(403).send("Unauthorized");
         return;
     }
     let result = await getTripDetails(tripID, username)
+    console.log("result"+result)
     if (result == -1){
         res.status(403).send("Not your trip")
         return;
     } else {
         let returnedStop = await addTripStop(tripID, stopID)
+        console.log(returnedStop)
+        console.log(await searchWrapper(`SELECT * FROM stops WHERE tripID = "${tripID}"`))
         res.json(returnedStop)
         return
     } 
@@ -155,7 +159,7 @@ async function searchWrapper(sql){
             if (err) {
                 reject(err)
             } else {
-                resolve({rows: rows[0]})
+                resolve({rows: rows})
             }
         })
     })
@@ -204,7 +208,8 @@ function removeTrip(tripID){
 // Creates stops on trip that can be matched by ID to respective trip
 function addTripStop(tripID, stopID){
     let sqlStopCommand = `INSERT INTO stops VALUES ("${stopID}", "${tripID}")`
-    return searchWrapper(sqlStopCommand)
+    
+    return await searchWrapper(sqlStopCommand)
 }
 
 // Removes stop on trip
@@ -225,7 +230,7 @@ async function getUsersTripNumbers(username){
 //returns start location, destination, and stops for trip
 async function getTripDetails(tripID, username){
     let tripOwner = await searchWrapper(`SELECT username FROM trips`)
-    if (tripOwner.rows.username != username){
+    if (tripOwner.rows[0].username != username){
         return -1
     }
     let tripRequestSQL = `SELECT T.startLocation, T.endLocation, S.stopID FROM stops S, trips T WHERE T.rowid = "${tripID}" AND T.rowid = S.tripID`
@@ -237,9 +242,9 @@ async function checkLogin(username, password) {
     let sqlCheckUserName = `SELECT * from users WHERE username = "${username}" `
     //Checks if user is already in database, if not adds user
     let res = await searchWrapper(sqlCheckUserName)
-    if (res.rows == undefined) {
+    if (res.rows[0] == undefined) {
         return "User does not exist"
-    } else if (res.rows.password ==password){
+    } else if (res.rows[0].password ==password){
         return "Success"
     }
     return "Incorrect password"
