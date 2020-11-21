@@ -12,8 +12,11 @@
     "bulma": "^0.9.1",
     "cors": "^2.8.5",
     "drive-db": "^6.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "node-fetch": "^2.6.1",
-    "server": "^1.0.31"
+    "server": "^1.0.31",
+    "sqlite3": "^5.0.0"
   },
   "devDependencies": {},
   "scripts": {
