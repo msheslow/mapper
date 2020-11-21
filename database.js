@@ -109,7 +109,14 @@ app.post('/addstop', async (req, res) => {
     } 
 })
 
-
+//deletes stop specified in the body
+app.post('/deletestop', async (req, res) => {
+    if (req.body.stopID == undefined || req.session.tripID == undefined){
+        res.status(403).send("Please provide stopID you would like to delete")
+    }
+    await searchWrapper(`DELETE FROM stops WHERE stopID = "${req.body.stopID}" AND tripID = "${req.session.tripID}"`)
+    res.json(true)
+})
 
 //starts new trip
 app.post('/starttrip', async (req, res) => {
@@ -130,7 +137,7 @@ app.post('/starttrip', async (req, res) => {
     } 
 })
 
-//starts new trip
+//deletes trip that was last requested
 app.post('/deletetrip', async (req, res) => {
     if (req.session.tripID == undefined){
         res.status(403).send("missing credentials")
