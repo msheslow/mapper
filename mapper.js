@@ -17,6 +17,7 @@ async function initMap() {
 
     // eventHandler function for onsite action
     let planRouteHandler = async function() {
+        console.log(document.getElementById('start').value);
         makeRoute(directionsService, directionsDisplay);
     };
 
