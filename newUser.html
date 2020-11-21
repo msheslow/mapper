@@ -47,12 +47,10 @@
         <script>
            async function createAccountButtonHandler(event){
             event.preventDefault();
-            try {
-                let result= await axios.post('https://mapper-project.herokuapp.com/createlogin', { user: $('#username').val(),
+                let result= await axios.post('http://mapper-project.herokuapp.com/createlogin', { user: $('#username').val(),
                 password: $('#password').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-            } catch {
-                console.log("Didn't work lol")
-            }
+                console.log("Created a new user!")
+                window.location.replace("http://mapper-project.herokuapp.com/index.html"); // redirect to index.html after login
             }
 
             $('main').on('click', '#createAccountButton', createAccountButtonHandler);

@@ -71,7 +71,7 @@ app.get('/tripids', async (req, res) => {
 } );
 
 //gets the details for the trip specified, sets that trip as the current trip
-app.post('/gettrip/:id', async (req, res) => {
+app.get('/gettrip/:id', async (req, res) => {
     let tripID = req.params.id
     let username = req.session.username
     if (username == undefined) {
@@ -94,38 +94,81 @@ app.post('/addstop', async (req, res) => {
     let tripID = req.session.tripID
     let username = req.session.username
     let stopID = req.body.stopID
-    console.log("tripid: "+tripID+" username: "+username+" stopID: "+stopID)
     if (username == undefined || tripID == undefined) {
         res.status(403).send("Unauthorized");
         return;
     }
     let result = await getTripDetails(tripID, username)
-    console.log("result"+result)
     if (result == -1){
         res.status(403).send("Not your trip")
         return;
     } else {
         let returnedStop = await addTripStop(tripID, stopID)
-        console.log(returnedStop)
-        console.log(await searchWrapper(`SELECT * FROM stops WHERE tripID = "${tripID}"`))
         res.json(returnedStop)
         return
     } 
+})
+
+//deletes stop specified in the body
+app.post('/deletestop', async (req, res) => {
+    if (req.body.stopID == undefined || req.session.tripID == undefined){
+        res.status(403).send("Please provide stopID you would like to delete")
+    }
+    await searchWrapper(`DELETE FROM stops WHERE stopID = "${req.body.stopID}" AND tripID = "${req.session.tripID}"`)
+    res.json(true)
+})
+
+//deletes stop specified in the body
+app.post('/stopsinstates', async (req, res) => {
+    let states = req.body.states 
+    if (states == undefined ){
+        res.status(403).send("Please states you would like to see")
+    }
+    let results = await getSitesInStates(states)
+    res.json(results)
 })
 
 //starts new trip
 app.post('/starttrip', async (req, res) => {
     let startLocation = req.body.startLocation
     let destination = req.body.destination
+    if (startLocation == undefined || destination == undefined || req.session.username == undefined){
+        res.status(403).send("missing credentials")
+    }
     let result = await createTrip(req.session.username, startLocation, destination)
+    console.log(result)
     if (result == "Trip Exists"){
         res.status(403).send("Trip Exists")
-        return;
+        return
     } else {
         req.session.tripID = result
         res.json(result)
         return
     } 
+})
+
+//deletes trip that was last requested
+app.post('/deletetrip', async (req, res) => {
+    if (req.session.tripID == undefined || req.session.username== undefined){
+        res.status(403).send("missing credentials")
+    }
+    await searchWrapper(`DELETE FROM stops WHERE tripID = "${req.session.tripID}"`)
+    await searchWrapper(`DELETE FROM trips WHERE rowid = "${req.session.tripID}"`)
+    res.json(true)
+})
+
+// updates start location or destination
+//deletes trip that was last requested
+app.post('/updateroute', async (req, res) => {
+    let start = req.body.newStartLocation
+    let destination = req.body.newEndLocation
+    let user = req.session.username
+    let tripID = req.session.tripID
+    if (tripID == undefined || user == undefined || start == undefined || destination == undefined){
+        res.status(403).send("missing credentials")
+    }
+    await searchWrapper(`UPDATE trips SET startLocation ="${start}", endLocation ="${destination}" WHERE rowid ="${tripID}"`)
+    res.json(true)
 })
 
 app.listen(port, () => {
@@ -166,10 +209,10 @@ async function searchWrapper(sql){
 }
 
 
-//Finds all the sites in the state listed in the route object
-async function getSitesInStates(route){
+//Finds all the sites in the state listed in the route object, states must be spelled out strings in an array
+async function getSitesInStates(states){
     sql = ""
-    for (state of route.states){
+    for (state of states){
         sql = sql+`
         SELECT *
         FROM combinedSites 
@@ -182,41 +225,29 @@ async function getSitesInStates(route){
 
 // Creates a database instance for a trip
 async function createTrip(username, startLocation, endLocation){
-    // let sqlTrip = `SELECT * from trips `
-    // //WHERE username = "${username}" AND startLocation = "${startLocation}" AND endLocation = "${endLocation}"
-    // //Checks if user is already in database, if not adds user
-    // let res = await searchWrapper(sqlTrip)
-    // console.log(res)
-    // if (res.rows != undefined) {
-    //     console.log("trip exists")
-    //     return "Trip Exists"
-    // } 
+    let sqlTrip = `SELECT * from trips WHERE username = "${username}" AND startLocation = "${startLocation}" AND endLocation = "${endLocation}"`
+    //Checks if user is already in database, if not adds user
+    let res = await searchWrapper(sqlTrip)
+    console.log(res)
+    if (res.rows[0] != undefined) {
+        return "Trip Exists"
+    } 
     let sqlAddCommand = `INSERT INTO trips VALUES ("${username}", "${startLocation}", "${endLocation}")`
     await searchWrapper(sqlAddCommand)
 
     let rowid = await searchWrapper(`SELECT rowid as tripID FROM trips WHERE username = "${username}" AND startLocation = "${startLocation}" AND endLocation = "${endLocation}"`)
-    console.log(rowid)
     return rowid
 }
 
-// removes a user's trip
-function removeTrip(tripID){ 
-    searchWrapper(`DELETE FROM stops WHERE tripID = "${tripID}"`)
-    return searchWrapper(`DELETE FROM trips WHERE rowid = "${tripID}"`)
-}
+
 
 // Creates stops on trip that can be matched by ID to respective trip
-function addTripStop(tripID, stopID){
+async function addTripStop(tripID, stopID){
     let sqlStopCommand = `INSERT INTO stops VALUES ("${stopID}", "${tripID}")`
-    
     return await searchWrapper(sqlStopCommand)
 }
 
-// Removes stop on trip
-function removeTripStop(tripID, stopID){
-    let sqlRemoveStopCommand = `DELETE FROM stops WHERE stopID = "${stopID}" AND tripID="${tripID}"`
-    return searchWrapper(sqlRemoveStopCommand)
-}
+
 
 //returns all of a user's saved trip numbers
 async function getUsersTripNumbers(username){

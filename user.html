@@ -30,28 +30,6 @@
                         <div id="userTrips">
 
 
-                            <div class="box" style="margin-top: 10px;">
-                                <div class="columns">
-                                    <div class="column is-2">
-                                        <span style="font-size: 18px; color: gray;">Trip ID: (12345)</span>
-                                        <br>
-                                        <span style="font-size: 50px;"><i class="fas fa-car-side"></i></span>
-                                    </div>
-                                    <div class="column is-6">
-                                        <span style="font-size: 25px;">(Origin/ Starting Point) <i style="font-size: 40px;" class="fas fa-long-arrow-alt-right"></i> (Destination/ Ending Point)</span>
-                                    </div>
-                                    <div class="column is-2" style="text-align: center;">
-                                        <span style="font-size: 18px; color: gray;"># stops</span><br><br>
-                                        <span style="font-size: 18px; color: gray;"># miles</span>
-                                    </div>
-                                    <div class="column is-2" style="text-align: center;">
-                                        <button class="button is-small is-rounded" id="editTrip">Edit Trip</button><br><br>
-                                        <button class="button del is-small is-rounded" id="deleteTrip"><i class="far fa-trash-alt"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-
                         </div>
                     </div>
                     <div id="userInfo" class="column is-one-quarter">
@@ -72,20 +50,19 @@
 
 
         <script>
-        function tripCardAssembler(aTrip){
+        function tripCardAssembler(aTrip, aTripID){
             return (`<div class="box" style="margin-top: 10px;">
                         <div class="columns">
                             <div class="column is-2">
-                                <span style="font-size: 18px; color: gray;">Trip ID: ${aTrip.tripID}</span>
+                                <span style="font-size: 18px; color: gray;">Trip ID: ${aTripID}</span>
                                 <br>
                                 <span style="font-size: 50px;"><i class="fas fa-car-side"></i></span>
                             </div>
                             <div class="column is-6">
-                                <span style="font-size: 25px;">${aTrip.start} <i style="font-size: 40px;" class="fas fa-long-arrow-alt-right"></i> ${aTrip.destination}</span>
+                                <span style="font-size: 25px;">${aTrip.data.rows[0].startLocation} <i style="font-size: 40px;" class="fas fa-long-arrow-alt-right"></i> ${aTrip.data.rows[0].endLocation}</span>
                             </div>
                             <div class="column is-2" style="text-align: center;">
-                                <span style="font-size: 18px; color: gray;">${aTrip.stops.length} stops</span><br><br>
-                                <span style="font-size: 18px; color: gray;">${aTrip.distance} miles</span>
+                                <span style="font-size: 18px; color: gray;">${aTrip.data.rows.length} stops</span><br><br>
                             </div>
                             <div class="column is-2" style="text-align: center;">
                                 <button class="button is-small is-rounded" id="editTrip" num="${aTrip.tripID}">Edit Trip</button><br><br>
@@ -97,19 +74,28 @@
         }
 
         async function loadTrips() {
-            event.preventDefault();
-            try {
-                let result= await axios.get('https://mapper-project.herokuapp.com/tripids', { headers: {'Access-Control-Allow-Origin': '*'}});
-            } catch {
-                console.log("Didn't work lol")
-            }
-            // generally correct but not sure if naming and data access is correct yet, need to check backend
-            for (i=0; i < result.rows.length; i++) {
-                let aTrip = await axios.get('https://mapper-project.herokuapp.com/gettrip/' + result.rows[i], { headers: {'Access-Control-Allow-Origin': '*'}});
-                $('#userTrips').append(tripCardAssembler(aTrip));
+            let result= await axios.get('http://mapper-project.herokuapp.com/tripids', { headers: {'Access-Control-Allow-Origin': '*'}});
+            console.log("result")
+            console.log(result)
+            console.log("result.data.rows")
+            console.log(result.data.rows)
+            console.log("result.data.rows[0].tripID")
+            console.log(result.data.rows[0].tripID)
+            console.log("result.data.rows.length")
+            console.log(result.data.rows.length)
+            for (i=0; i < result.data.rows.length; i++) {
+                let aTrip = await axios.get('http://mapper-project.herokuapp.com/gettrip/' + result.data.rows[i].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
+                console.log("aTrip")
+                console.log(aTrip);
+                $('#userTrips').append(tripCardAssembler(aTrip, result.data.rows[i].tripID));
             }
         }
-        window.onload = loadTrips();
+
+        async function renderTrips() {
+            loadTrips();
+        }
+
+        window.onload = renderTrips();
         </script>
 
     </body>
