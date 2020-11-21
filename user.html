@@ -104,8 +104,9 @@
                 console.log("Didn't work lol")
             }
             // generally correct but not sure if naming and data access is correct yet, need to check backend
-            for (i=0; i < result.rows.length; i++) {
-                let aTrip = await axios.get('http://mapper-project.herokuapp.com/gettrip/' + result.rows[i], { headers: {'Access-Control-Allow-Origin': '*'}});
+            for (i=0; i < result.data.rows.length; i++) {
+                let aTrip = await axios.get('http://mapper-project.herokuapp.com/gettrip/' + result.data.rows[i], { headers: {'Access-Control-Allow-Origin': '*'}});
+                console.log(aTrip);
                 $('#userTrips').append(tripCardAssembler(aTrip));
             }
         }
