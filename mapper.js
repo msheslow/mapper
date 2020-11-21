@@ -4,7 +4,7 @@
 async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
-    let waypoints = [] // THIS NEEDS TO BE PULLED FROM SERVER 
+    let waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER 
     
     let options = {
         zoom: 3,
@@ -17,13 +17,16 @@ async function initMap() {
 
     // eventHandler function for onsite action
     let planRouteHandler = async function() {
-        makeRoute(directionsService, directionsDisplay, waypoints);
+        makeRoute(directionsService, directionsDisplay);
     };
 
-
+    let waypointHandler = async function() {
+        waypoints.push(document.getElementById('addWaypoint').value);
+        addRoute(directionsService, directionsDisplay, waypoints);
+    };
     
     document.getElementById('generate-map').addEventListener('click', planRouteHandler);
-    document.getElementById('addWaypoint').addEventListener('click', planRouteHandler);
+    document.getElementById('addWaypoint').addEventListener('click', waypointHandler);
 
 
     // Sets the selected <input> html elements to become autocomplete objects
@@ -84,8 +87,29 @@ async function makeRoute(directionsService, directionsDisplay) {
     await directionsService.route({
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
+        travelMode: 'DRIVING'
+    },async function(response, status) {
+        if (status === 'OK') {
+            await directionsDisplay.setDirections(response);
+            window.scrollTo(0, 700);
+        } else {
+            window.alert('Please enter an origin and destination, then click "Plan Route"');
+        }
+    });
+
+    async function start() {
+        window.setTimeout(stateTrav,1000, directionsDisplay);
+    }
+    start();
+}
+
+async function addRoute(directionsService, directionsDisplay, waypoints) {
+    await directionsService.route({
+        origin: document.getElementById('start').value,
+        destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
-        waypoints: waypoints.push(document.getElementById('addWaypoint').value)
+        waypoints: waypoints,
+        optimizeWaypoints: true
     },async function(response, status) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
