@@ -5,8 +5,6 @@ async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
     let waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
-    let start_point;
-    let end_point;
     
     let options = {
         zoom: 3,
@@ -109,8 +107,8 @@ async function makeRoute(directionsService, directionsDisplay) {
 
 async function addRoute(directionsService, directionsDisplay, waypoints) {
     await directionsService.route({
-        origin: start_point,
-        destination: end_point,
+        origin: document.getElementById('start').value,
+        destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
         waypoints: waypoints,
         optimizeWaypoints: true
