@@ -46,7 +46,7 @@
             async function LoginButtonHandler(event){
             event.preventDefault();
             try {
-                let result= await axios.post('https://localhost:3030/login', { user: $('#username').val(),
+                let result= await axios.post('https://mapper-project.herokuapp.com/login', { user: $('#username').val(),
                 password: $('#password').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
             } catch {
                 console.log("Didn't work lol")
