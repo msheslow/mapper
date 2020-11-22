@@ -106,7 +106,13 @@ async function initMap() {
     async function db_autocomplete(event){
         let a, b, i, val = this.value
         console.log("a:"+a+" b:" +b+ " i:"+i+" val:"+val)
+        if (!val){
+            return false
+        }
         let input_string = event.currentTarget.value;
+        let option = document.createElement("DIV")
+        option.setAttribute("class", "autocomplete-list")
+        option.setAttribute("id",this.id+"-autocomplete-response")
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log(result.data.rows);
