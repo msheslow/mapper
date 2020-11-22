@@ -100,14 +100,11 @@ async function initMap() {
     async function autocomplete(string){
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: string }, { headers: {'Access-Control-Allow-Origin': '*'}});
-<<<<<<< HEAD
             // result = Array(Objects{Name, State, Lat, Lng})
             console.log(result)
             console.log(result.data.rows)
             return result
-=======
             return result.data.rows
->>>>>>> 8b87bdb2980068580b2f6c9d5110079294226719
            
         } catch {
             console.log("Autocomplete didnt work lol")
