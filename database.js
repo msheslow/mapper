@@ -132,13 +132,11 @@ app.post('/stopsinstates', async (req, res) => {
 app.post('/starttrip', async (req, res) => {
     let startLocation = req.body.startLocation
     let destination = req.body.destination
-    console.log("username "+req.session.username)
     if (startLocation == undefined || destination == undefined || req.session.username == undefined){
         res.status(403).send("missing credentials")
         return
     }
     let result = await createTrip(req.session.username, startLocation, destination)
-    console.log(result)
     if (result == "Trip Exists"){
         res.status(403).send("Trip Exists")
         return
