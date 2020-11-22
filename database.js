@@ -269,7 +269,7 @@ async function autofillLocations(inputString){
     sql = `SELECT Name, State FROM citiesAndSites
             WHERE  Name LIKE "${inputString}%"
             ORDER BY Weight DESC
-            LIMIT 6`
+            LIMIT 4`
     return await searchWrapper(sql)
 }
 // Creates a database instance for a trip
