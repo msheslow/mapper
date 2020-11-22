@@ -42,14 +42,17 @@ async function initMap() {
         }
     }
 
-            // Add a stop from input field, stopID
-    async function waypointHandler(directionsService, directionsDisplay, waypointOrder){
+    async function waypointHandler(event) {
         let newWaypoint = {
             location: document.getElementById('addWaypoint').value,
             stopover: true
         }
         local_waypoints.push(newWaypoint);
         await addRoute(directionsService, directionsDisplay, local_waypoints);
+        waypointHandler
+    }
+            // Add a stop from input field, stopID
+    async function waypointMaker(waypointOrder, waypoints){
 
         // ------- HTML STUFF STARTS HERE -------
         $('#listWaypoints').empty()
@@ -58,7 +61,7 @@ async function initMap() {
             console.log("line 273: " + waypointOrder[i]);
             let waypointNum = waypointOrder[i];
             console.log("line 275: " + waypointNum);
-            $('#listWaypoints').append(waypointCardAssembler(local_waypoints[waypointOrder[i]].location.query), waypointNum);
+            $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query), waypointNum);
         }
 
         // ---------- BACK END STUFF STARTS HERE -------------
@@ -71,7 +74,7 @@ async function initMap() {
         }
     }
 
-    async function deleteStopHandler(event, directionsService, directionsDisplay, local_waypoints) {
+    async function deleteWaypointHandler(event) {
         event.preventDefault();
         console.log(event);
         let current_card = event.currentTarget.parentElement.parentElement.parentElement;
@@ -80,7 +83,7 @@ async function initMap() {
         console.log("waypointNum: " + waypointNum);
         console.log("waypoints: " + local_waypoints);
         local_waypoints.splice(waypointNum, 1);
-        deleteWaypoint(directionsService, directionsDisplay, local_waypoints, waypointNum);
+        deleteWaypoint(waypointNum);
 
         let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: /* this needs to be the name of the stop (ie. "Dallas, TX, USA") */ "placeholder"  }, { headers: {'Access-Control-Allow-Origin': '*'}});
     }
@@ -90,7 +93,7 @@ async function initMap() {
     $('main').on('click', '#add', waypointHandler);
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#anotherAdd', attractionCardAddHandler);// wat dis is?
-    $('main').on('click', '#delete', deleteStopHandler)
+    $('main').on('click', '#delete', deleteWaypointHandler)
    
 
 
@@ -179,7 +182,7 @@ async function initMap() {
             if (status === 'OK') {
                 await directionsDisplay.setDirections(response);
                 window.scrollTo(0, 700);
-                waypointHandler(response.routes[0].waypoint_order, response.request.waypoints);
+                waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
             } else {
                 window.alert('Please enter an origin and destination, then click "Plan Route"');
             }
@@ -349,7 +352,7 @@ async function initMap() {
     //  console.log("reached")
     //  console.log(getStopsInStates(["Connecticut", "New York", "Pennsylvania", "Ohio"]))
 
-        async function deleteWaypoint(directionsService, directionsDisplay, local_waypoints) {
+        async function deleteWaypoint() {
 
             await directionsService.route({
                 origin: document.getElementById('start').value,
@@ -361,7 +364,7 @@ async function initMap() {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
-                    waypointHandler(response.routes[0].waypoint_order, response.request.waypoints);
+                    waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
