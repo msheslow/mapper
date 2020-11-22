@@ -6,6 +6,7 @@ const { exec } = require('child_process');
 const expressSession = require('express-session');
 const cors = require('cors');
 const bodyParser= require('body-parser');
+const { RSA_NO_PADDING } = require('constants');
 app.use(bodyParser.json());
 let port = process.env.PORT || 8080
 
@@ -61,7 +62,7 @@ app.get('/logout', (req, res) => {
 //returns JSON object with all trips for logged in user
 app.get('/tripids', async (req, res) => {
     if (req.session.username == undefined) {
-        console("username: "+req.session.username)
+        res.json({username: req.session.username})
         res.status(403).send("Unauthorized");
         return;
     }
