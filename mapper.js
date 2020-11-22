@@ -4,7 +4,7 @@
 async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
-    let waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
+    let local_waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
     
     let options = {
         zoom: 3,
@@ -17,22 +17,80 @@ async function initMap() {
 
     // eventHandler function for onsite action
     let planRouteHandler = async function() {
-        makeRoute(directionsService, directionsDisplay);
+     
     };
 
-    let waypointHandler = async function() {
+    async function createTripHandler(event){
+        event.preventDefault();
+        makeRoute(directionsService, directionsDisplay);
+        try {
+            let result= await axios.post('https://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
+            destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
+            console.log("Created a trip!");
+            console.log(result);
+            $('#originWaypoint').append(startCardAssembler($('#start').val()));
+            $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
+            /*
+            let result = getSitesinStates();
+            for (i=0; i<result.data.rows.length; i++) {
+                $('')
+            }
+            */
+        } catch {
+            // window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
+            console.log("Creating a trip Didn't work lol")
+        }
+    }
+
+            // Add a stop from input field, stopID
+    async function waypointHandler(directionsService, directionsDisplay, waypointOrder, local_waypoints){
         let newWaypoint = {
             location: document.getElementById('addWaypoint').value,
             stopover: true
         }
-        waypoints.push(newWaypoint);
-        addRoute(directionsService, directionsDisplay, waypoints);
-    };
+        local_waypoints.push(newWaypoint);
+        addRoute(directionsService, directionsDisplay, local_waypoints);
 
-   
-    
-    document.getElementById('generate-map').addEventListener('click', planRouteHandler);
-    document.getElementById('add').addEventListener('click', waypointHandler);
+        // ------- HTML STUFF STARTS HERE -------
+        $('#listWaypoints').empty()
+        for (i=0; i<waypointOrder.length; i++) {
+            // createStopHandler(response.routes[0].waypoint_order, response.request.waypoints);
+            console.log("line 273: " + waypointOrder[i]);
+            let waypointNum = waypointOrder[i];
+            console.log("line 275: " + waypointNum);
+            $('#listWaypoints').append(waypointCardAssembler(local_waypoints[waypointOrder[i]].location.query), waypointNum);
+        }
+
+        // ---------- BACK END STUFF STARTS HERE -------------
+        try {
+            let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
+            console.log("Created a stop!")
+           
+        } catch {
+            console.log("Adding a stop Didn't work lol")
+        }
+    }
+
+    async function deleteStopHandler(event, directionsService, directionsDisplay, local_waypoints) {
+        event.preventDefault();
+        console.log(event);
+        let current_card = event.currentTarget.parentElement.parentElement.parentElement;
+        console.log(current_card);
+        let waypointNum = current_card.id;
+        console.log("waypointNum: " + waypointNum);
+        console.log("waypoints: " + local_waypoints);
+        local_waypoints.splice(waypointNum, 1);
+        deleteWaypoint(directionsService, directionsDisplay, local_waypoints, waypointNum);
+
+        let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: /* this needs to be the name of the stop (ie. "Dallas, TX, USA") */ "placeholder"  }, { headers: {'Access-Control-Allow-Origin': '*'}});
+    }
+
+
+   // ---------- EVENT LISTENERS ---------------
+    $('main').on('click', '#add', waypointHandler);
+    $('main').on('click', '#generate-map', createTripHandler);
+    $('main').on('click', '#anotherAdd', attractionCardAddHandler);// wat dis is?
+    $('main').on('click', '#delete', deleteStopHandler)
    
 
 
@@ -110,18 +168,18 @@ async function initMap() {
         start();
     }
 
-    async function addRoute(directionsService, directionsDisplay, waypoints) {
+    async function addRoute(directionsService, directionsDisplay, local_waypoints) {
         await directionsService.route({
             origin: document.getElementById('start').value,
             destination: document.getElementById('end').value,
             travelMode: 'DRIVING',
-            waypoints: waypoints,
+            waypoints: local_waypoints,
             optimizeWaypoints: true,
         },async function(response, status) {
             if (status === 'OK') {
                 await directionsDisplay.setDirections(response);
                 window.scrollTo(0, 700);
-                createStopHandler(response.routes[0].waypoint_order, response.request.waypoints);
+                waypointHandler(response.routes[0].waypoint_order, response.request.waypoints);
             } else {
                 window.alert('Please enter an origin and destination, then click "Plan Route"');
             }
@@ -241,45 +299,12 @@ async function initMap() {
                             </div>`);
     }
         // Start trip, startLocation and destination
-    async function createTripHandler(event){
-        event.preventDefault();
-        try {
-            let result= await axios.post('https://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
-            destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log("Created a trip!");
-            console.log(result);
-            $('#originWaypoint').append(startCardAssembler($('#start').val()));
-            $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
-            /*
-            let result = getSitesinStates();
-            for (i=0; i<result.data.rows.length; i++) {
-                $('')
-            }
-            */
-        } catch {
-            // window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
-            console.log("Creating a trip Didn't work lol")
-        }
-        }
 
-        // Add a stop from input field, stopID
-        async function createStopHandler(waypointOrder, waypoints){
-        try {
-            let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log("Created a stop!")
-            $('#listWaypoints').empty()
-            for (i=0; i<waypointOrder.length; i++) {
-                // createStopHandler(response.routes[0].waypoint_order, response.request.waypoints);
-                console.log("line 273: " + waypointOrder[i]);
-                $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query), waypointOrder[i]);
-            }
-        } catch {
-            console.log("Adding a stop Didn't work lol")
-        }
-        }
+
+
 
         // Add a stop from suggested, stopID (this is not done)
-        async function anotherStopHandler(event){
+        async function attractionCardAddHandler(event){
         event.preventDefault();
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
@@ -289,28 +314,11 @@ async function initMap() {
         }
         }
 
-        async function deleteStopHandler(event, directionsService, directionsDisplay, waypoints) {
-            event.preventDefault();
-            // let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: /* this needs to be the name of the stop (ie. "Dallas, TX, USA") */ "placeholder"  }, { headers: {'Access-Control-Allow-Origin': '*'}});
-
-            console.log(event);
-            let current_card = event.currentTarget.parentElement.parentElement.parentElement;
-            console.log(current_card);
-            let waypointNum = current_card.id;
-            console.log("waypointNum: " + waypointNum);
-            console.log("waypoints: " + waypoints);
-            waypoints.splice(waypointNum, 1);
-            deleteStop(directionsService, directionsDisplay, waypoints, waypointNum);
-        }
 
     
 
 
 
-        $('main').on('click', '#generate-map', createTripHandler);
-        $('main').on('click', '#add', createStopHandler);
-        $('main').on('click', '#anotherAdd', anotherStopHandler);// wat dis is?
-        $('main').on('click', '#delete', deleteStopHandler)
     
         
         
@@ -341,19 +349,19 @@ async function initMap() {
     //  console.log("reached")
     //  console.log(getStopsInStates(["Connecticut", "New York", "Pennsylvania", "Ohio"]))
 
-        async function deleteStop(directionsService, directionsDisplay, waypoints) {
+        async function deleteWaypoint(directionsService, directionsDisplay, local_waypoints) {
 
             await directionsService.route({
                 origin: document.getElementById('start').value,
                 destination: document.getElementById('end').value,
                 travelMode: 'DRIVING',
-                waypoints: waypoints,
+                waypoints: local_waypoints,
                 optimizeWaypoints: true,
             },async function(response, status) {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
-                    createStopHandler(response.routes[0].waypoint_order, response.request.waypoints);
+                    waypointHandler(response.routes[0].waypoint_order, response.request.waypoints);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
