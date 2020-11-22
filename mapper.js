@@ -98,9 +98,14 @@ async function initMap() {
     $('main').on('input', '#addWaypoint', db_autocomplete);
    
 
+    function removeSuggestions(){
+        //will eventually close autocomplete suggestions
+    }
 
     // Sets the selected <input> html elements to become autocomplete objects
     async function db_autocomplete(event){
+        let a, b, i, val = this.value
+        console.log("a:"+a+" b:" +b+ " i:"+i+" val:"+val)
         let input_string = event.currentTarget.value;
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
