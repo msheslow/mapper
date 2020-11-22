@@ -4,7 +4,7 @@
 async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
-    let waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
+    let waypoints = ["Dallas", "Nashville"]; // THIS NEEDS TO BE PULLED FROM SERVER
     
     let options = {
         zoom: 3,
@@ -87,11 +87,12 @@ async function initMap() {
 }
 
 // makeRoute draws the route line between two locations on the map
-async function makeRoute(directionsService, directionsDisplay) {
+async function makeRoute(directionsService, directionsDisplay, waypoints) {
     await directionsService.route({
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
+        waypoints: waypoints,
         optimizeWaypoints: true
     },async function(response, status) {
         if (status === 'OK') {
@@ -107,6 +108,7 @@ async function makeRoute(directionsService, directionsDisplay) {
     }
     start();
 }
+
 
 async function addRoute(directionsService, directionsDisplay, waypoints) {
     await directionsService.route({
@@ -129,6 +131,7 @@ async function addRoute(directionsService, directionsDisplay, waypoints) {
     }
     start();
 }
+
 
 // Makes an array of all the states the route passes through (Adjust incrementation for price savings)
 async function stateTrav(directionsDisplay) {
