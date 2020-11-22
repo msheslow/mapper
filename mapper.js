@@ -6,7 +6,6 @@ async function initMap() {
     let directionsDisplay = await new google.maps.DirectionsRenderer;
     let local_waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
     
-    console.log(autocomplete("Ac"))
 
     let options = {
         zoom: 3,
@@ -101,9 +100,7 @@ async function initMap() {
     async function autocomplete(string){
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: string }, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log(result)
-            console.log(result.data.rows)
-            return result
+            return result.data.rows
            
         } catch {
             console.log("Autocomplete didnt work lol")
