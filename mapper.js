@@ -93,11 +93,12 @@ async function initMap() {
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#anotherAdd', attractionCardAddHandler);// wat dis is?
     $('main').on('click', '#delete', deleteWaypointHandler)
+    $('main').on('keypress', '#start', db_autocomplete);
    
 
 
     // Sets the selected <input> html elements to become autocomplete objects
-    async function autocomplete(string){
+    async function db_autocomplete(string){
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: string }, { headers: {'Access-Control-Allow-Origin': '*'}});
 <<<<<<< HEAD
