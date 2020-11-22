@@ -92,7 +92,6 @@ async function makeRoute(directionsService, directionsDisplay) {
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
-        optimizeWaypoints: true,
     },async function(response, status) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
@@ -114,7 +113,6 @@ async function addRoute(directionsService, directionsDisplay, waypoints) {
         destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
         waypoints: waypoints,
-        optimizeWaypoints: true,
     },async function(response, status) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
