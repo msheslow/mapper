@@ -111,17 +111,16 @@ async function initMap() {
     // Sets the selected <input> html elements to become autocomplete objects
     async function db_autocomplete(event){
         let a, b, i, val = this.value
-        console.log(this.value)
         if (!val){
             return false
         }
         
         let input_string = event.currentTarget.value;
-        let option = document.createElement("DIV")
-        option.setAttribute("class", "autocomplete-list")
-        option.setAttribute("id",this.id+"-autocomplete-response")
-        this.appendChild(option)
-        let result
+        let option = document.createElement("DIV");
+        option.setAttribute("class", "autocomplete-list");
+        option.setAttribute("id",this.id+"-autocomplete-response");   
+        console.log("line 122: " + this.id);
+        let result;
         try {
             result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log(result.data.rows);
@@ -130,9 +129,9 @@ async function initMap() {
         } catch {
             console.log("Autocomplete didnt work lol")
         }
-        let ans
         for (place of result){
-            option.append(`<div class="waypointCard box" style="background-color: #CCFFCC; margin-bottom: 10px;">
+            console.log("line 133: " + place);
+            option.append(`<div class="waypointCard box" style="background-color: #CCFFCC; margin-bottom: 5px;">
             <div class="columns">
                 <div class="column is-four-fifths">
                     <span style="font-size: 20px; color: black;">${place}</span>
@@ -142,6 +141,8 @@ async function initMap() {
             </div>
         </div>`)
         }
+        this.appendChild(option);
+        console.log("line 145: " + option);
     }
 
     /*
