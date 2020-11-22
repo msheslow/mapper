@@ -28,9 +28,21 @@ async function initMap() {
         waypoints.push(newWaypoint);
         addRoute(directionsService, directionsDisplay, waypoints);
     };
+
+    async function deleteStopHandler(event) {
+        event.preventDefault();
+        let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: /* this needs to be the name of the stop (ie. "Dallas, TX, USA") */ "placeholder"  }, { headers: {'Access-Control-Allow-Origin': '*'}});
+
+        console.log(event);
+        let current_card = event.currentTarget.parentElement.parentElement.parentElement;
+        let waypointNum = current_card.id;
+        waypoints.splice(waypointNum, 1);
+        removeStop(directionsService, directionsDisplay, waypoints, waypointNum);
+    }
     
     document.getElementById('generate-map').addEventListener('click', planRouteHandler);
     document.getElementById('add').addEventListener('click', waypointHandler);
+    document.getElementById('delete').addEventListener('click', deleteStopHandler);
 
 
     // Sets the selected <input> html elements to become autocomplete objects
@@ -119,7 +131,30 @@ async function addRoute(directionsService, directionsDisplay, waypoints) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
             window.scrollTo(0, 700);
-            console.log(response);
+            createStopHandler(response.routes[0].waypoint_order, response.request.waypoints);
+        } else {
+            window.alert('Please enter an origin and destination, then click "Plan Route"');
+        }
+    });
+
+    async function start() {
+        window.setTimeout(stateTrav,1000, directionsDisplay);
+    }
+    start();
+}
+
+async function removeStop(directionsService, directionsDisplay, waypoints, waypointNum) {
+
+    await directionsService.route({
+        origin: document.getElementById('start').value,
+        destination: document.getElementById('end').value,
+        travelMode: 'DRIVING',
+        waypoints: waypoints,
+        optimizeWaypoints: true,
+    },async function(response, status) {
+        if (status === 'OK') {
+            await directionsDisplay.setDirections(response);
+            window.scrollTo(0, 700);
             createStopHandler(response.routes[0].waypoint_order, response.request.waypoints);
         } else {
             window.alert('Please enter an origin and destination, then click "Plan Route"');
@@ -145,9 +180,7 @@ async function stateTrav(directionsDisplay) {
             states.push(state);
         }
     }
-
-    console.log(states);
-    return states;
+        return states;
 }
 
 //Eventually, this function needs to take in the array of states passed through and make a call to the backend to find stops in states (in order to build the cards for each site)
@@ -217,7 +250,7 @@ function startCardAssembler(waypoint){
 }
 
     function waypointCardAssembler(waypoint, waypointNum){
-    return (`<div class="waypointCard box" style="background-color: #ECECEC; margin-bottom: 10px;">
+    return (`<div class="waypointCard box" id-"${waypointNum}"style="background-color: #ECECEC; margin-bottom: 10px;">
                                 <div class="columns">
                                     <div class="column is-four-fifths">
                                         <span style="font-size: 20px; color: black;">${waypoint}</span>
@@ -286,20 +319,14 @@ function sitesCardAssembler(site) {
     }
     }
 
-    async function deleteStopHandler(event) {
-        event.preventDefault();
-        let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: /* this needs to be the name of the stop (ie. "Dallas, TX, USA") */ "placeholder"  }, { headers: {'Access-Control-Allow-Origin': '*'}});
-
-        console.log(event);
-
-    }
+  
 
 
 
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#add', createStopHandler);
     $('main').on('click', '#anotherAdd', anotherStopHandler);// wat dis is?
-    $('#listWaypoints').on('click', '#delete', deleteStopHandler);
+   
     
     
 
