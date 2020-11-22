@@ -172,7 +172,6 @@ async function revGeocode(LAT, LNG) {
         let response = await axios.get(url);
         let data = response.data.results[0].address_components;
         let state_name;
-        console.log(data);
         data.forEach(data => {
             if (data.types.includes("administrative_area_level_1")) {
                 state_name = data.long_name;
