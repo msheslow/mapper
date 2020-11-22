@@ -21,6 +21,20 @@ async function initMap() {
      
     };
 
+    // ---------- EVENT LISTENERS ---------------
+    $('main').on('click', '#add', waypointHandler);
+    $('main').on('click', '#generate-map', createTripHandler);
+    $('main').on('click', '#anotherAdd', attractionCardAddHandler);// wat dis is?
+    $('main').on('click', '#delete', deleteWaypointHandler)
+    $('main').on('input', '#start', db_autocomplete);
+    $('main').on('input', '#end', db_autocomplete);
+    $('main').on('input', '#addWaypoint', db_autocomplete);
+    $('main').on('click', '#start-column', autocomplete_click_handler);
+
+    async function autocomplete_click_handler(event) {
+        
+    }
+
     async function createTripHandler(event){
         event.preventDefault();
         makeRoute(directionsService, directionsDisplay);
@@ -108,14 +122,7 @@ async function initMap() {
     }
 
 
-   // ---------- EVENT LISTENERS ---------------
-    $('main').on('click', '#add', waypointHandler);
-    $('main').on('click', '#generate-map', createTripHandler);
-    $('main').on('click', '#anotherAdd', attractionCardAddHandler);// wat dis is?
-    $('main').on('click', '#delete', deleteWaypointHandler)
-    $('main').on('input', '#start', db_autocomplete);
-    $('main').on('input', '#end', db_autocomplete);
-    $('main').on('input', '#addWaypoint', db_autocomplete);
+
    
 
     function removeSuggestions(){

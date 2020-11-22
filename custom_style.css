@@ -122,4 +122,5 @@
     grid-auto-columns: max-content;
     border-bottom: 3px;
     border-color: darkgreen;
+    z-index: 2;
 }
