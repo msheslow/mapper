@@ -218,6 +218,8 @@ async function initMap() {
     }
 
     function waypointCardAssembler(waypoint, waypointNum){
+        console.log("waypointNum: " + waypointNum);
+        console.log('waypoint: ' + waypoint);
         return (`<div class="waypointCard box" id="${waypointNum}" style="background-color: #ECECEC; margin-bottom: 10px;">
                                     <div class="columns">
                                         <div class="column is-four-fifths">
@@ -295,7 +297,7 @@ async function initMap() {
             console.log(current_card);
             let waypointNum = current_card.id;
             console.log("waypointNum: " + waypointNum);
-            console.log("waypoints: " + waypoints)
+            console.log("waypoints: " + waypoints);
             waypoints.splice(waypointNum, 1);
             deleteStop(directionsService, directionsDisplay, waypoints, waypointNum);
         }
