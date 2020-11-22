@@ -4,7 +4,7 @@
 async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
-    let waypoints = [{optimize:true}]; // THIS NEEDS TO BE PULLED FROM SERVER
+    let waypoints = [optimize=true]; // THIS NEEDS TO BE PULLED FROM SERVER
     
     let options = {
         zoom: 3,
