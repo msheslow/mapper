@@ -124,3 +124,9 @@
     border-color: darkgreen;
     z-index: 2;
 }
+
+.autocomplete-box {
+    border-width: 2px;
+    border-color: black;
+    padding: 5%;
+}
