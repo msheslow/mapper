@@ -80,8 +80,8 @@
                     console.log("Adding a stop Didn't work lol")
                 }
             }
-
-            getStopsInStates(["Connecticut", "New York", "Pennsylvania", "Ohio"])
+            console.log("reached")
+            console.log(getStopsInStates(["Connecticut", "New York", "Pennsylvania", "Ohio"]))
 
         async function loadTrips() {
             let result= await axios.get('https://mapper-project.herokuapp.com/tripids', { headers: {'Access-Control-Allow-Origin': '*'}});
