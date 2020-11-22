@@ -167,7 +167,7 @@ async function initMap() {
         });
 
         async function start() {
-            window.setTimeout(stateTrav,1000, directionsDisplay);
+            window.setTimeout(stateTrav,100, directionsDisplay);
         }
         start();
     }
@@ -190,7 +190,7 @@ async function initMap() {
         });
 
         async function start() {
-            window.setTimeout(stateTrav,1000, directionsDisplay);
+            window.setTimeout(stateTrav,100, directionsDisplay);
         }
         start();
     }
