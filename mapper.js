@@ -4,7 +4,6 @@
 async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
-    let waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
     
     let options = {
         zoom: 3,
@@ -21,12 +20,7 @@ async function initMap() {
     };
 
     let waypointHandler = async function() {
-        let newWaypoint = {
-            location: document.getElementById('addWaypoint').value,
-            stopover: false
-        }
-        waypoints.push(newWaypoint);
-        addRoute(directionsService, directionsDisplay, waypoints);
+        addRoute(directionsService, directionsDisplay);
     };
     
     document.getElementById('generate-map').addEventListener('click', planRouteHandler);
@@ -107,13 +101,20 @@ async function makeRoute(directionsService, directionsDisplay) {
     start();
 }
 
+let waypoints = [];
 
-async function addRoute(directionsService, directionsDisplay, waypoints) {
+async function addRoute(directionsService, directionsDisplay) {
+    let autism_waypoints = [];
+    autism_waypoints = waypoints.clone();
+    let newWaypoint = {
+        location: document.getElementById('addWaypoint').value,
+        stopover: false
+    }
     await directionsService.route({
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
-        waypoints: waypoints,
+        waypoints: autism_waypoints.push(newWaypoint),
         optimizeWaypoints: false
     },async function(response, status) {
         if (status === 'OK') {
@@ -128,6 +129,8 @@ async function addRoute(directionsService, directionsDisplay, waypoints) {
         window.setTimeout(stateTrav,1000, directionsDisplay);
     }
     start();
+
+    waypoints = autism_waypoints;
 }
 
 
