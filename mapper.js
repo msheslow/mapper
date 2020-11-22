@@ -49,22 +49,19 @@ async function initMap() {
         }
         local_waypoints.push(newWaypoint);
         await addRoute(directionsService, directionsDisplay, local_waypoints);
-        waypointHandler
     }
-            // Add a stop from input field, stopID
-    async function waypointMaker(waypointOrder, waypoints){
 
-        // ------- HTML STUFF STARTS HERE -------
+    // -------------- POPULATES THE WAYPOINT PART OF THE HTML WITH WAYPOINT CARDS ---------------
+    async function waypointMaker(waypointOrder, waypoints){
+        // ------- HTML stuff starts here -------
         $('#listWaypoints').empty()
         for (i=0; i<waypointOrder.length; i++) {
-            // createStopHandler(response.routes[0].waypoint_order, response.request.waypoints);
             console.log("line 273: " + waypointOrder[i]);
             let waypointNum = waypointOrder[i];
             console.log("line 275: " + waypointNum);
             $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query), waypointNum);
         }
-
-        // ---------- BACK END STUFF STARTS HERE -------------
+        // ---------- Back end stuff start here -------------
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log("Created a stop!")
