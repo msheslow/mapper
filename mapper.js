@@ -43,13 +43,13 @@ async function initMap() {
     }
 
             // Add a stop from input field, stopID
-    async function waypointHandler(directionsService, directionsDisplay, waypointOrder, local_waypoints){
+    async function waypointHandler(directionsService, directionsDisplay, waypointOrder){
         let newWaypoint = {
             location: document.getElementById('addWaypoint').value,
             stopover: true
         }
         local_waypoints.push(newWaypoint);
-        addRoute(directionsService, directionsDisplay, local_waypoints);
+        await addRoute(directionsService, directionsDisplay, local_waypoints);
 
         // ------- HTML STUFF STARTS HERE -------
         $('#listWaypoints').empty()
