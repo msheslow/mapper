@@ -32,8 +32,8 @@ async function initMap() {
     $('main').on('click', '.autocomplete-box', autocomplete_click_handler);
 
     async function autocomplete_click_handler(event) {
-        console.log(this.childElement.childElement.childElement.value);
-        console.log(event);
+        /// console.log(this.childElement.childElement.childElement.value);
+        console.log(event.currentTarget);
     }
 
     async function createTripHandler(event){
