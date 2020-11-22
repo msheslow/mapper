@@ -33,8 +33,7 @@ async function initMap() {
 
     async function autocomplete_click_handler(event) {
         // console.log(this.childElement.childElement.childElement.value);
-        console.log(event);
-        console.log(event.currentTarget.firstChild.nextSibling.innerText);
+        console.log(event.currentTarget);
     }
 
     async function createTripHandler(event){
@@ -153,7 +152,7 @@ async function initMap() {
 
         for (place of result){
             console.log(place.Name + ", " + place.State);
-            $('#start-column').append(`<div class="autocomplete-box" style="background-color: #CCFFCC; margin-bottom: 5px;">
+            $('#start-column').append(`<div class="autocomplete-box">
             <div>
             <span style="font-size: 10px; color: black;">${place.Name + ", " + place.State}</span>
             </div>
