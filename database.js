@@ -62,8 +62,8 @@ app.get('/logout', (req, res) => {
 //returns JSON object with all trips for logged in user
 app.get('/tripids', async (req, res) => {
     if (req.session.username == undefined) {
-        res.json({username: req.session.username})
-        res.status(403).send("Unauthorized");
+        res.send(req.session.username)
+        // res.status(403).send("Unauthorized");
         return;
     }
     let result = await getUsersTripNumbers(req.session.username)
