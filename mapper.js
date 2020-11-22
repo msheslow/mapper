@@ -119,7 +119,7 @@ async function addRoute(directionsService, directionsDisplay, waypoints) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
             window.scrollTo(0, 700);
-            console.log(response.waypoint_order);
+            console.log(response);
         } else {
             window.alert('Please enter an origin and destination, then click "Plan Route"');
         }
