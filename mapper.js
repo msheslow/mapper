@@ -149,7 +149,7 @@ async function stateTrav(directionsDisplay) {
     return states;
 }
 
-export async function getSitesinStates() {
+async function getSitesinStates() {
     try {
         let result= await axios.post('http://mapper-project.herokuapp.com/stopsinstates', { states: stateTrav(directionsDisplay) }, { headers: {'Access-Control-Allow-Origin': '*'}});
         console.log("result of states axios");
