@@ -98,7 +98,8 @@ async function initMap() {
 
 
     // Sets the selected <input> html elements to become autocomplete objects
-    async function db_autocomplete(string){
+    async function db_autocomplete(event){
+        console.log(event.currentTarget.val());
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: string }, { headers: {'Access-Control-Allow-Origin': '*'}});
             // result = Array(Objects{Name, State, Lat, Lng})
