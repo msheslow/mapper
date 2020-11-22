@@ -127,6 +127,7 @@ async function initMap() {
         let input_string = event.currentTarget.value; 
 
         if (!input_string) {
+            $('#start-column').empty();
             return false;
         }
 
@@ -139,6 +140,8 @@ async function initMap() {
         } catch {
             console.log("Autocomplete didnt work lol")
         }
+        $('#start-column').empty();
+
         for (place of result){
             console.log(place.Name + ", " + place.State);
             $('#start-column').append(`<div class="waypointCard box" style="background-color: #CCFFCC; margin-bottom: 5px;">
@@ -195,7 +198,7 @@ async function initMap() {
         let marker = await new google.maps.Marker({
             position: properties.coordinates,
             map: map
-        });
+        });d
 
 
         if (properties.content) {
