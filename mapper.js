@@ -114,7 +114,7 @@ async function addRoute(directionsService, directionsDisplay, waypoints) {
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
-        waypoints: autism_waypoints.push(newWaypoint),
+        waypoints: waypoints.push(newWaypoint),
         optimizeWaypoints: false
     },async function(response, status) {
         if (status === 'OK') {
