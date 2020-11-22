@@ -152,7 +152,7 @@ async function initMap() {
             </div>
         </div>`)
         }
-        this.appendChild(option);
+        this.append(option);
         console.log(option);
     }
 
