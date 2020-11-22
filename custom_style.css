@@ -124,12 +124,13 @@
     border-color: darkgreen;
     z-index: 2;
     position: absolute;
-    width: 100px;
+    width: 20%;
 }
 
 .autocomplete-box {
+    padding-left: 1px;
+    background-color: white;
     max-height: 1.5%;
     text-align: left;
-    width: relative;
     cursor: pointer;
 }
