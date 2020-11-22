@@ -141,11 +141,11 @@ async function initMap() {
             console.log("Autocomplete didnt work lol")
         }
         for (place of result){
-            console.log(place.name);
+            console.log(place.Name + ", " + place.State);
             option.append(`<div class="waypointCard box" style="background-color: #CCFFCC; margin-bottom: 5px;">
             <div class="columns">
                 <div class="column is-four-fifths">
-                    <span style="font-size: 20px; color: black;">${place}</span>
+                    <span style="font-size: 20px; color: black;">${place.Name + ", " + place.State}</span>
                 </div>
                 <div class="column" style="text-align: right;">
                 </div>
