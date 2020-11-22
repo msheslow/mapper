@@ -306,7 +306,7 @@ function sitesCardAssembler(site) {
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#add', createStopHandler);
     $('main').on('click', '#anotherAdd', anotherStopHandler);// wat dis is?
-    $('main').on('click', '#delete', remove)
+    $('main').on('click', '#delete', removeStop)
    
     
     
