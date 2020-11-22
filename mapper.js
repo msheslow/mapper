@@ -144,10 +144,10 @@ async function initMap() {
 
         for (place of result){
             console.log(place.Name + ", " + place.State);
-            $('#start-column').append(`<div class="waypointCard box" style="background-color: #CCFFCC; margin-bottom: 5px;">
+            $('#start-column').append(`<div class="waypointCard box" style="background-color: #CCFFCC; margin-bottom: 5px; width: 100%">
             <div class="columns">
                 <div class="column is-four-fifths">
-                    <span style="font-size: 20px; color: black;">${place.Name + ", " + place.State}</span>
+                    <span style="font-size: 10px; color: black;">${place.Name + ", " + place.State}</span>
                 </div>
                 <div class="column" style="text-align: right;">
                 </div>
