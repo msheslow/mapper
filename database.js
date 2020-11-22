@@ -17,29 +17,7 @@ app.use(expressSession({
     saveUninitialized: false
 }));
 
-/*
-    Purpose:
-        Logs the user in using a session variable (cookie). The user must be logged in to get trips, trip stops, or edit any data 
-    Endpoint:
-        POST  https://comp426-1fa20.cs.unc.edu/a09/tweets
-    Request Params:
-        skip (integer) - Optional. If omitted, defaults to 0. Used for pagination.
-                        Specifies the number of Tweets to skip before seleting
-                        Tweets to retrieve.
-        limit (integer) - Optional. If omitted, defaults to 50. Used for pagination.
-                        Specifies the number of Tweets to retrieve. Must be in
-                        the range [1, 75].
-        sort (json) - Optional. Specifies the order of the Tweets to retrieve. Must
-                    be a Tweet field name followed by "ASC" or "DESC" to denote
-                    ascending or descending, respectively. If omitted, defaults
-                    to [{createdAt: 'DESC'}] which selects newest Tweets first.
-        where (json) - Optional. Specifies a filter to apply to the Tweets before
-                    retrievial. If omitted, defaults to
-                    {type: ['tweet', 'retweet']}, which selects only Tweets with
-                    type "tweet" and "retweet" (not "reply" Tweets). 
-    Response:
-        Responds with an array in JSON format containing the selected Tweets.
-*/
+
 app.post('/login', async (req, res) => {
     let user = req.body.user
     let password = req.body.password
