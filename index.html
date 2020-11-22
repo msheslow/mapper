@@ -162,6 +162,7 @@
                 console.log("Created a trip!")
                 $('#originWaypoint').append(startCardAssembler($('#start').val()));
                 $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
+                getSitesinStates();
             } catch {
                 console.log("Didn't work lol")
             }

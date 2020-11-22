@@ -91,7 +91,8 @@ async function makeRoute(directionsService, directionsDisplay) {
     await directionsService.route({
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
-        travelMode: 'DRIVING'
+        travelMode: 'DRIVING',
+        optimizeWaypoints: true
     },async function(response, status) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
