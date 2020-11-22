@@ -116,7 +116,6 @@ async function initMap() {
         document.getElementById('addWaypoint'),
         {
             types: [
-                '(regions)',
                 'geocode',
                 'establishment'
             ],
