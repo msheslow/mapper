@@ -4,7 +4,7 @@
 async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
-    let waypoints = [true]; // THIS NEEDS TO BE PULLED FROM SERVER
+    let waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
     
     let options = {
         zoom: 3,
@@ -112,7 +112,8 @@ async function addRoute(directionsService, directionsDisplay, waypoints) {
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
-        waypoints: waypoints
+        waypoints: waypoints,
+        optimizeWaypoints: true
     },async function(response, status) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
@@ -144,7 +145,18 @@ async function stateTrav(directionsDisplay) {
     }
 
     console.log(states);
-    return;
+    return states;
+}
+
+export async function getSitesinStates() {
+    try {
+        let result= await axios.post('http://mapper-project.herokuapp.com/stopsinstates', { states: stateTrav(directionsDisplay) }, { headers: {'Access-Control-Allow-Origin': '*'}});
+        console.log("result of states axios");
+        console.log(result);
+        return result;
+    } catch {
+        console.log("get sites in states didn't work");
+    }
 }
 
 // asks google geocode API which state the LatLng falls within
