@@ -210,6 +210,7 @@ async function initMap() {
                 states.push(state);
             }
         }
+            getStopsInStates(states);
             return states;
     }
 
@@ -314,6 +315,7 @@ async function initMap() {
             return (`<div class="box">
                         <span style="font-size: 30px;"><b>${attraction.Name}</b></span>
                         <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
+                        <span style="color: gray; font-size:14px;">${attraction.Type}</span>
                         <span style="color: gray; font-size: 14px; font-weight: normal;">${attraction.Description}</span>
                     </div>`)
         }
@@ -330,10 +332,10 @@ async function initMap() {
                 if (i=result.rows.length) {
                     return
                 } else { $('#attractionsTwo').attractionsCardAssembler(result.rows[i]);}
-                if (i=1>result.rows.length) {
+                if (i+1>result.rows.length) {
                     return
                 } else { $('#attractionsThree').attractionsCardAssembler(result.rows[i+1]);}
-                if (i=2>result.rows.length) {
+                if (i+2>result.rows.length) {
                     return;
                 } else { $('#attractionsOne').attractionsCardAssembler(result.rows[i+2]);}
             }
