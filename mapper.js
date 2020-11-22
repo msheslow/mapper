@@ -79,12 +79,18 @@ async function initMap() {
         let current_card = event.currentTarget.parentElement.parentElement.parentElement;
         console.log(current_card);
         let waypointNum = current_card.id;
+        let waypointName= current_card.name;
         console.log("waypointNum: " + waypointNum);
         console.log("waypoints: " + local_waypoints);
         local_waypoints.splice(waypointNum, 1);
         deleteWaypoint(waypointNum);
 
-        let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: /* this needs to be the name of the stop (ie. "Dallas, TX, USA") */ "placeholder"  }, { headers: {'Access-Control-Allow-Origin': '*'}});
+        try{
+        let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: waypointName }, { headers: {'Access-Control-Allow-Origin': '*'}});
+            console.log("deleting a waypoint from the backend worked!")
+        } catch {
+            console.log("deleting a waypoint from the backend didn't work")
+        }
     }
 
 
@@ -299,7 +305,7 @@ async function initMap() {
     function waypointCardAssembler(waypoint, waypointNum){
         console.log("waypointNum: " + waypointNum);
         console.log('waypoint: ' + waypoint);
-        return (`<div class="waypointCard box" id="${waypointNum}" style="background-color: #ECECEC; margin-bottom: 10px;">
+        return (`<div class="waypointCard box" id="${waypointNum}" name="${waypoint}" style="background-color: #ECECEC; margin-bottom: 10px;">
                                     <div class="columns">
                                         <div class="column is-four-fifths">
                                             <span style="font-size: 20px; color: black;">${waypoint}</span>
