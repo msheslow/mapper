@@ -100,13 +100,10 @@ async function initMap() {
     async function autocomplete(string){
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: string }, { headers: {'Access-Control-Allow-Origin': '*'}});
-<<<<<<< HEAD
             // result = Array(Objects{Name, State, Lat, Lng})
             console.log(result)
             console.log(result.data.rows)
             return result
-=======
->>>>>>> 304ffc9118f9d409a7faea3aeac617a28158b12f
             return result.data.rows
            
         } catch {
