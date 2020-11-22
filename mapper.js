@@ -145,7 +145,17 @@ async function stateTrav(directionsDisplay) {
     }
 
     console.log(states);
-    return;
+    return states;
+}
+
+export async function getSitesinStates() {
+    try {
+        let result= await axios.post('http://mapper-project.herokuapp.com/stopsinstates', { states: stateTrav(directionsDisplay) }, { headers: {'Access-Control-Allow-Origin': '*'}});
+        console.log("result of states axios");
+        console.log(result);
+    } catch {
+        console.log("get sites in states didn't work")
+    }
 }
 
 // asks google geocode API which state the LatLng falls within
