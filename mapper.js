@@ -330,13 +330,13 @@ async function initMap() {
                         <div>
                             <div class="columns">
                                 <div class="column is-10">
-                                    <span style="font-size: 30px;"><b>${attraction.Name}</b></span>
+                                    <span style="font-size: 30px;"><b>${attraction.Name}</b></span><br>
+                                    <span style="color: black; font-size:14px;"><b>${attraction.Type}</b></span>
                                 </div>
                             <div class="column">
                                     <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
                             </div>
                         </div>
-                        <span style="color: gray; font-size:14px;">${attraction.Type}</span><br>
                         <span style="color: gray; font-size: 14px; font-weight: normal;">${attraction.Description}</span>
                     </div>`)
         }
