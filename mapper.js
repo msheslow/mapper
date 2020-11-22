@@ -103,7 +103,7 @@ async function makeRoute(directionsService, directionsDisplay) {
 
 let waypoints = [];
 
-async function addRoute(directionsService, directionsDisplay) {
+async function addRoute(directionsService, directionsDisplay, waypoints) {
     let autism_waypoints = [];
     autism_waypoints = waypoints;
     let newWaypoint = {
