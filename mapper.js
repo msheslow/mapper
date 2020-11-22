@@ -29,10 +29,10 @@ async function initMap() {
     $('main').on('input', '#start', db_autocomplete);
     $('main').on('input', '#end', db_autocomplete);
     $('main').on('input', '#addWaypoint', db_autocomplete);
-    $('main').on('click', '#start-column', autocomplete_click_handler);
+    $('main').on('click', '.autocomplete-box', autocomplete_click_handler);
 
     async function autocomplete_click_handler(event) {
-        
+        console.log(this);
     }
 
     async function createTripHandler(event){
