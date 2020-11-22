@@ -222,7 +222,7 @@ async function getSitesInStates(states){
         sql = sql+`
         SELECT * 
         FROM citiesAndSites
-        WHERE State LIKE "${state}"
+        WHERE State LIKE "${state}" AND Type <> "City/Town"
         ORDER BY  Weight DESC
         LIMIT 100
         UNION
@@ -259,6 +259,7 @@ async function createTrip(username, startLocation, endLocation){
 // Creates stops on trip that can be matched by ID to respective trip
 async function addTripStop(tripID, stopID){
     let sqlStopCommand = `INSERT INTO stops VALUES ("${stopID}", "${tripID}")`
+    await searchWrapper(`UPDATE citiesAndSites Set Weight = Weight+1 WHERE Name = "${stopID}"`)
     return await searchWrapper(sqlStopCommand)
 }
 
