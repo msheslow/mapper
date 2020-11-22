@@ -135,7 +135,7 @@ async function initMap() {
         let result;
         try {
             result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log(result.data.rows);
+            console.log("result: " + result.data.rows);
             result = result.data.rows
            
         } catch {
