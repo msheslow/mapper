@@ -300,14 +300,16 @@ async function getTripDetails(tripID, username){
     if (tripOwner.rows[0].username != username){
         return -1
     }
-    let tripRequestSQL = `SELECT T.startLocation, T.endLocation, S.stopID 
-                          FROM stops S, trips T 
-                          WHERE T.rowid = "${tripID}" 
-                          AND T.rowid = S.tripID`
-    let result =await searchWrapper(tripRequestSQL)
-    if (result == {rows:[]}){
-
-    }
+    let endpointRequestSQL = `SELECT startLocation, endLocation
+                              FROM trips
+                              WHERE rowid="${tripID}"`
+    let endpoints = await searchWrapper(endpointRequestSQL)
+    let stopRequestSQL = `SELECT stopID 
+                          FROM stops 
+                          WHERE tripID = "${tripID}"`
+    let stops = await searchWrapper(stopRequestSQL)
+    let result =[endpoints, stops]
+    return result
 }
 
 //checks if login details are valid
