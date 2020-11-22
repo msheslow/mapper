@@ -149,6 +149,8 @@ async function stateTrav(directionsDisplay) {
     return states;
 }
 
+//Eventually, this function needs to take in the array of states passed through and make a call to the backend to find stops in states (in order to build the cards for each site)
+/* 
 async function getSitesinStates() {
     try {
         let result= await axios.post('http://mapper-project.herokuapp.com/stopsinstates', { states: stateTrav(directionsDisplay) }, { headers: {'Access-Control-Allow-Origin': '*'}});
@@ -159,6 +161,7 @@ async function getSitesinStates() {
         console.log("get sites in states didn't work");
     }
 }
+*/
 
 // asks google geocode API which state the LatLng falls within
 async function revGeocode(LAT, LNG) {
