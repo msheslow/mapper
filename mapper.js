@@ -119,6 +119,7 @@ async function addRoute(directionsService, directionsDisplay, waypoints) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
             window.scrollTo(0, 700);
+            console.log(response.waypoint_order);
         } else {
             window.alert('Please enter an origin and destination, then click "Plan Route"');
         }
@@ -135,10 +136,11 @@ async function stateTrav(directionsDisplay) {
     let states = [];
     let step_length = directionsDisplay.directions.routes[0].overview_path.length;
 
-    for (let i = 0; i < step_length - 5; i = i + 5) {
+    for (let i = 0; i < step_length; i = i + 5) {
         let LAT = directionsDisplay.directions.routes[0].overview_path[i].lat();
         let LNG = directionsDisplay.directions.routes[0].overview_path[i].lng();
         let state = await getState(LAT, LNG);
+        console.log(state);
         if (!states.includes(state)) {
             states.push(state);
         }
