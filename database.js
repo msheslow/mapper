@@ -228,7 +228,6 @@ async function createTrip(username, startLocation, endLocation){
     let sqlTrip = `SELECT * from trips WHERE username = "${username}" AND startLocation = "${startLocation}" AND endLocation = "${endLocation}"`
     //Checks if user is already in database, if not adds user
     let res = await searchWrapper(sqlTrip)
-    console.log(res)
     if (res.rows[0] != undefined) {
         return "Trip Exists"
     } 
@@ -251,8 +250,9 @@ async function addTripStop(tripID, stopID){
 
 //returns all of a user's saved trip numbers
 async function getUsersTripNumbers(username){
-    let getTripIDsSQL = `SELECT DISTINCT T.rowid as tripID FROM stops S, trips T, users U WHERE U.username = "${username}" AND U.username = T.username AND T.rowid = S.tripID`
-    let resu = await searchWrapper(getTripIDsSQL)
+    // let getTripIDsSQL = `SELECT DISTINCT T.rowid as tripID FROM stops S, trips T, users U WHERE U.username = "${username}" AND U.username = T.username AND T.rowid = S.tripID`
+    // console.log(getTripIDsSQL)
+    let resu = await searchWrapper(`SELECT rowid FROM trips WHERE username="${username}"`)
     return resu
 }
 
@@ -309,15 +309,15 @@ function closeDB(){
 
 // //writeSearch(route)
 // async function test(){
-//     // await createTrip("arisf", "Houston", "Denver")
-//     //console.log(await searchWrapper(`INSERT INTO trips (username, startLocation, endLocation) VALUES ("arisf", "Houston", "Dallas")`))
-//     console.log(await searchWrapper(`SELECT * FROM trips`))
+    // await createTrip("arisf", "Houston", "Denver")
+    //console.log(await searchWrapper(`INSERT INTO trips (username, startLocation, endLocation) VALUES ("arisf", "Houston", "Dallas")`))
+    // console.log(await getUsersTripNumbers("arisf"))
 // }
-//test()
+// test()
 // addUser("arisf", "arispassword")
 // createTrip("arisf", "Wake Forest", "Sedona, AZ")
 // addTripStop(1,"Great Sand Dunes National Park")
-// getUsersTripNumbers("arisf")
+// console.log(await getUsersTripNumbers("arisf"))
 // addUser("asd", "arisotherpassowrd")
 // getTripDetails(1)
 // removeTripStop(2, "Black Canyon of the Gunnison")
