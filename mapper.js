@@ -167,9 +167,11 @@ async function initMap() {
         });
 
         async function start() {
-            window.setTimeout(stateTrav,500, directionsDisplay);
+            return await stateTrav(directionsDisplay);
+            
         }
-        start();
+        let statesArray= start();
+        getStopsInStates(statesArray);
     }
 
     async function addRoute(directionsService, directionsDisplay, local_waypoints) {
@@ -210,7 +212,6 @@ async function initMap() {
                 states.push(state);
             }
         }
-            getStopsInStates(states);
             return states;
     }
 
