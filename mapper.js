@@ -1,10 +1,10 @@
 // Google Maps mapping script
-let directionsService = await new google.maps.DirectionsService;
-let directionsDisplay = await new google.maps.DirectionsRenderer;
-let waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
+
 // This initMap function builds the map. initMap() is set as the callback for the google maps API request.
 async function initMap() {
-
+    let directionsService = await new google.maps.DirectionsService;
+    let directionsDisplay = await new google.maps.DirectionsRenderer;
+    let waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
     
     let options = {
         zoom: 3,
