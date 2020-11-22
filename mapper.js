@@ -286,7 +286,7 @@ async function initMap() {
         }
         }
 
-        async function deleteStopHandler(event) {
+        async function deleteStopHandler(event, directionsService, directionsDisplay, waypoints) {
             event.preventDefault();
             let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: /* this needs to be the name of the stop (ie. "Dallas, TX, USA") */ "placeholder"  }, { headers: {'Access-Control-Allow-Origin': '*'}});
 
@@ -304,7 +304,7 @@ async function initMap() {
         $('main').on('click', '#generate-map', createTripHandler);
         $('main').on('click', '#add', createStopHandler);
         $('main').on('click', '#anotherAdd', anotherStopHandler);// wat dis is?
-        $('main').on('click', '#delete', removeStop)
+        $('main').on('click', '#delete', deleteStopHandler)
     
         
         
