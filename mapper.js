@@ -293,6 +293,7 @@ async function initMap() {
             console.log(event);
             let current_card = event.currentTarget.parentElement.parentElement.parentElement;
             let waypointNum = current_card.id;
+            console.log(waypointNum);
             waypoints.splice(waypointNum, 1);
             removeStop(directionsService, directionsDisplay, waypoints, waypointNum);
         }
@@ -335,7 +336,7 @@ async function initMap() {
     //  console.log("reached")
     //  console.log(getStopsInStates(["Connecticut", "New York", "Pennsylvania", "Ohio"]))
 
-        async function removeStop(directionsService, directionsDisplay, waypoints, waypointNum) {
+        async function removeStop(directionsService, directionsDisplay, waypoints) {
 
             await directionsService.route({
                 origin: document.getElementById('start').value,
