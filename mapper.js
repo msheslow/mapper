@@ -167,7 +167,7 @@ async function initMap() {
         });
 
         async function start() {
-            window.setTimeout(stateTrav,500, directionsDisplay);
+            window.setTimeout(stateTrav,1000, directionsDisplay);
         }
         start();
     }
@@ -190,7 +190,7 @@ async function initMap() {
         });
 
         async function start() {
-            window.setTimeout(stateTrav,500, directionsDisplay);
+            window.setTimeout(stateTrav,1000, directionsDisplay);
         }
         start();
     }
@@ -210,7 +210,7 @@ async function initMap() {
                 states.push(state);
             }
         }
-            await getStopsInStates(states);
+            getStopsInStates(states);
             return states;
     }
 
@@ -323,8 +323,9 @@ async function initMap() {
         async function getStopsInStates(states){
             try {
                 let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { states: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                console.log(result)
+                console.log(result);
             } catch {
+                console.log(result);
                 console.log("Adding a stop Didn't work lol")
             }
             for(let i=0; i<result.rows.length; i+=3) {
