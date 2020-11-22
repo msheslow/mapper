@@ -175,7 +175,7 @@ async function revGeocode(LAT, LNG) {
         let state_name;
         data.forEach(data => {
             if (data.types.includes("administrative_area_level_1")) {
-                state_name = data.short_name;
+                state_name = data.long_name;
             }
         });
         return state_name;
