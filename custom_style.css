@@ -124,6 +124,7 @@
     border-color: darkgreen;
     z-index: 2;
     position: absolute;
+    width: relative;
 }
 
 .autocomplete-box {
@@ -132,4 +133,5 @@
     padding: 1%;
     max-height: 1.5%;
     text-align: left;
+    width: relative;
 }
