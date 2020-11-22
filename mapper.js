@@ -141,6 +141,7 @@ async function stateTrav(directionsDisplay) {
         let LAT = directionsDisplay.directions.routes[0].overview_path[i].lat();
         let LNG = directionsDisplay.directions.routes[0].overview_path[i].lng();
         let state = await getState(LAT, LNG);
+        console.log(state);
         if (!states.includes(state)) {
             states.push(state);
         }
@@ -174,7 +175,7 @@ async function revGeocode(LAT, LNG) {
         let state_name;
         data.forEach(data => {
             if (data.types.includes("administrative_area_level_1")) {
-                state_name = data.long_name;
+                state_name = data.short_name;
             }
         });
         return state_name;
@@ -290,8 +291,6 @@ function sitesCardAssembler(site) {
         event.preventDefault();
         let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: /* this needs to be the name of the stop (ie. "Dallas, TX, USA") */ "placeholder"  }, { headers: {'Access-Control-Allow-Origin': '*'}});
 
-        console.log(event);
-
     }
 
 
@@ -303,6 +302,13 @@ function sitesCardAssembler(site) {
     
     
 
+    function attractionsCardAssembler(attraction) {
+        return (`<div class="box">
+                    <span style="font-size: 30px;"><b>${attraction.Name}</b></span>
+                    <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
+                    <span style="color: gray; font-size: 14px; font-weight: normal;">${attraction.Description}</span>
+                </div>`)
+    }
 
     async function getStopsInStates(states){
         try {
@@ -312,8 +318,10 @@ function sitesCardAssembler(site) {
             console.log("Adding a stop Didn't work lol")
         }
         // sorta pseudo code, need to fix state abbreviations issue
-        for(let i=0; i<result; i++){
-            
+        for(let i=0; i<result.rows.length; i+=3) {
+            $('#attractionsTwo').attractionsCardAssembler(result.rows[i]);
+            $('#attractionsThree').attractionsCardAssembler(result.rows[i+1]);
+            $('#attractionsOne').attractionsCardAssembler(result.rows[i+2]);
         }
     }
 
