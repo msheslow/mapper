@@ -110,9 +110,9 @@ async function makeRoute(directionsService, directionsDisplay) {
 
 async function addRoute(directionsService, directionsDisplay, waypoints) {
     await directionsService.route({
-        origin: document.getElementById('start').value,
-        destination: document.getElementById('end').value,
-        travelMode: 'DRIVING',
+        origin: this.origin,
+        destination: this.destination,
+        travelMode: this.travelMode,
         waypoints: waypoints,
         optimizeWaypoints: true,
     },async function(response, status) {
