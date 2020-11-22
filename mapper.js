@@ -92,7 +92,7 @@ async function makeRoute(directionsService, directionsDisplay) {
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
-        optimizeWaypoints: false
+        optimizeWaypoints: true,
     },async function(response, status) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
@@ -114,11 +114,12 @@ async function addRoute(directionsService, directionsDisplay, waypoints) {
         destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
         waypoints: waypoints,
-        optimizeWaypoints: false
+        optimizeWaypoints: true,
     },async function(response, status) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
             window.scrollTo(0, 700);
+            console.log(response.waypoint_order);
         } else {
             window.alert('Please enter an origin and destination, then click "Plan Route"');
         }
