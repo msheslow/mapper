@@ -164,7 +164,7 @@
                                 </div>`);
         }
             // Start trip, startLocation and destination
-            function createTripHandler(event){
+            async function createTripHandler(event){
             event.preventDefault();
             try {
                 let result= await axios.post('http://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
@@ -207,8 +207,7 @@
             }
             }
 
-            $('main').on('click', '#saveTrip', createTripBackHandler);
-            $('main').on('click', '#generate-map', createTripFrontHandler);
+            $('main').on('click', '#generate-map', createTripHandler);
             $('main').on('click', '#add', createStopHandler);
             $('main').on('click', '#anotherAdd', anotherStopHandler);// wat dis is?
 
