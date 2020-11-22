@@ -34,6 +34,7 @@ async function initMap() {
     async function autocomplete_click_handler(event) {
         // console.log(this.childElement.childElement.childElement.value);
         console.log(event);
+        console.log(event.currentTarget.firstChild.nextSibling.innerText);
     }
 
     async function createTripHandler(event){
