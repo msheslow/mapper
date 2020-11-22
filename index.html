@@ -166,7 +166,7 @@
             async function createTripHandler(event){
             event.preventDefault();
             try {
-                let result= await axios.post('http://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
+                let result= await axios.post('https://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
                 destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
                 console.log("Created a trip!")
                 $('#originWaypoint').append(startCardAssembler($('#start').val()));
@@ -178,7 +178,7 @@
                 }
                 */
             } catch {
-                window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
+                // window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
                 console.log("Creating a trip Didn't work lol")
             }
             }
@@ -187,7 +187,7 @@
             async function createStopHandler(event){
             event.preventDefault();
             try {
-                let result= await axios.post('http://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
                 console.log("Created a stop!")
                 $('#listWaypoints').append(waypointCardAssembler($('#addWaypoint').val()));
             } catch {
@@ -199,7 +199,7 @@
             async function anotherStopHandler(event){
             event.preventDefault();
             try {
-                let result= await axios.post('http://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
                 console.log("Created a stop in a different way!")
             } catch {
                 console.log("Didn't work lol")
