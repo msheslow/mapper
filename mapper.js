@@ -4,7 +4,7 @@
 async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
-    let waypoints = ["Dallas", "Nashville"]; // THIS NEEDS TO BE PULLED FROM SERVER
+    let waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
     
     let options = {
         zoom: 3,
@@ -17,7 +17,7 @@ async function initMap() {
 
     // eventHandler function for onsite action
     let planRouteHandler = async function() {
-        makeRoute(directionsService, directionsDisplay, waypoints);
+        makeRoute(directionsService, directionsDisplay);
     };
 
     let waypointHandler = async function() {
@@ -87,13 +87,11 @@ async function initMap() {
 }
 
 // makeRoute draws the route line between two locations on the map
-async function makeRoute(directionsService, directionsDisplay, waypoints) {
+async function makeRoute(directionsService, directionsDisplay) {
     await directionsService.route({
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
-        travelMode: 'DRIVING',
-        waypoints: waypoints,
-        optimizeWaypoints: true
+        travelMode: 'DRIVING'
     },async function(response, status) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
@@ -115,8 +113,10 @@ async function addRoute(directionsService, directionsDisplay, waypoints) {
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
-        waypoints: waypoints,
-        optimizeWaypoints: true
+        waypoints: {
+            waypoints: waypoints,
+            optimizeWaypoints: true
+        },
     },async function(response, status) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
@@ -152,6 +152,7 @@ async function stateTrav(directionsDisplay) {
     return states;
 }
 
+/*
 async function getSitesinStates() {
     try {
         let result= await axios.post('http://mapper-project.herokuapp.com/stopsinstates', { states: stateTrav(directionsDisplay) }, { headers: {'Access-Control-Allow-Origin': '*'}});
@@ -162,6 +163,7 @@ async function getSitesinStates() {
         console.log("get sites in states didn't work");
     }
 }
+*/
 
 // asks google geocode API which state the LatLng falls within
 async function revGeocode(LAT, LNG) {
@@ -188,3 +190,106 @@ async function getState(LAT, LNG) {
     let result = await revGeocode(LAT, LNG);
     return result;
 }
+
+function startCardAssembler(waypoint){
+    return (`<div class="waypointCard box" style="background-color: #CCFFCC; margin-bottom: 10px;">
+                                <div class="columns">
+                                    <div class="column is-four-fifths">
+                                        <span style="font-size: 20px; color: black;">${waypoint}</span>
+                                    </div>
+                                    <div class="column" style="text-align: right;">
+                                    </div>
+                                </div>
+                            </div>`)
+
+}
+
+    function endCardAssembler(waypoint){
+    return (`<div class="waypointCard box" style="background-color: #FFCCCC;">
+                                <div class="columns">
+                                    <div class="column is-four-fifths">
+                                        <span style="font-size: 20px; color: black;">${waypoint}</span>
+                                    </div>
+                                    <div class="column" style="text-align: right;">
+                                    </div>
+                                </div>
+                            </div>`)
+
+}
+
+    function waypointCardAssembler(waypoint){
+    return (`<div class="waypointCard box" style="background-color: #ECECEC; margin-bottom: 10px;">
+                                <div class="columns">
+                                    <div class="column is-four-fifths">
+                                        <span style="font-size: 20px; color: black;">${waypoint}</span>
+                                    </div>
+                                    <div class="column" style="text-align: right;">
+                                        <button class="button del is-rounded is-small" id="delete"><i class="far fa-trash-alt"></i></button>
+                                    </div>
+                                </div>
+                            </div>`)
+
+}
+
+function sitesCardAssembler(site) {
+    return (`<div class="box">
+                            <span style="font-size: 30px;"><b>${site}</b></span>
+                            <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
+                            <span style="color: gray; font-size: 14px; font-weight: normal;">Description of location</span>
+                        </div>`);
+}
+    // Start trip, startLocation and destination
+    function createTripFrontHandler(event){
+    event.preventDefault();
+    try {
+        console.log("Created a trip!")
+        $('#originWaypoint').append(startCardAssembler($('#start').val()));
+        $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
+        /*
+        let result = getSitesinStates();
+        for (i=0; i<result.data.rows.length; i++) {
+            $('')
+        }
+        */
+    } catch {
+        console.log("Didn't work lol")
+    }
+    }
+
+    async function createTripBackHandler(event) {
+        event.preventDefault()
+        try {
+            let result= await axios.post('http://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
+            destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
+        } catch {
+            window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
+        }
+    }
+
+    // Add a stop from input field, stopID
+    async function createStopHandler(event){
+    event.preventDefault();
+    try {
+        let result= await axios.post('http://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
+        console.log("Created a stop!")
+        $('#listWaypoints').append(waypointCardAssembler($('#addWaypoint').val()));
+    } catch {
+        console.log("Didn't work lol")
+    }
+    }
+
+     // Add a stop from suggested, stopID (this is not done)
+    async function anotherStopHandler(event){
+    event.preventDefault();
+    try {
+        let result= await axios.post('http://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
+        console.log("Created a stop in a different way!")
+    } catch {
+        console.log("Didn't work lol")
+    }
+    }
+
+    $('main').on('click', '#saveTrip', createTripBackHandler);
+    $('main').on('click', '#generate-map', createTripFrontHandler);
+    $('main').on('click', '#add', createStopHandler);
+    $('main').on('click', '#anotherAdd', anotherStopHandler);// wat dis is?
