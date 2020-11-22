@@ -215,7 +215,7 @@ async function getSitesInStates(states){
     for (state of states){
         sql = sql+`
         SELECT *
-        FROM combinedSites 
+        FROM sitesAndCities 
         WHERE State LIKE "${state}" 
         UNION`
     }
