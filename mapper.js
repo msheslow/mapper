@@ -105,6 +105,7 @@ async function initMap() {
     // Sets the selected <input> html elements to become autocomplete objects
     async function db_autocomplete(event){
         let a, b, i, val = this.value
+        console.log(this.value)
         console.log("a:"+a+" b:" +b+ " i:"+i+" val:"+val)
         if (!val){
             return false
