@@ -28,6 +28,7 @@ async function initMap() {
             destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log("Created a trip!");
             console.log(result);
+            document.cookie = "tripID=" += result;
             $('#originWaypoint').append(startCardAssembler($('#start').val()));
             $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
             /*
