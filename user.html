@@ -50,6 +50,9 @@
 
         <script>
         function tripCardAssembler(aTrip, aTripID){
+            console.log("aTrip at the start of tripCardAssembler");
+            console.log(aTrip);
+            console.log(aTripID);
             return (`<div class="box" style="margin-top: 10px;">
                         <div class="columns">
                             <div class="column is-2">
@@ -84,8 +87,9 @@
             console.log(result.data.rows.length)
             for (i=0; i < result.data.rows.length; i++) {
                 let aTrip = await axios.get('https://mapper-project.herokuapp.com/gettrip/' + result.data.rows[i].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
-                console.log("aTrip")
+                console.log("aTrip before tripCardAssembler")
                 console.log(aTrip);
+                console.log(result.data.rows[i].tripID)
                 $('#userTrips').append(tripCardAssembler(aTrip, result.data.rows[i].tripID));
             }
         }

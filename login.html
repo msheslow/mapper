@@ -47,7 +47,8 @@
             try {
                 let result= await axios.post('https://mapper-project.herokuapp.com/login', { user: $('#username').val(),
                 password: $('#password').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                console.log("It worked!")
+                document.cookie = "username=" + result;
+                console.log("Logged in and set cookie")
                 window.location.replace("https://mapper-project.herokuapp.com/index.html");
             } catch {
                 console.log("Didn't work lol")

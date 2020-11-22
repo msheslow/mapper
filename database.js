@@ -53,7 +53,7 @@ app.post('/login', async (req, res) => {
     } else {
         req.session.username = user;
         res.json(true);
-        return;
+        return user;
     }
 })
 
@@ -66,10 +66,10 @@ app.post('/createlogin', async (req, res) => {
     if (result == "Success"){
         req.session.username = user;
         res.json(true);
-        return;
+        return user;
     } else {
         res.status(403).send("User exists");
-        return
+        return;
     } 
 })
 
@@ -168,7 +168,7 @@ app.post('/starttrip', async (req, res) => {
     } else {
         req.session.tripID = result
         res.json(result)
-        return
+        return result;
     } 
 })
 
