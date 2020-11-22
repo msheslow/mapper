@@ -52,8 +52,9 @@
                 document.cookie = "username=" + result.data;
                 console.log("Created a new user and set cookie")
                 window.location.replace("https://mapper-project.herokuapp.com/index.html"); // redirect to index.html after login
+            } catch {
+                 window.alert("This username and password already exists! Return to login page or create a new account with different credentials.")
             }
-                window.alert("This username and password already exists! Return to login page or create a new account with different credentials.")
             }
 
             $('main').on('click', '#createAccountButton', createAccountButtonHandler);
