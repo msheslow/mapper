@@ -30,7 +30,7 @@ app.post('/login', async (req, res) => {
         return
     } else {
         req.session.username = user;
-        res.json(true);
+        res.json(user);
         return user;
     }
 })
