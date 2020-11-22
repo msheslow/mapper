@@ -164,29 +164,24 @@
                                 </div>`);
         }
             // Start trip, startLocation and destination
-            function createTripFrontHandler(event){
+            function createTripHandler(event){
             event.preventDefault();
             try {
+                let result= await axios.post('http://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
+                destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
                 console.log("Created a trip!")
                 $('#originWaypoint').append(startCardAssembler($('#start').val()));
                 $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
+                /*
                 let result = getSitesinStates();
                 for (i=0; i<result.data.rows.length; i++) {
                     $('')
                 }
+                */
             } catch {
-                console.log("Didn't work lol")
+                window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
+                console.log("Creating a trip Didn't work lol")
             }
-            }
-
-            async function createTripBackHandler(event) {
-                event.preventDefault()
-                try {
-                    let result= await axios.post('http://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
-                    destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                } catch {
-                    window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
-                }
             }
 
             // Add a stop from input field, stopID
@@ -197,7 +192,7 @@
                 console.log("Created a stop!")
                 $('#listWaypoints').append(waypointCardAssembler($('#addWaypoint').val()));
             } catch {
-                console.log("Didn't work lol")
+                console.log("Adding a stop Didn't work lol")
             }
             }
 
