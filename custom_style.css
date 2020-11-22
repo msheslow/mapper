@@ -120,14 +120,15 @@
 
 #start-column {
     grid-auto-columns: max-content;
-    border-bottom: 3px;
+    border-bottom: 1px;
     border-color: darkgreen;
     z-index: 2;
+    position: absolute;
 }
 
 .autocomplete-box {
     border-width: 2px;
     border-color: black;
-    padding: 5%;
-    max-height: 5%;
+    padding: 2%;
+    max-height: 2%;
 }
