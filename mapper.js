@@ -220,7 +220,7 @@ async function initMap() {
     function waypointCardAssembler(waypoint, waypointNum){
         console.log("waypointNum: " + waypointNum);
         console.log('waypoint: ' + waypoint);
-        return (`<div class="waypointCard box" id="1" style="background-color: #ECECEC; margin-bottom: 10px;">
+        return (`<div class="waypointCard box" id="${waypointNum}" style="background-color: #ECECEC; margin-bottom: 10px;">
                                     <div class="columns">
                                         <div class="column is-four-fifths">
                                             <span style="font-size: 20px; color: black;">${waypoint}</span>
@@ -270,6 +270,7 @@ async function initMap() {
             $('#listWaypoints').empty()
             for (i=0; i<waypointOrder.length; i++) {
                 // createStopHandler(response.routes[0].waypoint_order, response.request.waypoints);
+                console.log("line 273: " + waypointOrder[i]);
                 $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query), waypointOrder[i]);
             }
         } catch {
