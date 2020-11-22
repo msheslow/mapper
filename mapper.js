@@ -291,7 +291,8 @@ async function initMap() {
             let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: /* this needs to be the name of the stop (ie. "Dallas, TX, USA") */ "placeholder"  }, { headers: {'Access-Control-Allow-Origin': '*'}});
 
             console.log(event);
-            let current_card = event.currentTarget.parentElement.parentElement.parentElement;
+            let current_card = event.currentTarget.parentElement.parentElement;
+            console.log(current_card);
             let waypointNum = current_card.id;
             console.log(waypointNum);
             waypoints.splice(waypointNum, 1);
