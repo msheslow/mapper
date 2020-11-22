@@ -132,7 +132,15 @@ async function initMap() {
         }
         let ans
         for (place of result){
-
+            option.appendChild(`<div class="waypointCard box" style="background-color: #CCFFCC; margin-bottom: 10px;">
+            <div class="columns">
+                <div class="column is-four-fifths">
+                    <span style="font-size: 20px; color: black;">${place}</span>
+                </div>
+                <div class="column" style="text-align: right;">
+                </div>
+            </div>
+        </div>`)
         }
     }
 
