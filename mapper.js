@@ -268,8 +268,8 @@ function sitesCardAssembler(site) {
         $('#listWaypoints').empty()
         for (i=0; i<waypointOrder.length; i++) {
             // createStopHandler(response.routes[0].waypoint_order, response.request.waypoints);
-            $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location));
-            console.log(waypoints[waypointOrder[i]].location)
+            $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query));
+            console.log(waypoints[waypointOrder[i]].query)
         }
     } catch {
         console.log("Adding a stop Didn't work lol")
