@@ -22,16 +22,16 @@
                             <a href="./user.html" class="userIcon"><i class="fas fa-user"></i></a>
                         </div>
                 </div>
-                <div class="content">
-                    <div class="upper columns box" style="height: 600px; margin: 10px;">
-                        <div class="column is-two-thirds" id="leftUpper">
+                    <div class="upper" style="height: 600px;">
+                        <div id="leftUpper">
                             <div class="leftUpperBox box">
                                 <div class="leftUpperText">
-                                <text style="font-size: 80px;">Plan your ultimate road trip.</text><br>
-                                <text style="font-size: 20px;">Tell us where you're starting and where you're heading. We'll help you plan everything in between.</text>
+                                <text style="font-size: 50px;">Plan your ultimate road trip.</text><br>
+                                <text style="font-size: 15px;">Tell us where you're starting and where you're heading. We'll help you plan everything in between.</text>
                                 <br>
                                 <br>
-                                <div class="columns box" style="max-width: 70%; background-color: #235789;">
+                            </div>
+                                <div class="columns box" style="max-width: 70%; margin: auto; background-image: linear-gradient(to right, navy, purple);" >
                                     <div class="column is-one-half">
                                         <text style="font-size: 20px; color: white;">Start</text></br>
                                         <input class="input is-medium" id="start" type="text" placeholder="Enter a start location"/>
@@ -43,15 +43,15 @@
                                     <br>
                                     <br>
                                 </div>
-                                    <button class="button is-rounded" id="generate-map">Plan route</button>
+                                    <button class="button is-rounded planButton" style="margin-top: 10px;" id="generate-map">Plan route</button>
                                 </div>
-                            </div>
                         </div>
                     </div>
+                <div class="content">
                     <div class="columns">
                         <div class="column is-one-third" id="left">
                             <div class="box left">
-                                <text style="font-size: 30px;">My Trip</text><br>
+                                <text style="font-size: 30px; color: black;">My Trip</text><br>
                                 <div id="originWaypoint">
 
 
@@ -75,7 +75,7 @@
                             <div class="column is-4" id="attractionsOne">
 
                                 <div class="box" style="margin-left: 10px;">
-                                    <text style="font-size: 30px;">Add a waypoint</text><br>
+                                    <text style="font-size: 30px; color: black;">Add a waypoint</text><br>
                                     <input class="input is-small" style="width: 75%;" id="addWaypoint" type="text" placeholder="Add a stop"/>
                                     <button class="button is-rounded is-small" id="add">Add stop</button><br><br>
                                     <div style="text-align:center;">
@@ -88,18 +88,34 @@
                             <div class="column is-4" id="attractionsTwo">
 
                                 <div class="box">
-                                    <span style="font-size: 30px;"><b>Title of Location</b></span>
-                                    <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
+                                    <div>
+                                    <div class="columns">
+                                        <div class="column is-10">
+                                            <span style="font-size: 30px;"><b>Title of Location</b></span>
+                                        </div>
+                                        <div class="column">
+                                            <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
+                                        </div>
+                                    </div>
+                                    </div>
                                     <span style="color: gray; font-size: 14px; font-weight: normal;">Description of location</span>
                                 </div>
 
                             </div>
                             <div class="column is-4" id="attractionsThree">
 
-                                <div class="box" style="margin-right: 10px;">
-                                    <span style="font-size: 30px;"><b>Title of Location</b></span>
-                                    <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
-                                    <span style="color: gray; font-size: 14px; font-weight: normal;">Description of location</span><br>
+                                <div class="box">
+                                    <div>
+                                    <div class="columns">
+                                        <div class="column is-10">
+                                            <span style="font-size: 30px;"><b>Title of Location</b></span>
+                                        </div>
+                                        <div class="column">
+                                            <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <span style="color: gray; font-size: 14px; font-weight: normal;">Description of location</span>
                                 </div>
 
                             </div>

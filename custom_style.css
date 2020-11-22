@@ -1,16 +1,23 @@
 /* CSS Style for Mapper */
 #root{
-    background-color: #235789;
+    background-color: white;
 }
 /* Header Links*/
 .header-right {
     float: right;
-    padding-top: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
 }
 
 .leftUpperBox {
-    background: rgba(204, 204, 204, 0.8);
-    border: 2px solid #235789;
+    background: rgba(204, 204, 204, 0.6);
+    width: 50%;
+    margin: auto;
+    text-align: center;
+}
+
+#leftUpper {
+    padding-top: 60px;
 }
 
 .leftUpperText{
@@ -18,7 +25,9 @@
 }
 
 .button:hover{
-    background-color: #90CCF4;
+    background-color: black;
+    color: white;
+    border: black;
 }
 
 .del:hover{
@@ -27,26 +36,28 @@
 }
 
 .top:hover{
-    background-color: #235789;
+    background-color: black;
     color: white;
+    border: black;
 }
 
 .input{
     padding: 10px;
 }
 
-
-.titleLogo {
-    font-size: 60px;
-    color: black;
+.title {
+    font-size: 25px;
+    color:white;
+    padding-left: 20px;
+    margin: 10px;
 }
 
 .upper{
-    background-image: url("https://www.tripsavvy.com/thmb/_-smTM34WNa3lGFMdFTbIZEoi3M=/2844x1053/filters:fill(auto,1)/icefields-parkway-road-trip-641871108-c9c504640f8849c5bdef26c8eee4d1bb.jpg");
     width: fixed;
     background-repeat: no-repeat;
     background-position: -500px -200px; 
     z-index: -2;
+    background-image: url("https://www.tripsavvy.com/thmb/_-smTM34WNa3lGFMdFTbIZEoi3M=/2844x1053/filters:fill(auto,1)/icefields-parkway-road-trip-641871108-c9c504640f8849c5bdef26c8eee4d1bb.jpg");
 }
 
 .userIcon {
@@ -65,12 +76,17 @@
 /* Main Header */
 .pageHeader {
     overflow: hidden;
-    background-color: #5DA2D5;
-    padding: 20px 10px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    background-image: linear-gradient(to right, purple, navy);
+    padding-top:10px;
     width: 100%;
+    height: 50px;
     z-index: 1;
+}
+
+.planButton:hover {
+    background-color: black;
+    color: white;
+    border: black;
 }
 
 #map {
@@ -90,4 +106,14 @@
 .left {
     height: auto;
     min-height: 600px;
+}
+
+.top {
+    font-size: 11px;
+}
+
+.userIcon {
+    font-size: 24px;
+    padding-bottom: 12px;
+    margin-bottom: 8px;
 }
