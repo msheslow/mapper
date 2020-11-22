@@ -128,6 +128,12 @@ app.post('/stopsinstates', async (req, res) => {
     res.json(results)
 })
 
+app.post('/autofill/', async (req, res) => {
+    let wordFrag = req.body.wordFrag
+    let result = await autofillLocations(wordFrag)
+    res.json(result)
+})
+
 //starts new trip
 app.post('/starttrip', async (req, res) => {
     let startLocation = req.body.startLocation
@@ -214,15 +220,25 @@ async function getSitesInStates(states){
     sql = ""
     for (state of states){
         sql = sql+`
-        SELECT *
-        FROM sitesAndCities 
-        WHERE State LIKE "${state}" 
-        UNION`
+        SELECT * 
+        FROM citiesAndSites
+        WHERE State LIKE "${state}"
+        ORDER BY  Weight DESC
+        LIMIT 100
+        UNION
+        `
     }
     sql = sql.substring(0, sql.length-5)
     return await searchWrapper(sql)
 }
 
+async function autofillLocations(inputString){
+    sql = `SELECT Name, State FROM citiesAndSites
+            WHERE  Name LIKE "${inputString}%"
+            ORDER BY Weight DESC
+            LIMIT 6`
+    return await searchWrapper(sql)
+}
 // Creates a database instance for a trip
 async function createTrip(username, startLocation, endLocation){
     let sqlTrip = `SELECT * from trips WHERE username = "${username}" AND startLocation = "${startLocation}" AND endLocation = "${endLocation}"`
@@ -307,12 +323,12 @@ function closeDB(){
 
 
 
-// // //writeSearch(route)
+// // // // //writeSearch(route)
 async function test(){
-    console.log(await searchWrapper(`SELECT * FROM users`))
+    console.log(await searchWrapper(`INSERT INTO users VALUES ("arisf", "arispassword")`))
 }
 test()
-// addUser("arisf", "arispassword")
+// // // addUser("arisf", "arispassword")
 // createTrip("arisf", "Wake Forest", "Sedona, AZ")
 // addTripStop(1,"Great Sand Dunes National Park")
 // console.log(await getUsersTripNumbers("arisf"))
