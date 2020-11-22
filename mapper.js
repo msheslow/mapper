@@ -144,6 +144,7 @@ async function initMap() {
         }
     }
 
+    /*
     let start_autocomplete = await new google.maps.places.Autocomplete(
             document.getElementById('start'),
             {
@@ -151,6 +152,7 @@ async function initMap() {
                 componentRestrictions: {'country': ['US']},
                 fields: ['place_id', 'geometry', 'name']
     });
+    */
 
     let end_autocomplete = await new google.maps.places.Autocomplete(
             document.getElementById('end'),
