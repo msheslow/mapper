@@ -73,6 +73,18 @@ async function initMap() {
         }
     }
 
+    // WHEN DELETING A WAYPOINT, CALL THIS INSTEAD 
+    async function waypointMakerTwo(waypointOrder, waypoints){
+        // ------- HTML stuff starts here -------
+        $('#listWaypoints').empty()
+        for (i=0; i<waypointOrder.length; i++) {
+            console.log("line 273: " + waypointOrder[i]);
+            let waypointNum = waypointOrder[i];
+            console.log("line 275: " + waypointNum);
+            $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query), waypointNum);
+        }
+    }
+
     async function deleteWaypointHandler(event) {
         event.preventDefault();
         console.log(event);
@@ -411,7 +423,7 @@ async function initMap() {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
-                    waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
+                    waypointMakerTwo(response.routes[0].waypoint_order, response.request.waypoints);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
