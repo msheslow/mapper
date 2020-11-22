@@ -4,7 +4,7 @@
 async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
-    let waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
+    let waypoints = [{optimize:true}]; // THIS NEEDS TO BE PULLED FROM SERVER
     
     let options = {
         zoom: 3,
@@ -112,7 +112,7 @@ async function addRoute(directionsService, directionsDisplay, waypoints) {
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
-        waypoints: {optimize: true, waypoints}
+        waypoints: waypoints
     },async function(response, status) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
