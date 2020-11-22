@@ -71,17 +71,6 @@
                     </div>`)
 
         }
-        
-            async function getStopsInStates(states){
-                try {
-                    let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { stopID: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                    console.log(results)
-                } catch {
-                    console.log("Adding a stop Didn't work lol")
-                }
-            }
-            console.log("reached")
-            console.log(getStopsInStates(["Connecticut", "New York", "Pennsylvania", "Ohio"]))
 
         async function loadTrips() {
             let result= await axios.get('https://mapper-project.herokuapp.com/tripids', { headers: {'Access-Control-Allow-Origin': '*'}});

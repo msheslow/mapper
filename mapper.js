@@ -217,7 +217,7 @@ function startCardAssembler(waypoint){
 
 }
 
-    function waypointCardAssembler(waypoint){
+    function waypointCardAssembler(waypoint, waypointNum){
     return (`<div class="waypointCard box" style="background-color: #ECECEC; margin-bottom: 10px;">
                                 <div class="columns">
                                     <div class="column is-four-fifths">
@@ -268,7 +268,7 @@ function sitesCardAssembler(site) {
         $('#listWaypoints').empty()
         for (i=0; i<waypointOrder.length; i++) {
             // createStopHandler(response.routes[0].waypoint_order, response.request.waypoints);
-            $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query));
+            $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query), waypointOrder[i]);
             console.log(waypoints[waypointOrder[i]].query)
         }
     } catch {
@@ -287,6 +287,34 @@ function sitesCardAssembler(site) {
     }
     }
 
+    async function deleteStopHandler(event) {
+        event.preventDefault();
+        let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: /* this needs to be the name of the stop (ie. "Dallas, TX, USA") */ "placeholder"  }, { headers: {'Access-Control-Allow-Origin': '*'}});
+
+    }
+
+
+
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#add', createStopHandler);
     $('main').on('click', '#anotherAdd', anotherStopHandler);// wat dis is?
+    $('#listWaypoints').on('click', '#delete', deleteStopHandler);
+    
+    
+
+
+    async function getStopsInStates(states){
+        try {
+            let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { stopID: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
+            console.log(result)
+        } catch {
+            console.log("Adding a stop Didn't work lol")
+        }
+        // sorta pseudo code, need to fix state abbreviations issue
+        for(let i=0; i<result; i++){
+            
+        }
+    }
+
+    console.log("reached")
+    console.log(getStopsInStates(["Connecticut", "New York", "Pennsylvania", "Ohio"]))
