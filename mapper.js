@@ -94,6 +94,8 @@ async function initMap() {
     $('main').on('click', '#anotherAdd', attractionCardAddHandler);// wat dis is?
     $('main').on('click', '#delete', deleteWaypointHandler)
     $('main').on('input', '#start', db_autocomplete);
+    $('main').on('input', '#end', db_autocomplete);
+    $('main').on('input', '#addWaypoint', db_autocomplete);
    
 
 
