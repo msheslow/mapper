@@ -339,7 +339,7 @@ async function initMap() {
                 console.log(result);
                 console.log("Adding a stop Didn't work lol")
             }
-            for(let i=0; i<result.rows.length; i+=3) {
+            for(let i=0; i<result.data.rows.length; i+=3) {
                 if (i=result.rows.length) {
                     return
                 } else { $('#attractionsTwo').attractionsCardAssembler(result.rows[i]);}
