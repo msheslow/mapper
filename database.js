@@ -325,10 +325,12 @@ function closeDB(){
 
 
 // // // // //writeSearch(route)
-async function test(){
-    console.log(await searchWrapper(`INSERT INTO users VALUES ("arisf", "arispassword")`))
-}
-test()
+// async function test(){
+//     // console.log(await searchWrapper(`INSERT INTO trips VALUES ("arisf", "New York, New York", "Charlotte, North Carolina")`))
+//     // console.log(await searchWrapper(`INSERT INTO trips VALUES ("arisf", "Raleigh, North Carolina", "Sedona, Arizona")`))
+//     // console.log(await searchWrapper(`INSERT INTO stops VALUES ("Arches", 1)`))
+// }
+// test()
 // // // addUser("arisf", "arispassword")
 // createTrip("arisf", "Wake Forest", "Sedona, AZ")
 // addTripStop(1,"Great Sand Dunes National Park")
