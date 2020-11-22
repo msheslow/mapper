@@ -23,7 +23,7 @@ async function initMap() {
     let waypointHandler = async function() {
         let newWaypoint = {
             location: document.getElementById('addWaypoint').value,
-            stopover: false
+            stopover: true
         }
         waypoints.push(newWaypoint);
         addRoute(directionsService, directionsDisplay, waypoints);
@@ -92,6 +92,7 @@ async function makeRoute(directionsService, directionsDisplay) {
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
+        optimizeWaypoints: true,
     },async function(response, status) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
@@ -113,6 +114,7 @@ async function addRoute(directionsService, directionsDisplay, waypoints) {
         destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
         waypoints: waypoints,
+        optimizeWaypoints: true,
     },async function(response, status) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
