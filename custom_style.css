@@ -123,6 +123,7 @@
     border-bottom: 1px;
     border-color: darkgreen;
     z-index: 2;
+    position: absolute;
 }
 
 .autocomplete-box {
