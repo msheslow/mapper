@@ -4,6 +4,7 @@
 async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
+    let waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
     
     let options = {
         zoom: 3,
@@ -20,7 +21,12 @@ async function initMap() {
     };
 
     let waypointHandler = async function() {
-        addRoute(directionsService, directionsDisplay);
+        let newWaypoint = {
+            location: document.getElementById('addWaypoint').value,
+            stopover: false
+        }
+        waypoints.push(newWaypoint);
+        addRoute(directionsService, directionsDisplay, waypoints);
     };
     
     document.getElementById('generate-map').addEventListener('click', planRouteHandler);
@@ -85,36 +91,7 @@ async function makeRoute(directionsService, directionsDisplay) {
     await directionsService.route({
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
-        travelMode: 'DRIVING'
-    },async function(response, status) {
-        if (status === 'OK') {
-            await directionsDisplay.setDirections(response);
-            window.scrollTo(0, 700);
-        } else {
-            window.alert('Please enter an origin and destination, then click "Plan Route"');
-        }
-    });
-
-    async function start() {
-        window.setTimeout(stateTrav,1000, directionsDisplay);
-    }
-    start();
-}
-
-let waypoints = [];
-
-async function addRoute(directionsService, directionsDisplay, waypoints) {
-    let autism_waypoints = [];
-    autism_waypoints = waypoints;
-    let newWaypoint = {
-        location: document.getElementById('addWaypoint').value,
-        stopover: false
-    }
-    await directionsService.route({
-        origin: document.getElementById('start').value,
-        destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
-        waypoints: autism_waypoints.push(newWaypoint),
         optimizeWaypoints: false
     },async function(response, status) {
         if (status === 'OK') {
@@ -129,10 +106,29 @@ async function addRoute(directionsService, directionsDisplay, waypoints) {
         window.setTimeout(stateTrav,1000, directionsDisplay);
     }
     start();
-
-    waypoints = autism_waypoints;
 }
 
+async function addRoute(directionsService, directionsDisplay, waypoints) {
+    await directionsService.route({
+        origin: document.getElementById('start').value,
+        destination: document.getElementById('end').value,
+        travelMode: 'DRIVING',
+        waypoints: waypoints,
+        optimizeWaypoints: false
+    },async function(response, status) {
+        if (status === 'OK') {
+            await directionsDisplay.setDirections(response);
+            window.scrollTo(0, 700);
+        } else {
+            window.alert('Please enter an origin and destination, then click "Plan Route"');
+        }
+    });
+
+    async function start() {
+        window.setTimeout(stateTrav,1000, directionsDisplay);
+    }
+    start();
+}
 
 // Makes an array of all the states the route passes through (Adjust incrementation for price savings)
 async function stateTrav(directionsDisplay) {
@@ -153,8 +149,7 @@ async function stateTrav(directionsDisplay) {
     return states;
 }
 
-/*
-async function getSitesinStates() {
+export async function getSitesinStates() {
     try {
         let result= await axios.post('http://mapper-project.herokuapp.com/stopsinstates', { states: stateTrav(directionsDisplay) }, { headers: {'Access-Control-Allow-Origin': '*'}});
         console.log("result of states axios");
@@ -164,7 +159,6 @@ async function getSitesinStates() {
         console.log("get sites in states didn't work");
     }
 }
-*/
 
 // asks google geocode API which state the LatLng falls within
 async function revGeocode(LAT, LNG) {
@@ -191,106 +185,3 @@ async function getState(LAT, LNG) {
     let result = await revGeocode(LAT, LNG);
     return result;
 }
-
-function startCardAssembler(waypoint){
-    return (`<div class="waypointCard box" style="background-color: #CCFFCC; margin-bottom: 10px;">
-                                <div class="columns">
-                                    <div class="column is-four-fifths">
-                                        <span style="font-size: 20px; color: black;">${waypoint}</span>
-                                    </div>
-                                    <div class="column" style="text-align: right;">
-                                    </div>
-                                </div>
-                            </div>`)
-
-}
-
-    function endCardAssembler(waypoint){
-    return (`<div class="waypointCard box" style="background-color: #FFCCCC;">
-                                <div class="columns">
-                                    <div class="column is-four-fifths">
-                                        <span style="font-size: 20px; color: black;">${waypoint}</span>
-                                    </div>
-                                    <div class="column" style="text-align: right;">
-                                    </div>
-                                </div>
-                            </div>`)
-
-}
-
-    function waypointCardAssembler(waypoint){
-    return (`<div class="waypointCard box" style="background-color: #ECECEC; margin-bottom: 10px;">
-                                <div class="columns">
-                                    <div class="column is-four-fifths">
-                                        <span style="font-size: 20px; color: black;">${waypoint}</span>
-                                    </div>
-                                    <div class="column" style="text-align: right;">
-                                        <button class="button del is-rounded is-small" id="delete"><i class="far fa-trash-alt"></i></button>
-                                    </div>
-                                </div>
-                            </div>`)
-
-}
-
-function sitesCardAssembler(site) {
-    return (`<div class="box">
-                            <span style="font-size: 30px;"><b>${site}</b></span>
-                            <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
-                            <span style="color: gray; font-size: 14px; font-weight: normal;">Description of location</span>
-                        </div>`);
-}
-    // Start trip, startLocation and destination
-    function createTripFrontHandler(event){
-    event.preventDefault();
-    try {
-        console.log("Created a trip!")
-        $('#originWaypoint').append(startCardAssembler($('#start').val()));
-        $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
-        /*
-        let result = getSitesinStates();
-        for (i=0; i<result.data.rows.length; i++) {
-            $('')
-        }
-        */
-    } catch {
-        console.log("Didn't work lol")
-    }
-    }
-
-    async function createTripBackHandler(event) {
-        event.preventDefault()
-        try {
-            let result= await axios.post('http://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
-            destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-        } catch {
-            window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
-        }
-    }
-
-    // Add a stop from input field, stopID
-    async function createStopHandler(event){
-    event.preventDefault();
-    try {
-        let result= await axios.post('http://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-        console.log("Created a stop!")
-        $('#listWaypoints').append(waypointCardAssembler($('#addWaypoint').val()));
-    } catch {
-        console.log("Didn't work lol")
-    }
-    }
-
-     // Add a stop from suggested, stopID (this is not done)
-    async function anotherStopHandler(event){
-    event.preventDefault();
-    try {
-        let result= await axios.post('http://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-        console.log("Created a stop in a different way!")
-    } catch {
-        console.log("Didn't work lol")
-    }
-    }
-
-    $('main').on('click', '#saveTrip', createTripBackHandler);
-    $('main').on('click', '#generate-map', createTripFrontHandler);
-    $('main').on('click', '#add', createStopHandler);
-    $('main').on('click', '#anotherAdd', anotherStopHandler);// wat dis is?
