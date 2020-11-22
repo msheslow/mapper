@@ -135,6 +135,7 @@ app.post('/starttrip', async (req, res) => {
     console.log("username "+req.session.username)
     if (startLocation == undefined || destination == undefined || req.session.username == undefined){
         res.status(403).send("missing credentials")
+        return
     }
     let result = await createTrip(req.session.username, startLocation, destination)
     console.log(result)
