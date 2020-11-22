@@ -181,11 +181,9 @@ async function initMap() {
         });
 
         async function start() {
-            return await stateTrav(directionsDisplay);
-            
+            window.setTimeout(stateTrav,500, directionsDisplay);
         }
-        let statesArray= start();
-        getStopsInStates(statesArray);
+        start();
     }
 
     async function addRoute(directionsService, directionsDisplay, local_waypoints) {
@@ -226,6 +224,7 @@ async function initMap() {
                 states.push(state);
             }
         }
+            await getStopsInStates(states);
             return states;
     }
 
@@ -337,12 +336,11 @@ async function initMap() {
 
         async function getStopsInStates(states){
             try {
-                let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { stopID: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { states: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
                 console.log(result)
             } catch {
                 console.log("Adding a stop Didn't work lol")
             }
-            // sorta pseudo code, need to fix state abbreviations issue
             for(let i=0; i<result.rows.length; i+=3) {
                 if (i=result.rows.length) {
                     return
