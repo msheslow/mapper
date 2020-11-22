@@ -307,11 +307,11 @@ function closeDB(){
 
 
 
-// //writeSearch(route)
-async function test(){
-    console.log(await searchWrapper(`SELECT * FROM trips`))
-}
-test()
+// // //writeSearch(route)
+// async function test(){
+//     console.log(await searchWrapper(`SELECT * FROM trips`))
+// }
+// test()
 // addUser("arisf", "arispassword")
 // createTrip("arisf", "Wake Forest", "Sedona, AZ")
 // addTripStop(1,"Great Sand Dunes National Park")
