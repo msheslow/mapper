@@ -1,6 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const express = require('express');
 const app = express()
+const axios = require('axios');
 const { exec } = require('child_process');
 const expressSession = require('express-session');
 const cors = require('cors');
@@ -226,7 +227,39 @@ async function getSitesInStates(states){
     sql = "SELECT * FROM ("+sql+`)
     ORDER BY Weight DESC
     LIMIT 100`
+    let ans = await searchWrapper(sql)
+    // console.log(ans)
+    for (place of ans.rows) {
+        if ((place.Description == -1 || place.Description.startsWith("https://")) && place.Checked==0){
+            let wikiName = place.Name.split(" ").join("_")
+            let wikiRequest = "https://en.wikipedia.org/api/rest_v1/page/summary/"+wikiName
+            let result
+            try {
+                await searchWrapper(`UPDATE citiesAndSites SET Checked =1 WHERE Name="${place.Name}"`)
+                result = await axios.get(wikiRequest)
+                if (result.data.type=="standard"){
+                    await searchWrapper(`UPDATE citiesAndSites SET Description ="${result.data.extract}" WHERE Name="${place.Name}"`)
+                    // console.log(result.data.extract)
+                }
+            } catch {
+                console.log("wiki sad :(")
+            }
+        }
+    }
+    sql = ""
+    for (state of states){
+        sql = sql+`
+        SELECT * 
+        FROM citiesAndSites
+        WHERE State LIKE "${state}" AND Type <> "City/Town" AND Description <>-1 AND Description NOT LIKE "https%"
+        UNION`
+    }
+    sql = sql.slice(0,-5)
+    sql = "SELECT * FROM ("+sql+`)
+    ORDER BY Weight DESC
+    LIMIT 100`
     return await searchWrapper(sql)
+    
 }
 
 async function autofillLocations(inputString){
@@ -330,13 +363,15 @@ function closeDB(){
     
 
 // // // // //writeSearch(route)
-async function test(){
-    // console.log(await searchWrapper(`INSERT INTO trips VALUES ("arisf", "New York, New York", "Charlotte, North Carolina")`))
-    // console.log(await searchWrapper(`INSERT INTO trips VALUES ("arisf", "Raleigh, North Carolina", "Sedona, Arizona")`))
-    console.log(await getTripDetails(2, "arisf"))
-}
-test()
-// // // addUser("arisf", "arispassword")
+// async function test(){
+//     console.log(await searchWrapper(`INSERT INTO users VALUES ("arisf", "arispassword")`))
+//     console.log(await searchWrapper(`INSERT INTO trips VALUES ("arisf", "New York, New York", "Charlotte, North Carolina")`))
+//     console.log(await searchWrapper(`INSERT INTO trips VALUES ("arisf", "Raleigh, North Carolina", "Sedona, Arizona")`))
+//     console.log(await searchWrapper(`INSERT INTO stops VALUES ("2", "Los Duranes Chapel")`))
+//     // console.log(await getSitesInStates(["New Mexico", "Utah"]))
+// }
+// test()
+// // // // addUser("arisf", "arispassword")
 // createTrip("arisf", "Wake Forest", "Sedona, AZ")
 // addTripStop(1,"Great Sand Dunes National Park")
 // console.log(await getUsersTripNumbers("arisf"))
