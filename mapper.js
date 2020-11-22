@@ -344,6 +344,9 @@ async function initMap() {
         async function getStopsInStates(states){
             let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { states: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log(result);
+            $('#attractionsOne').empty();
+            $('#attractionsTwo').empty();
+            $('#attractionsThree').empty();
             for(let i=0; i<result.data.rows.length; i+=3) {
                 if (i!=result.data.rows.length) {
                     $('#attractionsTwo').append(attractionsCardAssembler(result.data.rows[i]));
