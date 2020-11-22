@@ -116,7 +116,6 @@ async function initMap() {
         document.getElementById('addWaypoint'),
         {
             types: [
-                '(regions)',
                 'geocode',
                 'establishment'
             ],
@@ -168,9 +167,11 @@ async function initMap() {
         });
 
         async function start() {
-            window.setTimeout(stateTrav,1000, directionsDisplay);
+            return await stateTrav(directionsDisplay);
+            
         }
-        start();
+        let statesArray= start();
+        getStopsInStates(statesArray);
     }
 
     async function addRoute(directionsService, directionsDisplay, local_waypoints) {
@@ -191,7 +192,7 @@ async function initMap() {
         });
 
         async function start() {
-            window.setTimeout(stateTrav,1000, directionsDisplay);
+            window.setTimeout(stateTrav,500, directionsDisplay);
         }
         start();
     }
@@ -296,15 +297,6 @@ async function initMap() {
 
     }
 
-    function sitesCardAssembler(site) {
-        return (`<div class="box">
-                                <span style="font-size: 30px;"><b>${site}</b></span>
-                                <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
-                                <span style="color: gray; font-size: 14px; font-weight: normal;">Description of location</span>
-                            </div>`);
-    }
-        // Start trip, startLocation and destination
-
 
 
 
@@ -320,18 +312,11 @@ async function initMap() {
         }
 
 
-    
-
-
-
-    
-        
-        
-
         function attractionsCardAssembler(attraction) {
             return (`<div class="box">
                         <span style="font-size: 30px;"><b>${attraction.Name}</b></span>
                         <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
+                        <span style="color: gray; font-size:14px;">${attraction.Type}</span>
                         <span style="color: gray; font-size: 14px; font-weight: normal;">${attraction.Description}</span>
                     </div>`)
         }
@@ -345,9 +330,15 @@ async function initMap() {
             }
             // sorta pseudo code, need to fix state abbreviations issue
             for(let i=0; i<result.rows.length; i+=3) {
-                $('#attractionsTwo').attractionsCardAssembler(result.rows[i]);
-                $('#attractionsThree').attractionsCardAssembler(result.rows[i+1]);
-                $('#attractionsOne').attractionsCardAssembler(result.rows[i+2]);
+                if (i=result.rows.length) {
+                    return
+                } else { $('#attractionsTwo').attractionsCardAssembler(result.rows[i]);}
+                if (i+1>result.rows.length) {
+                    return
+                } else { $('#attractionsThree').attractionsCardAssembler(result.rows[i+1]);}
+                if (i+2>result.rows.length) {
+                    return;
+                } else { $('#attractionsOne').attractionsCardAssembler(result.rows[i+2]);}
             }
         }
 
