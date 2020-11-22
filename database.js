@@ -252,7 +252,7 @@ async function addTripStop(tripID, stopID){
 async function getUsersTripNumbers(username){
     // let getTripIDsSQL = `SELECT DISTINCT T.rowid as tripID FROM stops S, trips T, users U WHERE U.username = "${username}" AND U.username = T.username AND T.rowid = S.tripID`
     // console.log(getTripIDsSQL)
-    let resu = await searchWrapper(`SELECT rowid FROM trips WHERE username="${username}"`)
+    let resu = await searchWrapper(`SELECT rowid as tripID FROM trips WHERE username="${username}"`)
     return resu
 }
 
