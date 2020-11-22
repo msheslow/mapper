@@ -115,6 +115,11 @@ async function initMap() {
     let addWaypoint_autocomplete = await new google.maps.places.Autocomplete(
         document.getElementById('addWaypoint'),
         {
+            types: [
+                '(regions)',
+                'geocode',
+                'establishment'
+            ],
             componentRestrictions: {'country': ['US']},
             fields: ['place_id', 'geometry', 'name']
     });
