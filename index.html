@@ -155,6 +155,14 @@
                                     </div>`)
 
         }
+
+        function sitesCardAssembler(site) {
+            return (`<div class="box">
+                                    <span style="font-size: 30px;"><b>${site}</b></span>
+                                    <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
+                                    <span style="color: gray; font-size: 14px; font-weight: normal;">Description of location</span>
+                                </div>`);
+        }
             // Start trip, startLocation and destination
             function createTripFrontHandler(event){
             event.preventDefault();
@@ -162,7 +170,10 @@
                 console.log("Created a trip!")
                 $('#originWaypoint').append(startCardAssembler($('#start').val()));
                 $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
-                getSitesinStates();
+                let result = getSitesinStates();
+                for (i=0; i<result.data.rows.length; i++) {
+                    $('')
+                }
             } catch {
                 console.log("Didn't work lol")
             }
