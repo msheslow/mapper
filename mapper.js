@@ -98,6 +98,8 @@ async function initMap() {
         deleteWaypoint(waypointNum);
 
         try{
+        console.log("waypointName for StopID");
+        console.log(waypointName);
         let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: waypointName }, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log("deleting a waypoint from the backend worked!")
         } catch {
