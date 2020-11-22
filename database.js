@@ -16,7 +16,6 @@ app.use(expressSession({
     name: "mapperSessionCookie",
     secret: ["username", "tripID"],
     resave: false,
-    proxy: true,
     saveUninitialized: false
 }));
 
