@@ -112,8 +112,7 @@ async function addRoute(directionsService, directionsDisplay, waypoints) {
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
         travelMode: 'DRIVING',
-        waypoints: waypoints,
-        waypoints: optimize = true
+        waypoints: waypoints, optimize: true
     },async function(response, status) {
         if (status === 'OK') {
             await directionsDisplay.setDirections(response);
