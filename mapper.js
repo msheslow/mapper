@@ -145,7 +145,6 @@ async function stateTrav(directionsDisplay) {
         let LAT = directionsDisplay.directions.routes[0].overview_path[i].lat();
         let LNG = directionsDisplay.directions.routes[0].overview_path[i].lng();
         let state = await getState(LAT, LNG);
-        console.log(state);
         if (!states.includes(state)) {
             states.push(state);
         }
@@ -177,7 +176,7 @@ async function revGeocode(LAT, LNG) {
         let state_name;
         data.forEach(data => {
             if (data.types.includes("administrative_area_level_1")) {
-                state_name = data.short_name;
+                state_name = data.long_name;
             }
         });
         return state_name;
@@ -334,8 +333,8 @@ function sitesCardAssembler(site) {
         }
     }
 
-    console.log("reached")
-    console.log(getStopsInStates(["Connecticut", "New York", "Pennsylvania", "Ohio"]))
+  //  console.log("reached")
+  //  console.log(getStopsInStates(["Connecticut", "New York", "Pennsylvania", "Ohio"]))
 
     async function removeStop(directionsService, directionsDisplay, waypoints, waypointNum) {
 
