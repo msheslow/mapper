@@ -73,6 +73,18 @@ async function initMap() {
         }
     }
 
+    // WHEN DELETING A WAYPOINT, CALL THIS INSTEAD 
+    async function waypointMakerTwo(waypointOrder, waypoints){
+        // ------- HTML stuff starts here -------
+        $('#listWaypoints').empty()
+        for (i=0; i<waypointOrder.length; i++) {
+            console.log("line 273: " + waypointOrder[i]);
+            let waypointNum = waypointOrder[i];
+            console.log("line 275: " + waypointNum);
+            $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query), waypointNum);
+        }
+    }
+
     async function deleteWaypointHandler(event) {
         event.preventDefault();
         console.log(event);
@@ -86,6 +98,8 @@ async function initMap() {
         deleteWaypoint(waypointNum);
 
         try{
+        console.log("waypointName for StopID");
+        console.log(waypointName);
         let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: waypointName }, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log("deleting a waypoint from the backend worked!")
         } catch {
@@ -110,18 +124,13 @@ async function initMap() {
 
     // Sets the selected <input> html elements to become autocomplete objects
     async function db_autocomplete(event){
-        let a, b, i, val = this.value
-        console.log(this.value)
-        if (!val){
-            return false
+        let input_string = event.currentTarget.value; 
+
+        if (!input_string) {
+            return false;
         }
-        
-        let input_string = event.currentTarget.value;
-        let option = document.createElement("DIV")
-        option.setAttribute("class", "autocomplete-list")
-        option.setAttribute("id",this.id+"-autocomplete-response")
-        this.appendChild(option)
-        let result
+
+        let result;
         try {
             result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log(result.data.rows);
@@ -130,12 +139,21 @@ async function initMap() {
         } catch {
             console.log("Autocomplete didnt work lol")
         }
-        let ans
         for (place of result){
-
+            console.log(place.Name + ", " + place.State);
+            $('#start-column').append(`<div class="waypointCard box" style="background-color: #CCFFCC; margin-bottom: 5px;">
+            <div class="columns">
+                <div class="column is-four-fifths">
+                    <span style="font-size: 20px; color: black;">${place.Name + ", " + place.State}</span>
+                </div>
+                <div class="column" style="text-align: right;">
+                </div>
+            </div>
+        </div>`)
         }
     }
 
+    /*
     let start_autocomplete = await new google.maps.places.Autocomplete(
             document.getElementById('start'),
             {
@@ -143,6 +161,7 @@ async function initMap() {
                 componentRestrictions: {'country': ['US']},
                 fields: ['place_id', 'geometry', 'name']
     });
+    */
 
     let end_autocomplete = await new google.maps.places.Autocomplete(
             document.getElementById('end'),
@@ -401,7 +420,7 @@ async function initMap() {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
-                    waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
+                    waypointMakerTwo(response.routes[0].waypoint_order, response.request.waypoints);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }

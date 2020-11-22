@@ -31,7 +31,7 @@ app.post('/login', async (req, res) => {
         return
     } else {
         req.session.username = user;
-        res.json(true);
+        res.json(user);
         return user;
     }
 })
@@ -44,7 +44,7 @@ app.post('/createlogin', async (req, res) => {
     let result = await addUser(user, password)
     if (result == "Success"){
         req.session.username = user;
-        res.json(true);
+        res.json(user);
         return user;
     } else {
         res.status(403).send("User exists");
@@ -338,15 +338,16 @@ async function checkLogin(username, password) {
 
 // creates a new user
 async function addUser(username, password){
-    let sqlCheckUserName = `SELECT * from users WHERE username = "${username}" `
-    let sqlUserCommand = `INSERT INTO users (username, password) VALUES ("${username}", "${password}")`
     //Checks if user is already in database, if not adds user
     let log = await checkLogin(username, password)
     if (log != "User does not exist"){
         return "User exists"
+    } else {
+        let sqlUserCommand = `INSERT INTO users (username, password) VALUES ("${username}", "${password}")`
+    
+        await searchWrapper(sqlUserCommand)
+        return "Success"
     }
-    await searchWrapper(sqlUserCommand)
-    return "Success"
 }
 
 

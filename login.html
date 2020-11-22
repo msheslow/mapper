@@ -49,7 +49,7 @@
                 password: $('#password').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
                 console.log("result of login")
                 console.log(result);
-                document.cookie = "username=" + result.data.rows[0].username;
+                document.cookie = "username=" + result.data;
                 console.log("Logged in and set cookie")
                 window.location.replace("https://mapper-project.herokuapp.com/index.html");
             } catch {
