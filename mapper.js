@@ -99,7 +99,7 @@ async function initMap() {
 
     // Sets the selected <input> html elements to become autocomplete objects
     async function db_autocomplete(event){
-        console.log(event.currentTarget.val());
+        console.log(event.currentTarget.value);
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: string }, { headers: {'Access-Control-Allow-Origin': '*'}});
             return result.data.rows
@@ -329,13 +329,13 @@ async function initMap() {
                         <div>
                             <div class="columns">
                                 <div class="column is-10">
-                                    <span style="font-size: 30px;"><b>${attraction.Name}</b></span><br>
-                                    <span style="color: black; font-size:14px;"><b>${attraction.Type}</b></span><br>
+                                    <span style="font-size: 30px;"><b>${attraction.Name}</b></span>
                                 </div>
                             <div class="column">
                                     <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
                             </div>
                         </div>
+                        <span style="color: gray; font-size:14px;">${attraction.Type}</span><br>
                         <span style="color: gray; font-size: 14px; font-weight: normal;">${attraction.Description}</span>
                     </div>`)
         }
