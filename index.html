@@ -168,7 +168,8 @@
             try {
                 let result= await axios.post('https://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
                 destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                console.log("Created a trip!")
+                console.log("Created a trip!");
+                console.log(result);
                 $('#originWaypoint').append(startCardAssembler($('#start').val()));
                 $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
                 /*
