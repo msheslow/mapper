@@ -105,7 +105,7 @@ let waypoints = [];
 
 async function addRoute(directionsService, directionsDisplay) {
     let autism_waypoints = [];
-    autism_waypoints = waypoints.clone();
+    autism_waypoints = waypoints;
     let newWaypoint = {
         location: document.getElementById('addWaypoint').value,
         stopover: false
