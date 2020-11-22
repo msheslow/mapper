@@ -217,7 +217,7 @@ async function initMap() {
 
     }
 
-        function waypointCardAssembler(waypoint, waypointNum){
+    function waypointCardAssembler(waypoint, waypointNum){
         return (`<div class="waypointCard box" id="${waypointNum}" style="background-color: #ECECEC; margin-bottom: 10px;">
                                     <div class="columns">
                                         <div class="column is-four-fifths">
@@ -239,7 +239,7 @@ async function initMap() {
                             </div>`);
     }
         // Start trip, startLocation and destination
-        async function createTripHandler(event){
+    async function createTripHandler(event){
         event.preventDefault();
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
@@ -288,7 +288,7 @@ async function initMap() {
 
         async function deleteStopHandler(event, directionsService, directionsDisplay, waypoints) {
             event.preventDefault();
-            let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: /* this needs to be the name of the stop (ie. "Dallas, TX, USA") */ "placeholder"  }, { headers: {'Access-Control-Allow-Origin': '*'}});
+            // let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: /* this needs to be the name of the stop (ie. "Dallas, TX, USA") */ "placeholder"  }, { headers: {'Access-Control-Allow-Origin': '*'}});
 
             console.log(event);
             let current_card = event.currentTarget.parentElement.parentElement.parentElement;
@@ -297,7 +297,7 @@ async function initMap() {
             console.log("waypointNum: " + waypointNum);
             console.log("waypoints: " + waypoints)
             waypoints.splice(waypointNum, 1);
-            removeStop(directionsService, directionsDisplay, waypoints, waypointNum);
+            deleteStop(directionsService, directionsDisplay, waypoints, waypointNum);
         }
 
     
@@ -338,7 +338,7 @@ async function initMap() {
     //  console.log("reached")
     //  console.log(getStopsInStates(["Connecticut", "New York", "Pennsylvania", "Ohio"]))
 
-        async function removeStop(directionsService, directionsDisplay, waypoints) {
+        async function deleteStop(directionsService, directionsDisplay, waypoints) {
 
             await directionsService.route({
                 origin: document.getElementById('start').value,
