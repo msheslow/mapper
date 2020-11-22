@@ -307,11 +307,9 @@ function closeDB(){
 
 
 
-// //writeSearch(route)
+// // //writeSearch(route)
 // async function test(){
-    // await createTrip("arisf", "Houston", "Denver")
-    //console.log(await searchWrapper(`INSERT INTO trips (username, startLocation, endLocation) VALUES ("arisf", "Houston", "Dallas")`))
-    // console.log(await getUsersTripNumbers("arisf"))
+//     console.log(await searchWrapper(`SELECT * FROM trips`))
 // }
 // test()
 // addUser("arisf", "arispassword")
