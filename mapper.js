@@ -6,7 +6,6 @@ async function initMap() {
     let directionsDisplay = await new google.maps.DirectionsRenderer;
     let local_waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
     
-    console.log(autocomplete("Ac"))
 
     let options = {
         zoom: 3,
@@ -101,10 +100,14 @@ async function initMap() {
     async function autocomplete(string){
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: string }, { headers: {'Access-Control-Allow-Origin': '*'}});
+<<<<<<< HEAD
             // result = Array(Objects{Name, State, Lat, Lng})
             console.log(result)
             console.log(result.data.rows)
             return result
+=======
+            return result.data.rows
+>>>>>>> 8b87bdb2980068580b2f6c9d5110079294226719
            
         } catch {
             console.log("Autocomplete didnt work lol")
@@ -339,20 +342,20 @@ async function initMap() {
             try {
                 let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { states: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
                 console.log(result);
+                for(let i=0; i<result.data.rows.length; i+=3) {
+                    if (i=result.data.rows.length) {
+                        return
+                    } else { $('#attractionsTwo').attractionsCardAssembler(result.data.rows[i]);}
+                    if (i+1>result.data.rows.length) {
+                        return
+                    } else { $('#attractionsThree').attractionsCardAssembler(result.data.rows[i+1]);}
+                    if (i+2>result.data.rows.length) {
+                        return;
+                    } else { $('#attractionsOne').attractionsCardAssembler(result.data.rows[i+2]);}
+                }
             } catch {
                 console.log(result);
                 console.log("Adding a stop Didn't work lol")
-            }
-            for(let i=0; i<result.rows.length; i+=3) {
-                if (i=result.rows.length) {
-                    return
-                } else { $('#attractionsTwo').attractionsCardAssembler(result.rows[i]);}
-                if (i+1>result.rows.length) {
-                    return
-                } else { $('#attractionsThree').attractionsCardAssembler(result.rows[i+1]);}
-                if (i+2>result.rows.length) {
-                    return;
-                } else { $('#attractionsOne').attractionsCardAssembler(result.rows[i+2]);}
             }
         }
 
