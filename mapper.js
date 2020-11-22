@@ -100,10 +100,13 @@ async function initMap() {
     async function autocomplete(string){
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: string }, { headers: {'Access-Control-Allow-Origin': '*'}});
+<<<<<<< HEAD
             // result = Array(Objects{Name, State, Lat, Lng})
             console.log(result)
             console.log(result.data.rows)
             return result
+=======
+>>>>>>> 304ffc9118f9d409a7faea3aeac617a28158b12f
             return result.data.rows
            
         } catch {
@@ -327,10 +330,17 @@ async function initMap() {
 
 
         function attractionsCardAssembler(attraction) {
-            return (`<div class="box">
-                        <span style="font-size: 30px;"><b>${attraction.Name}</b></span>
-                        <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
-                        <span style="color: gray; font-size:14px;">${attraction.Type}</span>
+            return(`<div class="box">
+                        <div>
+                            <div class="columns">
+                                <div class="column is-10">
+                                    <span style="font-size: 30px;"><b>${attraction.Name}</b></span>
+                                </div>
+                            <div class="column">
+                                    <button class="button is-rounded" id="anotherAdd"><i class="fas fa-plus-circle"></i></button><br>
+                            </div>
+                        </div>
+                        <span style="color: gray; font-size:14px;">${attraction.Type}</span><br>
                         <span style="color: gray; font-size: 14px; font-weight: normal;">${attraction.Description}</span>
                     </div>`)
         }
