@@ -50,12 +50,6 @@
 
         <script>
         function tripCardAssembler(aTrip, aTripID){
-            console.log("aTrip at the start of tripCardAssembler");
-            console.log(aTrip);
-            console.log(aTripID);
-            console.log("number of stops")
-            console.log(aTrip.data[1].rows.length)
-            console.log(aTrip.data[1].rows)
             let start = aTrip.data[0].rows[0].startLocation;
             let end = aTrip.data[0].rows[0].endLocation;
             if (aTrip.data[1].rows){
@@ -104,32 +98,33 @@
 
         async function loadTrips() {
             let result= await axios.get('https://mapper-project.herokuapp.com/tripids', { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log("result")
-            console.log(result)
-            console.log("result.data.rows")
-            console.log(result.data.rows)
-            console.log("result.data.rows[0].tripID")
-            console.log(result.data.rows[0].tripID)
-            console.log("result.data.rows[1].tripID")
-            console.log(result.data.rows[1].tripID)
-            console.log("result.data.rows[2].tripID")
-            console.log(result.data.rows[2].tripID)
-            console.log("result.data.rows[3].tripID")
-            console.log(result.data.rows[3].tripID)
-            console.log("result.data.rows.length")
-            console.log(result.data.rows.length)
             let aTrip;
             for (i=0; i < result.data.rows.length; i++) {
                 aTrip = await axios.get('https://mapper-project.herokuapp.com/gettrip/' + result.data.rows[i].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
-                console.log("aTrip before tripCardAssembler")
-                console.log(aTrip);
-                console.log(result.data.rows[i].tripID)
                 $('#userTrips').append(tripCardAssembler(aTrip, result.data.rows[i].tripID));
             }
         }
 
         async function renderTrips() {
             loadTrips();
+            userCard();
+        }
+
+        function userCardBuilder(username){
+            return (`<br><br>
+                        <div class="box" style="margin-top: 10px;">
+                            <div style="text-align: center;">
+                            <span style="font-size: 80px; color: black;"><i class="fas fa-user-circle"></i></span><br><br>
+                            <span style="font-size: 20px; color: black;">${username}</span>
+                        </div>`)
+        }
+
+        function userCard() {
+            const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('user'))
+            .split('=')[1];
+            $('#userInfo').append(userCardBuilder(cookieValue));
         }
 
         window.onload = renderTrips();
