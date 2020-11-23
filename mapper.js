@@ -32,11 +32,6 @@ async function initMap() {
     $('main').on('click', '.autocomplete-box',start_autocomplete_click_handler);
 
     async function start_autocomplete_click_handler(event) {
-
-
-
-        console.log(event);
-
         let place_name = event.currentTarget.firstChild.nextSibling.innerText;
 
         if (event.currentTarget.parentElement.id == "start-column") {
@@ -46,7 +41,8 @@ async function initMap() {
             document.getElementById("end").value = place_name;
             $('#end-column').empty();
         } else if (event.currentTarget.parentElement.id == "waypoint-column") {
-            document.getElementById("addWaypoint").value = place.name;
+            console.log(event);
+            document.getElementById("addWaypoint").value = event.currentTarget;
             $('#waypoint-column').empty();
         }
 
