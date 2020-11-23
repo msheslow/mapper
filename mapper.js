@@ -144,8 +144,8 @@ async function initMap() {
             $('#originWaypoint').append(startCardAssembler($('#start').val()));
             $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
             let newresult= await axios.get('https://mapper-project.herokuapp.com/gettrip/'+result.data.rows[0].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log("result of calling get tripid on the trip that was just created")
-            console.log(newresult)
+            console.log("result of calling get tripid on the trip that was just created");
+            console.log(newresult);
             /*
             let result = getSitesinStates();
             for (i=0; i<result.data.rows.length; i++) {
@@ -208,9 +208,7 @@ async function initMap() {
         let current_card = event.currentTarget.parentElement.parentElement.parentElement;
         console.log(current_card);
         let waypointNum = current_card.id;
-        let waypointName= current_card.value; // this is undefined, THIS NEEDS TO BE FIXED
-        console.log("waypointNum: " + waypointNum);
-        console.log("waypoints: " + local_waypoints);
+        let waypointName= current_card.value; // this is undefined, THIS NEEDS TO BE 
         local_waypoints.splice(waypointNum, 1);
         deleteWaypoint(waypointNum);
 
