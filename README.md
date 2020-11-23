@@ -1,6 +1,78 @@
 # mapper
 COMP 426 Final Project - Mapper
 <p>&nbsp;</p>
+API CRUD Summary
+<table>
+<tbody>
+<tr>
+<td>&nbsp;</td>
+<td>
+<p><span style="font-weight: 400;">Create</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Read</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Update</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Delete</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">User</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">/createlogin</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">/login, /logout</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">N/A</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">N/A</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">Trip</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">/starttrip</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">/gettrip/:id, /tripid,&nbsp;</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">/addstop, </span><span style="font-weight: 400;">/deletestop, /deleteallstops, /updateroute</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">/deletetrip</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">Destination Database</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">N/A</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">/autofill, /stopsinstates</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">N/A</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">N/A</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
 API Interface - User Functionality
 <table>
 <tbody>
