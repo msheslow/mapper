@@ -116,7 +116,7 @@ app.post('/deletestop', async (req, res) => {
         res.status(403).send("Please provide stopID you would like to delete")
     }
     await searchWrapper(`DELETE FROM stops WHERE stopID = "${req.body.stopID}" AND tripID = "${req.session.tripID}"`)
-    res.json(true)S
+    res.json(true)
 })
 
 app.get('/deleteallstops', async (req, res) => {
