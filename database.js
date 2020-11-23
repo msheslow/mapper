@@ -310,6 +310,14 @@ async function addTripStop(tripID, stopID){
     return  await getTripDetails(tripID, "arisf")
 }
 
+async function getNPS(){
+    let ans = await searchWrapper(`SELECT * FROM citiesAndSites WHERE Type = "National Park"`)
+    let ret = []
+    for (place of ans.rows){
+        ret.push(place.Name)
+    }
+    return ret
+}
 
 
 //returns all of a user's saved trip numbers
@@ -381,15 +389,15 @@ function closeDB(){
     
 
 // // // // //writeSearch(route)
-// async function test(){
-   
-//     for (let i=0; i<10; i++){
-//         await deleteAllStops(i)
-//         await searchWrapper(`DELETE FROM trips WHERE rowid = "${i}"`)
-//     }
-//     // console.log(await getSitesInStates(["New Mexico", "Utah"]))
-// }
-// test()
+async function test(){
+   console.log(await getNPS())
+    // for (let i=0; i<10; i++){
+    //     await deleteAllStops(i)
+    //     await searchWrapper(`DELETE FROM trips WHERE rowid = "${i}"`)
+    // }
+    // console.log(await getSitesInStates(["New Mexico", "Utah"]))
+}
+test()
 // // // // addUser("arisf", "arispassword")
 // createTrip("arisf", "Wake Forest", "Sedona, AZ")
 // addTripStop(1,"Great Sand Dunes National Park")
