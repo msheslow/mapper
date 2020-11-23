@@ -492,8 +492,7 @@ async function initMap() {
     
             // Add a stop from suggested, stopID (this is not done)
             async function attractionCardAddHandler(event){
-                event.preventDefault();
-                let current_card = event.currentTarget.parentElement.parentElement.parentElement;
+                let current_card = event.currentTarget.parentElement.parentElement.parentElement.parentElement;
                 console.log(current_card);
                 let waypointName = current_card.id;
                 let newWaypoint = {
@@ -501,9 +500,12 @@ async function initMap() {
                     stopover: true
                 }
                 local_waypoints.push(newWaypoint);
-                    await addRoute(directionsService, directionsDisplay, local_waypoints);
+                await addRoute(directionsService, directionsDisplay, local_waypoints);
+                }
+               
             
-            }
+
+
     
     
             function attractionsCardAssembler(attraction) {
