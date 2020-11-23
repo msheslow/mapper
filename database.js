@@ -381,15 +381,15 @@ function closeDB(){
     
 
 // // // // //writeSearch(route)
-async function test(){
+// async function test(){
    
-    for (let i=0; i<10; i++){
-        await deleteAllStops(i)
-        await searchWrapper(`DELETE FROM trips WHERE rowid = "${i}"`)
-    }
-    // console.log(await getSitesInStates(["New Mexico", "Utah"]))
-}
-test()
+//     for (let i=0; i<10; i++){
+//         await deleteAllStops(i)
+//         await searchWrapper(`DELETE FROM trips WHERE rowid = "${i}"`)
+//     }
+//     // console.log(await getSitesInStates(["New Mexico", "Utah"]))
+// }
+// test()
 // // // // addUser("arisf", "arispassword")
 // createTrip("arisf", "Wake Forest", "Sedona, AZ")
 // addTripStop(1,"Great Sand Dunes National Park")
