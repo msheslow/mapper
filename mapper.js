@@ -194,10 +194,10 @@ async function initMap() {
             let current_card = event.currentTarget.parentElement.parentElement.parentElement;
             console.log(current_card);
             let waypointNum = current_card.id;
-            console.log("deleteWaypointHandler waypointNum: ");
+            console.log("deleteWaypointHandler (waypointNum + 1):");
             console.log(waypointNum);
             // this is undefined, THIS NEEDS TO BE 
-            local_waypoints.splice(waypointNum, 1);
+            local_waypoints.splice(waypointNum + 1, 1);
             console.log("deleteWaypointHandler local_points (post-splice): ");
             console.log(local_waypoints);
             deleteWaypoint(waypointNum);
