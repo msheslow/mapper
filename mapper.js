@@ -218,6 +218,9 @@ async function initMap() {
         }
     
         async function deleteWaypointHandler(event) {
+            let spliced_local_waypoints = [];
+
+
             console.log("local_waypoints (pre-splice): ");
             console.log(local_waypoints);
             event.preventDefault();
@@ -228,6 +231,18 @@ async function initMap() {
             // let local_waypoint_deleted = waypointOrder[waypointNum];
             console.log("deleteWaypointHandler (waypointNum + 1):");
             console.log(waypointNum);
+
+            for (let i = 0; i < local_waypoints.length; i++) {
+                if (waypointNum == i) {
+                    // nothing
+                } else {
+                    spliced_local_waypoints.push(local_waypoints[i]);
+                }
+            }
+
+            console.log(spliced_local_waypoints);
+
+
             // this is undefined, THIS NEEDS TO BE 
             local_waypoints.splice(waypointNum, 1);
             console.log("local_waypoints (post-splice): ");
