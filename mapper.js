@@ -163,32 +163,16 @@ async function initMap() {
         // ------- HTML stuff starts here -------
         $('#listWaypoints').empty()
         for (i=0; i<waypointOrder.length; i++) {
-            let waypointNum = waypointOrder[i];
-            $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query));
+            let waypointName = $('#addWaypoint').val();
+            $('#listWaypoints').append(waypointCardAssembler(waypointName,waypoints[waypointOrder[i]].location.query));
         }
         // ---------- Back end stuff start here -------------
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log("Created a stop! See it below")
             console.log(result)
-            let newresult= await axios.get('https://mapper-project.herokuapp.com/gettrip/'+result.data.rows[0].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log("result of calling get tripid on the trip that was just created")
-            console.log(newresult)
         } catch {
             console.log("Adding a stop Didn't work lol")
-        }
-    }
-
-    // WHEN DELETING A WAYPOINT, CALL THIS INSTEAD  - BROKEN!!!!!! @ 3:51am 11/23 (lol)
-    async function delete_waypointMaker(waypointOrder, waypoints){
-        // ------- HTML stuff starts here -------
-        $('#listWaypoints').empty()
-        for (i=0; i<waypointOrder.length; i++) {
-            console.log("line 273: " + waypointOrder[i]);
-            let waypointNum = waypointOrder[i];
-            console.log("line 275: " + waypointNum);
-        // POSSIBLE SOLUTION: Empty this HTML area right here - look in morning    
-            $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query));
         }
     }
 
@@ -209,6 +193,45 @@ async function initMap() {
             console.log("deleting a waypoint from the backend worked!")
         } catch {
             console.log("deleting a waypoint from the backend didn't work")
+        }
+    }
+
+    async function deleteWaypoint() {
+
+        await directionsService.route({
+            origin: document.getElementById('start').value,
+            destination: document.getElementById('end').value,
+            travelMode: 'DRIVING',
+            waypoints: local_waypoints,
+            optimizeWaypoints: true,
+        },async function(response, status) {
+            if (status === 'OK') {
+                await directionsDisplay.setDirections(response);
+                window.scrollTo(0, 700);
+                delete_waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
+            } else {
+                window.alert('Please enter an origin and destination, then click "Plan Route"');
+            }
+        });
+    
+        async function start() {
+            window.setTimeout(stateTrav,1000, directionsDisplay);
+        }
+        start();
+    }
+}
+
+
+    // WHEN DELETING A WAYPOINT, CALL THIS INSTEAD  - BROKEN!!!!!! @ 3:51am 11/23 (lol)
+    async function delete_waypointMaker(waypointOrder, waypoints){
+        // ------- HTML stuff starts here -------
+        $('#listWaypoints').empty()
+        for (i=0; i<waypointOrder.length; i++) {
+            console.log("line 273: " + waypointOrder[i]);
+            let waypointNum = waypointOrder[i];
+            console.log("line 275: " + waypointNum);
+        // POSSIBLE SOLUTION: Empty this HTML area right here - look in morning    
+            $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query));
         }
     }
 
@@ -417,8 +440,8 @@ async function initMap() {
 
     }
 
-    function waypointCardAssembler(waypoint){
-        return (`<div class="waypointCard box" value="${waypoint}" style="background-color: #ECECEC; margin-bottom: 10px;">
+    function waypointCardAssembler(waypointName,waypoint){
+        return (`<div class="waypointCard box" id="${waypointName}" style="background-color: #ECECEC; margin-bottom: 10px;">
                                     <div class="columns">
                                         <div class="column is-four-fifths">
                                             <span style="font-size: 20px; color: black;">${waypoint}</span>
@@ -482,29 +505,4 @@ async function initMap() {
 
     //  console.log("reached")
     //  console.log(getStopsInStates(["Connecticut", "New York", "Pennsylvania", "Ohio"]))
-
-        async function deleteWaypoint() {
-
-            await directionsService.route({
-                origin: document.getElementById('start').value,
-                destination: document.getElementById('end').value,
-                travelMode: 'DRIVING',
-                waypoints: local_waypoints,
-                optimizeWaypoints: true,
-            },async function(response, status) {
-                if (status === 'OK') {
-                    await directionsDisplay.setDirections(response);
-                    window.scrollTo(0, 700);
-                    delete_waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
-                } else {
-                    window.alert('Please enter an origin and destination, then click "Plan Route"');
-                }
-            });
-        
-            async function start() {
-                window.setTimeout(stateTrav,1000, directionsDisplay);
-            }
-            start();
-        }
-    }
 
