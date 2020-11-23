@@ -28,7 +28,7 @@ async function initMap() {
     $('main').on('click', '#delete', deleteWaypointHandler)
     $('main').on('input', '#start', start_db_autocomplete);
     $('main').on('input', '#end', end_db_autocomplete);
-    $('main').on('input', '#addWaypoint', start_db_autocomplete);
+    $('main').on('input', '#addWaypoint', waypoint_db_autocomplete);
     $('main').on('click', '.autocomplete-box',start_autocomplete_click_handler);
 
     async function start_autocomplete_click_handler(event) {
@@ -259,6 +259,8 @@ async function initMap() {
     });
     */
 
+
+/*
     let addWaypoint_autocomplete = await new google.maps.places.Autocomplete(
         document.getElementById('addWaypoint'),
         {
@@ -269,6 +271,7 @@ async function initMap() {
             componentRestrictions: {'country': ['US']},
             fields: ['place_id', 'geometry', 'name']
     });
+    */
 
     // Array of Markers that are places on the map
     let markers = [];
