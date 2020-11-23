@@ -30,6 +30,9 @@ async function initMap() {
     $('main').on('input', '#end', db_autocomplete);
     $('main').on('input', '#addWaypoint', db_autocomplete);
     $('main').on('click', '.autocomplete-box',start_autocomplete_click_handler);
+    $('#start').on('blur', function () {
+        $('#start-column').empty();
+    });
 
     async function start_autocomplete_click_handler(event) {
         // console.log(this.childElement.childElement.childElement.value);
@@ -138,8 +141,6 @@ async function initMap() {
     // Sets the selected <input> html elements to become autocomplete objects
     async function db_autocomplete(event){
         let input_string = event.currentTarget.value; 
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        $('#start').on('selectionchange', $('#start-column').empty());
 
         if (!input_string) {
             $('#start-column').empty();
