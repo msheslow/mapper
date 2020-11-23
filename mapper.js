@@ -331,6 +331,7 @@ async function initMap() {
         }
         start();
         console.log(directionsDisplay);
+        duration(directionsDisplay);
     }
 
     async function addRoute(directionsService, directionsDisplay, local_waypoints) {
@@ -354,6 +355,7 @@ async function initMap() {
             window.setTimeout(stateTrav,1000, directionsDisplay);
         }
         start();
+        duration(directionsDisplay);
     }
 
 
