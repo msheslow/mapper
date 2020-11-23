@@ -155,7 +155,30 @@ async function initMap() {
                 stopover: true
             }
             local_waypoints.push(newWaypoint);
-            await addRoute(directionsService, directionsDisplay, local_waypoints);
+            await add_Waypoint(directionsService, directionsDisplay, local_waypoints);
+        }
+
+        async function add_Waypoint(directionsService, directionsDisplay, local_waypoints) {
+            await directionsService.route({
+                origin: document.getElementById('start').value,
+                destination: document.getElementById('end').value,
+                travelMode: 'DRIVING',
+                waypoints: local_waypoints,
+                optimizeWaypoints: true,
+            },async function(response, status) {
+                if (status === 'OK') {
+                    await directionsDisplay.setDirections(response);
+                    window.scrollTo(0, 700);
+                    await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
+                } else {
+                    window.alert('Please enter an origin and destination, then click "Plan Route"');
+                }
+            });
+    
+            async function start() {
+                window.setTimeout(stateTrav,1000, directionsDisplay);
+            }
+            start();
         }
     
         // -------------- POPULATES THE WAYPOINT PART OF THE HTML WITH WAYPOINT CARDS ---------------
@@ -168,7 +191,8 @@ async function initMap() {
             // ------- HTML stuff starts here -------
             $('#listWaypoints').empty()
             try{
-                let result = await axios.get('https://mapper-project.herokuapp.com/deleteallstops', { headers: {'Access-Control-Allow-Origin': '*'}});
+                //placeholder
+                let result = await axios.get('https://mapper-project.herokuapp.com/deleteallstops',{tripID: 1}, { headers: {'Access-Control-Allow-Origin': '*'}});
                     console.log("deleting all stops from the backend worked!")
                 } catch {
                     console.log("deleting all stops from the backend didn't work")
@@ -205,13 +229,14 @@ async function initMap() {
             console.log("deleteWaypointHandler (waypointNum + 1):");
             console.log(waypointNum);
             // this is undefined, THIS NEEDS TO BE 
-            local_waypoints.splice(waypointNum - 1, 1);
+            local_waypoints.splice(waypointNum, 1);
             console.log("local_waypoints (post-splice): ");
             console.log(local_waypoints);
-            await deleteWaypoint(local_waypoints);
+            return;
+            // await deleteWaypoint(directionsService, directionsDisplay, local_waypoints);
         }
     
-        async function deleteWaypoint(local_waypoints) {
+        async function deleteWaypoint(directionsService, directionsDisplay, local_waypoints) {
             
             await directionsService.route({
                 origin: document.getElementById('start').value,
@@ -366,28 +391,7 @@ async function initMap() {
             start();
         }
     
-        async function addRoute(directionsService, directionsDisplay, local_waypoints) {
-            await directionsService.route({
-                origin: document.getElementById('start').value,
-                destination: document.getElementById('end').value,
-                travelMode: 'DRIVING',
-                waypoints: local_waypoints,
-                optimizeWaypoints: true,
-            },async function(response, status) {
-                if (status === 'OK') {
-                    await directionsDisplay.setDirections(response);
-                    window.scrollTo(0, 700);
-                    await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
-                } else {
-                    window.alert('Please enter an origin and destination, then click "Plan Route"');
-                }
-            });
-    
-            async function start() {
-                window.setTimeout(stateTrav,1000, directionsDisplay);
-            }
-            start();
-        }
+       
     
     
     
@@ -500,7 +504,7 @@ async function initMap() {
                     stopover: true
                 }
                 local_waypoints.push(newWaypoint);
-                await addRoute(directionsService, directionsDisplay, local_waypoints);
+                await add_Waypoint(directionsService, directionsDisplay, local_waypoints);
                 }
                
             
