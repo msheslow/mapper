@@ -223,7 +223,7 @@ async function initMap() {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
-                    delete_waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
+                    await delete_waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
