@@ -21,7 +21,7 @@ async function initMap() {
      
     };
 
-    // ---------- EVENT LISTENERS ---------------
+    // ---------- EVENT LISTENERS ----------------
     $('main').on('click', '#add', waypointHandler);
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#anotherAdd', attractionCardAddHandler);// wat dis is?
