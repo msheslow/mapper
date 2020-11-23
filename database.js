@@ -294,7 +294,7 @@ async function addTripStop(tripID, stopID){
     let sqlStopCommand = `INSERT INTO stops VALUES ("${stopID}", "${tripID}")`
     await searchWrapper(`UPDATE citiesAndSites Set Weight = Weight+1 WHERE Name = "${stopID}"`)
     await searchWrapper(sqlStopCommand)
-    return  await searchWrapper(`SELECT * FROM stops WHERE stopID= "${stopID}"AND tripID ="${tripID}" `)
+    return  tripID
 }
 
 
