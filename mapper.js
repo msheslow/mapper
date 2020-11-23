@@ -34,12 +34,18 @@ async function initMap() {
     async function start_autocomplete_click_handler(event) {
 
 
+
         console.log(event);
 
         let place_name = event.currentTarget.firstChild.nextSibling.innerText;
         document.getElementById("start").value = place_name;
 
-        $('#start-column').empty();
+        if (event.currentTarget.parentElement.id == "start-column") {
+            $('#start-column').empty();
+        } else if (event.currentTarget.parentElement.id == "end-column") {
+            $('#end-column').empty();
+        }
+
     }
 
     async function start_db_autocomplete(event){
