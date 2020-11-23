@@ -134,7 +134,7 @@ async function initMap() {
 
     async function createTripHandler(event){
         event.preventDefault();
-        makeRoute(directionsService, directionsDisplay);
+        makeRoute(directionsService, directionsDisplay, local_waypoints);
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
             destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
@@ -280,7 +280,7 @@ async function initMap() {
         let marker = await new google.maps.Marker({
             position: properties.coordinates,
             map: map
-        });d
+        });
 
 
         if (properties.content) {
@@ -295,16 +295,18 @@ async function initMap() {
     }
 
     // makeRoute draws the route line between two locations on the map
-    async function makeRoute(directionsService, directionsDisplay) {
+    async function makeRoute(directionsService, directionsDisplay, local_waypoints) {
         await directionsService.route({
             origin: document.getElementById('start').value,
             destination: document.getElementById('end').value,
             travelMode: 'DRIVING',
+            waypoints: local_waypoints,
             optimizeWaypoints: true,
         },async function(response, status) {
             if (status === 'OK') {
                 await directionsDisplay.setDirections(response);
                 window.scrollTo(0, 700);
+                waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
             } else {
                 window.alert('Please enter an origin and destination, then click "Plan Route"');
             }
