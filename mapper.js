@@ -181,7 +181,8 @@ async function initMap() {
             console.log(event);
             let current_card = event.currentTarget.parentElement.parentElement.parentElement;
             console.log(current_card);
-            let waypointNum = current_card.id; // this is undefined, THIS NEEDS TO BE 
+            let waypointNum = current_card.id;
+            let waypointName = document.getElementById(waypointNum).getAttribute("waypoint-name");// this is undefined, THIS NEEDS TO BE 
             local_waypoints.splice(waypointNum, 1);
             deleteWaypoint(waypointNum);
     
@@ -439,7 +440,7 @@ async function initMap() {
         }
     
         function waypointCardAssembler(waypointNum,waypoint){
-            return (`<div class="waypointCard box" id="${waypointNum}" style="background-color: #ECECEC; margin-bottom: 10px;">
+            return (`<div class="waypointCard box" id="${waypointNum}" waypoint-name="${waypoint}" style="background-color: #ECECEC; margin-bottom: 10px;">
                                         <div class="columns">
                                             <div class="column is-four-fifths">
                                                 <span style="font-size: 20px; color: black;">${waypoint}</span>
