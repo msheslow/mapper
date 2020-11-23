@@ -112,18 +112,18 @@ app.post('/addstop', async (req, res) => {
 
 //deletes stop specified in the body
 app.post('/deletestop', async (req, res) => {
-    if (req.body.stopID == undefined || req.session.tripID == undefined){
+    if (req.body.stopID == undefined || req.body.tripID == undefined){
         res.status(403).send("Please provide stopID you would like to delete")
     }
-    await searchWrapper(`DELETE FROM stops WHERE stopID = "${req.body.stopID}" AND tripID = "${req.session.tripID}"`)
+    await searchWrapper(`DELETE FROM stops WHERE stopID = "${req.body.stopID}" AND tripID = "${req.body.tripID}"`)
     res.json(true)
 })
 
 app.get('/deleteallstops', async (req, res) => {
-    if (req.session.tripID == undefined){
+    if (req.body.tripID == undefined){
         res.status(403).send("Please provide stopID you would like to delete")
     }
-    await deleteAllStops(req.session.tripID)
+    await deleteAllStops(req.body.tripID)
     res.json(true)
 })
 
@@ -167,6 +167,7 @@ app.post('/deletetrip', async (req, res) => {
     if (req.session.tripID == undefined || req.session.username== undefined){
         res.status(403).send("missing credentials")
     }
+    req.session.tripID=""
     await searchWrapper(`DELETE FROM stops WHERE tripID = "${req.session.tripID}"`)
     await searchWrapper(`DELETE FROM trips WHERE rowid = "${req.session.tripID}"`)
     res.json(true)
@@ -232,6 +233,7 @@ async function deleteAllStops(trip){
 //Finds all the sites in the state listed in the route object, states must be spelled out strings in an array
 async function getSitesInStates(states){
     sql = ""
+    //Creates a SQL command that selects all stops in states
     for (state of states){
         sql = sql+`
         SELECT * 
@@ -240,21 +242,26 @@ async function getSitesInStates(states){
         UNION`
     }
     sql = sql.slice(0,-5)
+    // Ensures that out of ~100,000 possible stops, only the 100 most popular stops (Weight=popularity) are returned.
     sql = "SELECT * FROM ("+sql+`)
     ORDER BY Weight DESC
     LIMIT 100`
     let ans = await searchWrapper(sql)
+    //iterates through each suggestion to get the description if it doesn't exist
     for (place of ans.rows) {
+        //Checks to see if Wikipedia needs to be queried for this stop
         if ((place.Description == -1 || place.Description.startsWith("https://")) && place.Checked==0){
             let wikiName = place.Name.split(" ").join("_")
             let wikiRequest = "https://en.wikipedia.org/api/rest_v1/page/summary/"+wikiName
             let result
+            // queries Wikipedia for description
             try {
                 await searchWrapper(`UPDATE citiesAndSites SET Checked =1 WHERE Name="${place.Name}"`)
                 result = await axios.get(wikiRequest)
                 if (result.data.type=="standard"){
                     await searchWrapper(`UPDATE citiesAndSites SET Description ="${result.data.extract}" WHERE Name="${place.Name}"`)
                 }
+            //logs to console if suggestion is not in Wikepedia
             } catch {
                 console.log("wiki sad :(")
             }
