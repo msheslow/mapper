@@ -205,8 +205,6 @@ async function initMap() {
                 ordered_local_waypoints.push(local_waypoints[waypointOrder[i]]);
             }
             local_waypoints = ordered_local_waypoints;
-            console.log("this should be local_waypoints in stop order: ")
-            console.log(local_waypoints);
             // ------- HTML stuff starts here -------
             $('#listWaypoints').empty()
             try{
@@ -239,18 +237,9 @@ async function initMap() {
         async function deleteWaypointHandler(event) {
             let spliced_local_waypoints = [];
 
-
-       //     console.log("local_waypoints (pre-splice): ");
-       //     console.log(local_waypoints);
             event.preventDefault();
             console.log(event);
             let current_card = event.currentTarget.parentElement.parentElement.parentElement;
-       //     console.log(current_card);
-            let waypointNum = current_card.id;
-            // let local_waypoint_deleted = waypointOrder[waypointNum];
-        //    console.log("deleteWaypointHandler (waypointNum + 1):");
-       //     console.log(waypointNum);
-       //     console.log(current_card.innerText);
 
             for (let i = 0; i < local_waypoints.length; i++) {
                 if (local_waypoints[i].location == current_card.innerText) {
@@ -260,13 +249,6 @@ async function initMap() {
             }
             local_waypoints = spliced_local_waypoints;
 
-         //   console.log(spliced_local_waypoints);
-
-
-            // this is undefined, THIS NEEDS TO BE 
-            // local_waypoints.splice(waypointNum, 1);
-           // console.log("local_waypoints (post-splice): ");
-          //  console.log(local_waypoints);
             await deleteWaypoint(directionsService, directionsDisplay, local_waypoints);
         }
     
