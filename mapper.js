@@ -168,11 +168,12 @@ async function initMap() {
                 } catch {
                     console.log("deleting all stops from the backend didn't work")
                 }
+            let newresult;
             for (i=0; i<waypointOrder.length; i++) {
                 let waypointNum = waypoints[waypointOrder[i]];
                 $('#listWaypoints').append(waypointCardAssembler(waypointNum,waypoints[waypointOrder[i]].location.query));
                 try {
-                    let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: waypoints[waypointOrder[i]].location.query }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                    newresult= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: waypoints[waypointOrder[i]].location.query }, { headers: {'Access-Control-Allow-Origin': '*'}});
                     console.log("Created a stop! See it below")
                     console.log(result)
                 } catch {
@@ -232,6 +233,7 @@ async function initMap() {
                 } catch {
                     console.log("deleting all stops from the backend didn't work")
                 }
+            let newresult;
             for (i=0; i<waypointOrder.length; i++) {
                 console.log("line 273: " + waypointOrder[i]);
                 let waypointNum = waypointOrder[i];
@@ -240,8 +242,9 @@ async function initMap() {
                 $('#listWaypoints').append(waypointCardAssembler(waypointNum, waypoints[waypointOrder[i]].location.query));
                 let waypointName = document.getElementById(waypointNum).getAttribute("waypoint-name");
                 try{
-                    let result = await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: waypointName }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                        console.log("add a stop worked")
+                        newresult = await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: waypointName }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                        console.log("add a stop worked, see it below")
+                        console.log(newresult)
                     } catch {
                         console.log("adding a stop didn't work")
                     }
