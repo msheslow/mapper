@@ -399,7 +399,7 @@ async function initMap() {
     function waypointCardAssembler(waypoint, waypointNum){
         console.log("waypointNum: " + waypointNum);
         console.log('waypoint: ' + waypoint);
-        return (`<div class="waypointCard box" id="${waypointNum}" value="${waypoint} "style="background-color: #ECECEC; margin-bottom: 10px;">
+        return (`<div class="waypointCard box" id="${waypointNum}" value="${waypoint}" style="background-color: #ECECEC; margin-bottom: 10px;">
                                     <div class="columns">
                                         <div class="column is-four-fifths">
                                             <span style="font-size: 20px; color: black;">${waypoint}</span>
