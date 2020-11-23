@@ -98,10 +98,8 @@ API Interface - User Functionality
 </tr>
 </tbody>
 </table>
-<p></p>
+<p></p><p>&nbsp;</p>
 API Interface - Trip Functionality
-<p>&nbsp;</p>
-<p>&nbsp;</p>
 <table>
 <tbody>
 <tr>
@@ -221,9 +219,8 @@ API Interface - Trip Functionality
 </tr>
 </tbody>
 </table>
-<p></p>
+<p></p><p>&nbsp;</p>
 API Interface - Stops Functionality
-<p>&nbsp;</p>
 <table>
 <tbody>
 <tr>
@@ -343,9 +340,8 @@ API Interface - Stops Functionality
 </tr>
 </tbody>
 </table>
-<p></p>
+<p></p><p>&nbsp;</p>
 API Interface - Database Functionality
-<p>&nbsp;</p>
 <table>
 <tbody>
 <tr>
