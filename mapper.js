@@ -21,36 +21,32 @@ async function initMap() {
      
     };
 
-    const debouncedFunction = (autofillFunction, timeout) => { 
+
+    const debounce = (func, delay) => { 
         let debounceTimer 
         return function() { 
-            let args = arguments 
-            let closure = this
-            clearTimeout(debounceTimer)
-            alert("before debounce") 
-            debounceTimer = setTimeout(()=>alert("reached"), timeout)
-            // debounceTimer = setTimeout(() => autofillFunction.apply(closure, args), timeout) 
+            const context = this
+            const args = arguments 
+                clearTimeout(debounceTimer) 
+                    debounceTimer 
+                = setTimeout(() => func.apply(context, args), delay) 
         } 
     }  
-
-    let start_autocomplete_debounced = debouncedFunction(start_db_autocomplete, 500)
-    let end_autocomplete_debounced = debouncedFunction(end_db_autocomplete, 500)
-    let waypoint_autocomplete_debounced = debouncedFunction(waypoint_db_autocomplete, 500)
-    
     // ---------- EVENT LISTENERS ----------------
     $('main').on('click', '#add', waypointHandler);
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#anotherAdd', attractionCardAddHandler);
     $('main').on('click', '#delete', deleteWaypointHandler)
-    $('main').on('input', '#start', start_autocomplete_debounced);
-    $('main').on('input', '#end', end_autocomplete_debounced);
-    $('main').on('input', '#addWaypoint', waypoint_autocomplete_debounced);
+    $('main').on('input', '#start', debounce(start_db_autocomplete, 500));
+    $('main').on('input', '#end', debounce(end_db_autocomplete, 500));
+    $('main').on('input', '#addWaypoint', debounce(waypoint_db_autocomplete, 500));
     // $('main').on('input', '#start', start_db_autocomplete);
     // $('main').on('input', '#end', end_db_autocomplete);
     // $('main').on('input', '#addWaypoint', waypoint_db_autocomplete);
     $('main').on('click', '.autocomplete-box',start_autocomplete_click_handler);
 
 
+    
 
     async function start_autocomplete_click_handler(event) {
         let place_name = event.currentTarget.firstChild.nextSibling.innerText;
@@ -266,7 +262,7 @@ async function initMap() {
             console.log(spliced_local_waypoints);
 
 
-            // this is undefined, THIS NEEDS TO B 
+            // this is undefined, THIS NEEDS TO BE 
             // local_waypoints.splice(waypointNum, 1);
             console.log("local_waypoints (post-splice): ");
             console.log(local_waypoints);
