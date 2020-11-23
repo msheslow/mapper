@@ -36,7 +36,7 @@ async function initMap() {
     async function start_autocomplete_click_handler(event) {
 
 
-        if (!event.currentTarget.firstChild.nextSibling.innerText) {
+        if (!event.currentTarget.firstChild) {
             $('#start-column').empty();
             return;
         }
