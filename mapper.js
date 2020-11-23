@@ -177,7 +177,7 @@ async function initMap() {
             for (i=0; i<waypointOrder.length; i++) {
                 console.log(waypointOrder);
                 console.log(waypoints);
-                let waypointNum = i; // waypointNum = this is the waypoint object
+                let waypointNum = i; //
                 console.log("waypointNum: ")
                 console.log(waypointNum);
                 $('#listWaypoints').append(waypointCardAssembler(waypointNum,local_waypoints[i].location));
@@ -208,7 +208,7 @@ async function initMap() {
             local_waypoints.splice(waypointNum - 1, 1);
             console.log("local_waypoints (post-splice): ");
             console.log(local_waypoints);
-            deleteWaypoint(local_waypoints);
+            await deleteWaypoint(local_waypoints);
         }
     
         async function deleteWaypoint(local_waypoints) {
