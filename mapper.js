@@ -26,7 +26,6 @@ async function initMap() {
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#anotherAdd', attractionCardAddHandler);
     $('main').on('click', '#delete', deleteWaypointHandler)
-<<<<<<< HEAD
     $('main').on('input', '#start', start_autocomplete_debounced);
     $('main').on('input', '#end', end_autocomplete_debounced);
     $('main').on('input', '#addWaypoint', waypoint_autocomplete_debounced);
@@ -51,13 +50,6 @@ async function initMap() {
     let end_autocomplete_debounced = debouncedFunction(end_db_autocomplete, 500)
     let waypoint_autocomplete_debounced = debouncedFunction(waypoint_db_autocomplete, 500)
 
-=======
-    $('main').on('input', '#start', start_db_autocomplete);
-    $('main').on('input', '#end', end_db_autocomplete);
-    $('main').on('input', '#addWaypoint', waypoint_db_autocomplete);
-    $('main').on('click', '.autocomplete-box',start_autocomplete_click_handler);
-
->>>>>>> 2b92b64d8419c589e1103098e57018592ff7f421
     async function start_autocomplete_click_handler(event) {
         let place_name = event.currentTarget.firstChild.nextSibling.innerText;
 
