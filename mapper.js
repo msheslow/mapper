@@ -7,12 +7,18 @@ async function initMap() {
     let local_waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
 
     async function duration(directionsDisplay) {
+        console.log(directionsDisplay);
         let arr_len = directionsDisplay.directions.routes[0].legs.length;
         let route_len = 0;
+        let duration_len = 0;
 
-        for (let i = 0; i < arr_len; i++) {
+        for (let i = 0; i < arr_len + 1; i++) {
             console.log(directionsDisplay.directions.routes[0].legs[i].distance.text);
+            route_len += directionsDisplay.directions.routes[0].legs[i].distance.value;
+            duration_len += directionsDisplay.directions.routes[0].legs[i].duration.value;
         }
+        console.log(route_len);
+        console.log(duration_len);
      //   directionsDisplay.directions.routes[0].legs[0].duration.text
     }
     
