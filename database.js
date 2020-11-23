@@ -295,6 +295,7 @@ async function addTripStop(tripID, stopID){
     await searchWrapper(`UPDATE citiesAndSites Set Weight = Weight+1 WHERE Name = "${stopID}"`)
     await searchWrapper(sqlStopCommand)
     return  tripID
+    
 }
 
 
