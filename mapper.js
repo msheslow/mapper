@@ -147,6 +147,7 @@ async function initMap() {
             // window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
             console.log("Creating a trip Didn't work lol")
         }
+    }
 
         async function waypointHandler(event) {
             let newWaypoint = {
@@ -218,7 +219,7 @@ async function initMap() {
             }
             start();
         }
-    }
+    
     
     
         // WHEN DELETING A WAYPOINT, CALL THIS INSTEAD  - BROKEN!!!!!! @ 3:51am 11/23 (lol)
