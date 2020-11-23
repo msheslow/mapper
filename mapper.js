@@ -134,28 +134,15 @@ async function initMap() {
 
     async function createTripHandler(event){
         event.preventDefault();
-        makeRoute(directionsService, directionsDisplay, local_waypoints);
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
             destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log("Created a trip!");
-            console.log(result);
             document.cookie = "tripID=" + result.data.rows[0].tripID;
             $('#originWaypoint').empty();
             $('#destinationWaypoint').empty();
-            console.log($('#start').val());
-            console.log($('#end').val());
             $('#originWaypoint').append(startCardAssembler($('#start').val()));
             $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
-            let newresult= await axios.get('https://mapper-project.herokuapp.com/gettrip/'+result.data.rows[0].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log("result of calling get tripid on the trip that was just created");
-            console.log(newresult);
-            /*
-            let result = getSitesinStates();
-            for (i=0; i<result.data.rows.length; i++) {
-                $('')
-            }
-            */
+            makeRoute(directionsService, directionsDisplay, local_waypoints);
         } catch {
             // window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
             console.log("Creating a trip Didn't work lol")
