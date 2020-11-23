@@ -204,6 +204,7 @@ async function initMap() {
     });
     */
 
+    /*
     let end_autocomplete = await new google.maps.places.Autocomplete(
             document.getElementById('end'),
             {
@@ -211,6 +212,7 @@ async function initMap() {
                 componentRestrictions: {'country': ['US']},
                 fields: ['place_id', 'geometry', 'name']
     });
+    */
 
     let addWaypoint_autocomplete = await new google.maps.places.Autocomplete(
         document.getElementById('addWaypoint'),
