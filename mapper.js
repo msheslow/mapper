@@ -37,7 +37,6 @@ async function initMap() {
 
             let place_name = event.currentTarget.firstChild.nextSibling.innerText;
             document.getElementById("start").value = place_name;
-        }
 
         $('#start-column').empty();
     }
