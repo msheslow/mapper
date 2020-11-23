@@ -138,6 +138,8 @@ async function initMap() {
     // Sets the selected <input> html elements to become autocomplete objects
     async function db_autocomplete(event){
         let input_string = event.currentTarget.value; 
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        $('#start').on('selectionchange', $('#start-column').empty());
 
         if (!input_string) {
             $('#start-column').empty();
