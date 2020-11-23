@@ -12,8 +12,7 @@ async function initMap() {
         let route_len = 0;
         let duration_len = 0;
 
-        for (let i = 0; i < arr_len + 1; i++) {
-            console.log(directionsDisplay.directions.routes[0].legs[i].distance.text);
+        for (let i = 0; i < arr_len; i++) {
             route_len += directionsDisplay.directions.routes[0].legs[i].distance.value;
             duration_len += directionsDisplay.directions.routes[0].legs[i].duration.value;
         }
