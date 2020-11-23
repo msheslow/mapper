@@ -6,6 +6,7 @@ async function initMap() {
     let directionsDisplay = await new google.maps.DirectionsRenderer;
     let local_waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
 
+    /*
     async function duration(directionsDisplay) {
         console.log(directionsDisplay);
         let arr_len = directionsDisplay.directions.routes[0].legs.length;
@@ -16,8 +17,6 @@ async function initMap() {
             route_distance += directionsDisplay.directions.routes[0].legs[i].distance.value;
             duration_len += directionsDisplay.directions.routes[0].legs[i].duration.value;
         }
-        
-
         let day = duration_len / (24 * 3600); 
         day = duration_len % (24 * 3600); 
         let hour = duration_len / 3600; 
@@ -37,7 +36,8 @@ async function initMap() {
      //   directionsDisplay.directions.routes[0].legs[0].duration.text
         return {duration_str, route_distance_str};
     }
-    
+    */
+
     let options = {
         zoom: 3,
         center: {lat:35.9132, lng:-79.0558}
@@ -352,7 +352,7 @@ async function initMap() {
             window.setTimeout(stateTrav,1000, directionsDisplay);
         }
         start();
-        duration(directionsDisplay);
+     //    duration(directionsDisplay);
     }
 
     async function addRoute(directionsService, directionsDisplay, local_waypoints) {
@@ -376,7 +376,7 @@ async function initMap() {
             window.setTimeout(stateTrav,1000, directionsDisplay);
         }
         start();
-        duration(directionsDisplay);
+   //     duration(directionsDisplay);
     }
 
 
