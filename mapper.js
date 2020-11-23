@@ -362,7 +362,7 @@ async function initMap() {
                     window.scrollTo(0, 700);
                     console.log("Reponse console log: ");
                     console.log(reponse);
-                    waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
+                    await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
