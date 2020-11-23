@@ -181,8 +181,7 @@ async function initMap() {
             console.log(event);
             let current_card = event.currentTarget.parentElement.parentElement.parentElement;
             console.log(current_card);
-            let waypointNum = current_card.id;
-            let waypointName= current_card.value; // this is undefined, THIS NEEDS TO BE 
+            let waypointName = current_card.id; // this is undefined, THIS NEEDS TO BE 
             local_waypoints.splice(waypointNum, 1);
             deleteWaypoint(waypointNum);
     
