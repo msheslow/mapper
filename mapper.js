@@ -188,6 +188,8 @@ async function initMap() {
                 ordered_local_waypoints.push(local_waypoints[waypointOrder[i]]);
             }
             local_waypoints = ordered_local_waypoints;
+            console.log("this should be local_waypoints in stop order: ")
+            console.log(local_waypoints);
             // ------- HTML stuff starts here -------
             $('#listWaypoints').empty()
             try{
