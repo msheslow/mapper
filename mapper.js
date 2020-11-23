@@ -235,8 +235,7 @@ async function initMap() {
             console.log(waypointNum);
 
             for (let i = 0; i < local_waypoints.length; i++) {
-                if (waypointNum == i) {
-                    // nothing
+                if (local_waypoints[i].location == current_card.waypoint-name) {
                 } else {
                     spliced_local_waypoints.push(local_waypoints[i]);
                 }
