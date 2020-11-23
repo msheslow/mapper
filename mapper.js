@@ -231,7 +231,7 @@ async function initMap() {
                 let waypointNum = waypointOrder[i];
                 console.log("line 275: " + waypointNum);
             // POSSIBLE SOLUTION: Empty this HTML area right here - look in morning    
-                $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query));
+                $('#listWaypoints').append(waypointCardAssembler(waypointNum, waypoints[waypointOrder[i]].location.query));
             }
         }
     

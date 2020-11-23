@@ -52,8 +52,12 @@
         function tripCardAssembler(aTrip, aTripID){
             let start = aTrip.data[0].rows[0].startLocation;
             let end = aTrip.data[0].rows[0].endLocation;
-            if (aTrip.data[1].rows.length>1){
-                return (`<div class="box" style="margin-top: 10px;">
+            console.log(aTrip)
+            console.log(aTripID)
+            console.log(aTrip.data[1]);
+            if (aTrip.data[1].rows){
+                if (aTrip.data[1].rows.length>1){
+                    return (`<div class="box" style="margin-top: 10px;">
                         <div class="columns">
                             <div class="column is-2">
                                 <span style="font-size: 18px; color: gray;">Trip ID: ${aTripID}</span>
@@ -72,8 +76,8 @@
                             </div>
                         </div>
                     </div>`)
-            } else if (aTrip.data[1].rows.length=1) {
-            return (`<div class="box" style="margin-top: 10px;">
+                } else if (aTrip.data[1].rows.length=1) {
+                    return (`<div class="box" style="margin-top: 10px;">
                         <div class="columns">
                             <div class="column is-2">
                                 <span style="font-size: 18px; color: gray;">Trip ID: ${aTripID}</span>
@@ -92,6 +96,7 @@
                             </div>
                         </div>
                     </div>`)
+                }
             } else {
                 return (`<div class="box" style="margin-top: 10px;">
                         <div class="columns">
