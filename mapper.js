@@ -37,8 +37,8 @@ async function initMap() {
         console.log(event.currentTarget.firstChild.nextSibling.innerText);
         let place_name = event.currentTarget.firstChild.nextSibling.innerText;
 
-        $('#start').value = place_name;
-        console.log(event.currentTarget);
+        $('#start').innerHTML = place_name;
+        $('#start-column').empty();
     }
 
     async function createTripHandler(event){
