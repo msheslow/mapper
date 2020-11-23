@@ -26,7 +26,7 @@ async function initMap() {
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#anotherAdd', attractionCardAddHandler);
     $('main').on('click', '#delete', deleteWaypointHandler)
-        $('main').on('input', '#start', start_autocomplete_debounced);
+    $('main').on('input', '#start', start_autocomplete_debounced);
     $('main').on('input', '#end', end_autocomplete_debounced);
     $('main').on('input', '#addWaypoint', waypoint_autocomplete_debounced);
     // $('main').on('input', '#start', start_db_autocomplete);
@@ -40,7 +40,8 @@ async function initMap() {
         return function() { 
             let args = arguments 
             let closure = this
-            clearTimeout(debounceTimer) 
+            clearTimeout(debounceTimer)
+            alert("before debounce") 
             debounceTimer = setTimeout(() => autofillFunction.apply(closure, args), timeout) 
         } 
     }  
