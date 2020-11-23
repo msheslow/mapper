@@ -45,6 +45,9 @@ async function initMap() {
         } else if (event.currentTarget.parentElement.id == "end-column") {
             document.getElementById("end").value = place_name;
             $('#end-column').empty();
+        } else if (event.currentTarget.parentElement.id == "waypoint-column") {
+            document.getElementById("add").value = place.name;
+            $('#waypoint-column').empty();
         }
 
     }
@@ -98,6 +101,34 @@ async function initMap() {
 
         for (place of result){
             $('#end-column').append(`<div class="autocomplete-box">
+            <div>
+            <span style="font-size: 10px; color: black;">${place.Name + ", " + place.State}</span>
+            </div>
+        </div>`)
+        }
+    }
+
+    async function waypoint_db_autocomplete(event){
+        let input_string = event.currentTarget.value; 
+
+        if (input_string.length == 0) {
+            $('#waypoint-column').empty();
+            return false;
+        }
+
+        let result;
+        try {
+            result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
+            console.log(result.data.rows);
+            result = result.data.rows
+           
+        } catch {
+            console.log("Autocomplete didnt work lol")
+        }
+        $('#waypoint-column').empty();
+
+        for (place of result){
+            $('#waypoint-column').append(`<div class="autocomplete-box">
             <div>
             <span style="font-size: 10px; color: black;">${place.Name + ", " + place.State}</span>
             </div>
