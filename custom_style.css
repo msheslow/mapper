@@ -150,7 +150,3 @@
     border-color: linear-gradient(to right, purple, navy);
     border: 2px;
 }
-
-.is-two-thirds {
-    border-radius: 75%;
-}
