@@ -42,7 +42,7 @@ async function initMap() {
             $('#end-column').empty();
         } else if (event.currentTarget.parentElement.id == "waypoint-column") {
             console.log(event);
-            document.getElementById("addWaypoint").value = event.currentTarget;
+            document.getElementById("addWaypoint").value = event.currentTarget.childNodes[1].lastElementChild.innerText;
             $('#waypoint-column').empty();
         }
 
