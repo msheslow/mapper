@@ -119,6 +119,14 @@ app.post('/deletestop', async (req, res) => {
     res.json(true)
 })
 
+app.post('/deletallstops', async (req, res) => {
+    if (req.session.tripID == undefined){
+        res.status(403).send("Please provide stopID you would like to delete")
+    }
+    await searchWrapper(`DELETE * FROM stops WHERE tripID = "${req.session.tripID}"`)
+    res.json(true)
+})
+
 //deletes stop specified in the body
 app.post('/stopsinstates', async (req, res) => {
     let states = req.body.states 

@@ -182,18 +182,11 @@ async function initMap() {
             let current_card = event.currentTarget.parentElement.parentElement.parentElement;
             console.log(current_card);
             let waypointNum = current_card.id;
-            let waypointName = document.getElementById(waypointNum).getAttribute("waypoint-name");// this is undefined, THIS NEEDS TO BE 
+            // this is undefined, THIS NEEDS TO BE 
             local_waypoints.splice(waypointNum, 1);
             deleteWaypoint(waypointNum);
     
-            try{
-            console.log("waypointName for StopID");
-            console.log(waypointName);
-            let result = await axios.post('https://mapper-project.herokuapp.com/deletestop', { stopID: waypointName }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                console.log("deleting a waypoint from the backend worked!")
-            } catch {
-                console.log("deleting a waypoint from the backend didn't work")
-            }
+           
         }
     
         async function deleteWaypoint() {
@@ -226,12 +219,25 @@ async function initMap() {
         async function delete_waypointMaker(waypointOrder, waypoints){
             // ------- HTML stuff starts here -------
             $('#listWaypoints').empty()
+            try{
+                let result = await axios.post('https://mapper-project.herokuapp.com/deleteallstops', { headers: {'Access-Control-Allow-Origin': '*'}});
+                    console.log("deleting all stops from the backend worked!")
+                } catch {
+                    console.log("deleting all stops from the backend didn't work")
+                }
             for (i=0; i<waypointOrder.length; i++) {
                 console.log("line 273: " + waypointOrder[i]);
                 let waypointNum = waypointOrder[i];
                 console.log("line 275: " + waypointNum);
             // POSSIBLE SOLUTION: Empty this HTML area right here - look in morning    
                 $('#listWaypoints').append(waypointCardAssembler(waypointNum, waypoints[waypointOrder[i]].location.query));
+                let waypointName = document.getElementById(waypointNum).getAttribute("waypoint-name");
+                try{
+                    let result = await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: waypointName }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                        console.log("deleting all stops from the backend worked!")
+                    } catch {
+                        console.log("deleting all stops from the backend didn't work")
+                    }
             }
         }
     
