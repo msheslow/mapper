@@ -46,7 +46,7 @@ async function initMap() {
             document.getElementById("end").value = place_name;
             $('#end-column').empty();
         } else if (event.currentTarget.parentElement.id == "waypoint-column") {
-            document.getElementById("add").value = place.name;
+            document.getElementById("addWaypoint").value = place.name;
             $('#waypoint-column').empty();
         }
 
