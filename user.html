@@ -126,7 +126,7 @@
                 console.log(current_card);
                 let tripID = current_card.id;
                 let result = await axios.post('https://mapper-project.herokuapp.com/deletetrip', { tripID: tripID }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                document.getElementbyID(tripID).remove()
+                current_card.remove()
             }
 
         async function loadTrips() {
