@@ -162,7 +162,7 @@ async function initMap() {
         async function waypointMaker(waypointOrder, waypoints, local_waypoints){
             let ordered_local_waypoints = [];
             for (let i = 0; i < local_waypoints.length; i++) {
-                ordered_local_waypoints.push(waypoints[waypointOrder[i]]);
+                ordered_local_waypoints.push(local_waypoints[waypointOrder[i]]);
             }
             local_waypoints = ordered_local_waypoints;
             // ------- HTML stuff starts here -------
