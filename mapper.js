@@ -199,7 +199,7 @@ async function initMap() {
             console.log("deleteWaypointHandler (waypointNum + 1):");
             console.log(waypointNum);
             // this is undefined, THIS NEEDS TO BE 
-            local_waypoints.splice(waypointNum, 1);
+            // local_waypoints.splice(waypointNum, 1);
             console.log("local_waypoints (post-splice): ");
             console.log(local_waypoints);
             deleteWaypoint();
