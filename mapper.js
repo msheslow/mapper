@@ -47,9 +47,9 @@ async function initMap() {
         } 
     }  
 
-    let start_autocomplete_debounced = debouncedFunction(start_db_autocomplete, 50)
-    let end_autocomplete_debounced = debouncedFunction(end_db_autocomplete, 50)
-    let waypoint_autocomplete_debounced = debouncedFunction(waypoint_db_autocomplete, 50)
+    let start_autocomplete_debounced = debouncedFunction(start_db_autocomplete, 500)
+    let end_autocomplete_debounced = debouncedFunction(end_db_autocomplete, 500)
+    let waypoint_autocomplete_debounced = debouncedFunction(waypoint_db_autocomplete, 500)
 
     async function start_autocomplete_click_handler(event) {
         let place_name = event.currentTarget.firstChild.nextSibling.innerText;
