@@ -163,8 +163,8 @@ async function initMap() {
             // ------- HTML stuff starts here -------
             $('#listWaypoints').empty()
             for (i=0; i<waypointOrder.length; i++) {
-                let waypointName = $('#addWaypoint').val();
-                $('#listWaypoints').append(waypointCardAssembler(waypointName,waypoints[waypointOrder[i]].location.query));
+                let waypointNum = waypoints[waypointOrder[i]];
+                $('#listWaypoints').append(waypointCardAssembler(waypointNum,waypoints[waypointOrder[i]].location.query));
             }
             // ---------- Back end stuff start here -------------
             try {
@@ -181,7 +181,7 @@ async function initMap() {
             console.log(event);
             let current_card = event.currentTarget.parentElement.parentElement.parentElement;
             console.log(current_card);
-            let waypointName = current_card.id; // this is undefined, THIS NEEDS TO BE 
+            let waypointNum = current_card.id; // this is undefined, THIS NEEDS TO BE 
             local_waypoints.splice(waypointNum, 1);
             deleteWaypoint(waypointNum);
     
@@ -438,8 +438,8 @@ async function initMap() {
     
         }
     
-        function waypointCardAssembler(waypointName,waypoint){
-            return (`<div class="waypointCard box" id="${waypointName}" style="background-color: #ECECEC; margin-bottom: 10px;">
+        function waypointCardAssembler(waypointNum,waypoint){
+            return (`<div class="waypointCard box" id="${waypointNum}" style="background-color: #ECECEC; margin-bottom: 10px;">
                                         <div class="columns">
                                             <div class="column is-four-fifths">
                                                 <span style="font-size: 20px; color: black;">${waypoint}</span>
