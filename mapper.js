@@ -179,7 +179,7 @@ async function initMap() {
             console.log("line 273: " + waypointOrder[i]);
             let waypointNum = waypointOrder[i];
             console.log("line 275: " + waypointNum);
-            $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query), waypointNum);
+            $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query));
         }
         // ---------- Back end stuff start here -------------
         try {
@@ -202,7 +202,7 @@ async function initMap() {
             console.log("line 273: " + waypointOrder[i]);
             let waypointNum = waypointOrder[i];
             console.log("line 275: " + waypointNum);
-            $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query), waypointNum);
+            $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query));
         }
     }
 
@@ -430,9 +430,7 @@ async function initMap() {
 
     }
 
-    function waypointCardAssembler(waypoint, waypointNum){
-        console.log("waypointNum: " + waypointNum);
-        console.log('waypoint: ' + waypoint);
+    function waypointCardAssembler(waypoint){
         return (`<div class="waypointCard box" value="${waypoint}" style="background-color: #ECECEC; margin-bottom: 10px;">
                                     <div class="columns">
                                         <div class="column is-four-fifths">
