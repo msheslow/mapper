@@ -26,19 +26,57 @@ async function initMap() {
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#anotherAdd', attractionCardAddHandler);// wat dis is?
     $('main').on('click', '#delete', deleteWaypointHandler)
-    $('main').on('input', '#start', start_db_autocomplete);
-    $('main').on('input', '#end', end_db_autocomplete);
-    // $('main').on('input', '#addWaypoint', waypoint_db_autocomplete);
+    $('main').on('click', 'start', db_autocomplete)
+    $('main').on('input', '#start', db_autocomplete);
+    $('main').on('input', '#end', db_autocomplete);
+    $('main').on('input', '#addWaypoint', db_autocomplete);
     $('main').on('click', '.autocomplete-box',start_autocomplete_click_handler);
+    $('#start').on('blur', start_autocomplete_click_handler);
 
     async function start_autocomplete_click_handler(event) {
-        // console.log(this.childElement.childElement.childElement.value);
+
+
+        if (!event.currentTarget.firstChild.nextSibling.innerText) {
+            $('#start-column').empty();
+            return;
+        }
+
         console.log(event);
         console.log(event.currentTarget.firstChild.nextSibling.innerText);
-        let place_name = event.currentTarget.firstChild.nextSibling.innerText;
 
+        let place_name = event.currentTarget.firstChild.nextSibling.innerText;
         document.getElementById("start").value = place_name;
+
         $('#start-column').empty();
+    }
+
+    async function db_autocomplete(event){
+        let input_string = event.currentTarget.value; 
+
+        if (input_string.length == 0) {
+            $('#start-column').empty();
+            return false;
+        }
+
+        let result;
+        try {
+            result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
+            console.log(result.data.rows);
+            result = result.data.rows
+           
+        } catch {
+            console.log("Autocomplete didnt work lol")
+        }
+        $('#start-column').empty();
+
+        for (place of result){
+            console.log(place.Name + ", " + place.State);
+            $('#start-column').append(`<div class="autocomplete-box">
+            <div>
+            <span style="font-size: 10px; color: black;">${place.Name + ", " + place.State}</span>
+            </div>
+        </div>`)
+        }
     }
 
     async function createTripHandler(event){
@@ -52,9 +90,9 @@ async function initMap() {
             document.cookie = "tripID=" + result.data.rows[0].tripID;
             $('#originWaypoint').append(startCardAssembler($('#start').val()));
             $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
-            let result= await axios.post('https://mapper-project.herokuapp.com/gettrip/'+result.data.rows[0].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
+            let newresult= await axios.post('https://mapper-project.herokuapp.com/gettrip/'+result.data.rows[0].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log("result of calling get tripid on the trip that was just created")
-            console.log(result);
+            console.log(newresult)
             /*
             let result = getSitesinStates();
             for (i=0; i<result.data.rows.length; i++) {
@@ -89,8 +127,8 @@ async function initMap() {
         // ---------- Back end stuff start here -------------
         try {
             let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log("Created a stop!")
-           
+            console.log("Created a stop! See it below")
+            console.log(result)
         } catch {
             console.log("Adding a stop Didn't work lol")
         }
@@ -139,63 +177,7 @@ async function initMap() {
     }
 
     // Sets the selected <input> html elements to become autocomplete objects
-    async function start_db_autocomplete(event){
-        let input_string = event.currentTarget.value; 
-
-        if (!input_string) {
-            $('#start-column').empty();
-            return false;
-        }
-
-        let result;
-        try {
-            result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log(result.data.rows);
-            result = result.data.rows
-           
-        } catch {
-            console.log("Autocomplete didnt work lol")
-        }
-        $('#start-column').empty();
-
-        for (place of result){
-            console.log(place.Name + ", " + place.State);
-            $('#start-column').append(`<div class="autocomplete-box">
-            <div>
-            <span style="font-size: 10px; color: black;">${place.Name + ", " + place.State}</span>
-            </div>
-        </div>`)
-        }
-    }
-
-    async function end_db_autocomplete(event){
-        let input_string = event.currentTarget.value; 
-
-        if (!input_string) {
-            $('end-column').empty();
-            return false;
-        }
-
-        let result;
-        try {
-            result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log(result.data.rows);
-            result = result.data.rows
-           
-        } catch {
-            console.log("Autocomplete didnt work lol")
-        }
-        $('#end-column').empty();
-
-        for (place of result){
-            console.log(place.Name + ", " + place.State);
-            $('#end-column').append(`<div class="autocomplete-box">
-            <div>
-            <span style="font-size: 10px; color: black;">${place.Name + ", " + place.State}</span>
-            </div>
-        </div>`)
-        }
-    }
+    
 
     /*
     let start_autocomplete = await new google.maps.places.Autocomplete(
@@ -207,7 +189,6 @@ async function initMap() {
     });
     */
 
-    /*
     let end_autocomplete = await new google.maps.places.Autocomplete(
             document.getElementById('end'),
             {
@@ -215,7 +196,6 @@ async function initMap() {
                 componentRestrictions: {'country': ['US']},
                 fields: ['place_id', 'geometry', 'name']
     });
-    */
 
     let addWaypoint_autocomplete = await new google.maps.places.Autocomplete(
         document.getElementById('addWaypoint'),
@@ -417,7 +397,7 @@ async function initMap() {
 
 
         function attractionsCardAssembler(attraction) {
-            return(`<div class="box">
+            return(`<div class="box attractionBoxes">
                         <div>
                             <div class="columns">
                                 <div class="column is-10">
