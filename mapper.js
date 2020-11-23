@@ -233,6 +233,7 @@ async function initMap() {
             // let local_waypoint_deleted = waypointOrder[waypointNum];
             console.log("deleteWaypointHandler (waypointNum + 1):");
             console.log(waypointNum);
+            console.log(current_card.waypoint-name);
 
             for (let i = 0; i < local_waypoints.length; i++) {
                 if (local_waypoints[i].location == current_card.waypoint-name) {
