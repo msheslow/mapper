@@ -141,8 +141,12 @@ async function initMap() {
             console.log("Created a trip!");
             console.log(result);
             document.cookie = "tripID=" + result.data.rows[0].tripID;
-            $('#originWaypoint').replaceWith(startCardAssembler($('#start').val()));
-            $('#destinationWaypoint').replaceWith(endCardAssembler($('#end').val()));
+            $('#originWaypoint').empty();
+            $('#destinationWaypoint').empty();
+            console.log($('#start').value);
+            console.log($('#end').value);
+            $('#originWaypoint').append(startCardAssembler($('#start').value));
+            $('#destinationWaypoint').append(endCardAssembler($('#end').value));
             let newresult= await axios.get('https://mapper-project.herokuapp.com/gettrip/'+result.data.rows[0].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log("result of calling get tripid on the trip that was just created");
             console.log(newresult);
