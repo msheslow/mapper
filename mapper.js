@@ -24,7 +24,7 @@ async function initMap() {
     // ---------- EVENT LISTENERS ----------------
     $('main').on('click', '#add', waypointHandler);
     $('main').on('click', '#generate-map', createTripHandler);
-    $('main').on('click', '#anotherAdd', attractionCardAddHandler);// wat dis is?
+    $('main').on('click', '#anotherAdd', attractionCardAddHandler);
     $('main').on('click', '#delete', deleteWaypointHandler)
     $('main').on('input', '#start', start_db_autocomplete);
     $('main').on('input', '#end', end_db_autocomplete);
@@ -175,7 +175,7 @@ async function initMap() {
                 try {
                     newresult= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: waypoints[waypointOrder[i]].location.query }, { headers: {'Access-Control-Allow-Origin': '*'}});
                     console.log("Created a stop! See it below")
-                    console.log(result)
+                    console.log(newresult)
                 } catch {
                     console.log("Adding a stop Didn't work lol")
                 }
@@ -473,18 +473,22 @@ async function initMap() {
     
             // Add a stop from suggested, stopID (this is not done)
             async function attractionCardAddHandler(event){
-            event.preventDefault();
-            try {
-                let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                console.log("Created a stop in a different way!")
-            } catch {
-                console.log("Didn't work lol")
-            }
+                event.preventDefault();
+                let current_card = event.currentTarget.parentElement.parentElement.parentElement;
+                console.log(current_card);
+                let waypointName = current_card.id;
+                let newWaypoint = {
+                    location: waypointName,
+                    stopover: true
+                }
+                local_waypoints.push(newWaypoint);
+                    await addRoute(directionsService, directionsDisplay, local_waypoints);
+            
             }
     
     
             function attractionsCardAssembler(attraction) {
-                return(`<div class="box attractionBoxes">
+                return(`<div class="box attractionBoxes" id="${attraction.Name}">
                             <div>
                                 <div class="columns">
                                     <div class="column is-10">
