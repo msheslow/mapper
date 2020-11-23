@@ -504,6 +504,8 @@ async function initMap() {
                     await addRoute(directionsService, directionsDisplay, local_waypoints);
             
             }
+
+            
     
     
             function attractionsCardAssembler(attraction) {
