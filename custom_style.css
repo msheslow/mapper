@@ -106,6 +106,8 @@
 .left {
     height: auto;
     min-height: 600px;
+    border-color: linear-gradient(to right, purple, navy);
+    border: 2px;
 }
 
 .top {
@@ -123,12 +125,20 @@
     border-bottom: 1px;
     border-color: darkgreen;
     z-index: 2;
+    position: absolute;
 }
 
 .autocomplete-box {
-    border-width: 1px;
-    border-color: black;
-    padding: 1%;
+    padding-left: 1px;
+    background-color: white;
     max-height: 1.5%;
     text-align: left;
+    cursor: pointer;
+    width: auto;
+    margin-bottom: 1px;
+}
+
+.attractionBoxes {
+    border-color: linear-gradient(to right, purple, navy);
+    border: 2px;
 }

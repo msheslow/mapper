@@ -53,6 +53,9 @@
             console.log("aTrip at the start of tripCardAssembler");
             console.log(aTrip);
             console.log(aTripID);
+            console.log("number of stops")
+            console.log(aTrip.data[1].rows.length)
+            console.log(aTrip.data[1].rows)
             let start = aTrip.data[0].rows[0].startLocation;
             let end = aTrip.data[0].rows[0].endLocation;
             if (aTrip.data[1].rows){

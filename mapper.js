@@ -29,10 +29,19 @@ async function initMap() {
     $('main').on('input', '#start', db_autocomplete);
     $('main').on('input', '#end', db_autocomplete);
     $('main').on('input', '#addWaypoint', db_autocomplete);
-    $('main').on('click', '#start-column', autocomplete_click_handler);
+    $('main').on('click', '.autocomplete-box',start_autocomplete_click_handler);
+    $('#start').on('blur', function () {
+        $('#start-column').empty();
+    });
 
-    async function autocomplete_click_handler(event) {
-        
+    async function start_autocomplete_click_handler(event) {
+        // console.log(this.childElement.childElement.childElement.value);
+        console.log(event);
+        console.log(event.currentTarget.firstChild.nextSibling.innerText);
+        let place_name = event.currentTarget.firstChild.nextSibling.innerText;
+
+        document.getElementById("start").value = place_name;
+        $('#start-column').empty();
     }
 
     async function createTripHandler(event){
@@ -151,13 +160,9 @@ async function initMap() {
 
         for (place of result){
             console.log(place.Name + ", " + place.State);
-            $('#start-column').append(`<div class="autocomplete-box" style="background-color: #CCFFCC; margin-bottom: 5px;">
-            <div class="columns">
-                <div class="column is-four-fifths">
-                    <span style="font-size: 10px; color: black;">${place.Name + ", " + place.State}</span>
-                </div>
-                <div class="column" style="text-align: right;">
-                </div>
+            $('#start-column').append(`<div class="autocomplete-box">
+            <div>
+            <span style="font-size: 10px; color: black;">${place.Name + ", " + place.State}</span>
             </div>
         </div>`)
         }
@@ -381,7 +386,7 @@ async function initMap() {
 
 
         function attractionsCardAssembler(attraction) {
-            return(`<div class="box">
+            return(`<div class="box attractionBoxes">
                         <div>
                             <div class="columns">
                                 <div class="column is-10">
