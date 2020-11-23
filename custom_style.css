@@ -106,6 +106,8 @@
 .left {
     height: auto;
     min-height: 600px;
+    border-color: linear-gradient(to right, purple, navy);
+    border: 2px;
 }
 
 .top {
@@ -134,4 +136,9 @@
     cursor: pointer;
     width: auto;
     margin-bottom: 1px;
+}
+
+.attractionBoxes {
+    border-color: linear-gradient(to right, purple, navy);
+    border: 2px;
 }
