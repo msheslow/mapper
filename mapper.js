@@ -35,16 +35,41 @@ async function initMap() {
 
     async function start_autocomplete_click_handler(event) {
         console.log(event);
-        if (event.currentTarget.className != "autocomplete-box") {
-            $('#start-column').empty();
-            return false;
-        }
         console.log(event);
         console.log(event.currentTarget.firstChild.nextSibling.innerText);
         let place_name = event.currentTarget.firstChild.nextSibling.innerText;
-
         document.getElementById("start").value = place_name;
+        
         $('#start-column').empty();
+    }
+
+    async function db_autocomplete(event){
+        let input_string = event.currentTarget.value; 
+
+        if (input_string.length == 0) {
+            $('#start-column').empty();
+            return false;
+        }
+
+        let result;
+        try {
+            result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
+            console.log(result.data.rows);
+            result = result.data.rows
+           
+        } catch {
+            console.log("Autocomplete didnt work lol")
+        }
+        $('#start-column').empty();
+
+        for (place of result){
+            console.log(place.Name + ", " + place.State);
+            $('#start-column').append(`<div class="autocomplete-box">
+            <div>
+            <span style="font-size: 10px; color: black;">${place.Name + ", " + place.State}</span>
+            </div>
+        </div>`)
+        }
     }
 
     async function createTripHandler(event){
@@ -142,34 +167,7 @@ async function initMap() {
     }
 
     // Sets the selected <input> html elements to become autocomplete objects
-    async function db_autocomplete(event){
-        let input_string = event.currentTarget.value; 
-
-        if (input_string.length == 0) {
-            $('#start-column').empty();
-            return false;
-        }
-
-        let result;
-        try {
-            result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log(result.data.rows);
-            result = result.data.rows
-           
-        } catch {
-            console.log("Autocomplete didnt work lol")
-        }
-        $('#start-column').empty();
-
-        for (place of result){
-            console.log(place.Name + ", " + place.State);
-            $('#start-column').append(`<div class="autocomplete-box">
-            <div>
-            <span style="font-size: 10px; color: black;">${place.Name + ", " + place.State}</span>
-            </div>
-        </div>`)
-        }
-    }
+    
 
     /*
     let start_autocomplete = await new google.maps.places.Autocomplete(
