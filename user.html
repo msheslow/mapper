@@ -110,10 +110,17 @@
             console.log(result.data.rows)
             console.log("result.data.rows[0].tripID")
             console.log(result.data.rows[0].tripID)
+            console.log("result.data.rows[1].tripID")
+            console.log(result.data.rows[1].tripID)
+            console.log("result.data.rows[2].tripID")
+            console.log(result.data.rows[2].tripID)
+            console.log("result.data.rows[3].tripID")
+            console.log(result.data.rows[3].tripID)
             console.log("result.data.rows.length")
             console.log(result.data.rows.length)
+            let aTrip;
             for (i=0; i < result.data.rows.length; i++) {
-                let aTrip = await axios.get('https://mapper-project.herokuapp.com/gettrip/' + result.data.rows[i].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
+                aTrip = await axios.get('https://mapper-project.herokuapp.com/gettrip/' + result.data.rows[i].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
                 console.log("aTrip before tripCardAssembler")
                 console.log(aTrip);
                 console.log(result.data.rows[i].tripID)
