@@ -22,13 +22,14 @@ async function initMap() {
     };
 
 
-    const debouncedFunction = (func, delay) => { 
-        let timer 
+    const debounce = (func, delay) => { 
+        let debounceTimer 
         return function() { 
-            const args = arguments 
             const context = this
-                clearTimeout(timer) 
-                timer = setTimeout(() => func.apply(context, args), delay) 
+            const args = arguments 
+                clearTimeout(debounceTimer) 
+                    debounceTimer 
+                = setTimeout(() => func.apply(context, args), delay) 
         } 
     }  
     // ---------- EVENT LISTENERS ----------------
@@ -36,9 +37,9 @@ async function initMap() {
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#anotherAdd', attractionCardAddHandler);
     $('main').on('click', '#delete', deleteWaypointHandler)
-    $('main').on('input', '#start', debouncedFunction(start_db_autocomplete, 150));
-    $('main').on('input', '#end', debouncedFunction(end_db_autocomplete, 150));
-    $('main').on('input', '#addWaypoint', debouncedFunction(waypoint_db_autocomplete, 150));
+    $('main').on('input', '#start', debounce(start_db_autocomplete, 500));
+    $('main').on('input', '#end', debounce(end_db_autocomplete, 500));
+    $('main').on('input', '#addWaypoint', debounce(waypoint_db_autocomplete, 500));
     // $('main').on('input', '#start', start_db_autocomplete);
     // $('main').on('input', '#end', end_db_autocomplete);
     // $('main').on('input', '#addWaypoint', waypoint_db_autocomplete);
@@ -239,17 +240,17 @@ async function initMap() {
             let spliced_local_waypoints = [];
 
 
-            console.log("local_waypoints (pre-splice): ");
-            console.log(local_waypoints);
+       //     console.log("local_waypoints (pre-splice): ");
+       //     console.log(local_waypoints);
             event.preventDefault();
             console.log(event);
             let current_card = event.currentTarget.parentElement.parentElement.parentElement;
-            console.log(current_card);
+       //     console.log(current_card);
             let waypointNum = current_card.id;
             // let local_waypoint_deleted = waypointOrder[waypointNum];
-            console.log("deleteWaypointHandler (waypointNum + 1):");
-            console.log(waypointNum);
-            console.log(current_card.innerText);
+        //    console.log("deleteWaypointHandler (waypointNum + 1):");
+       //     console.log(waypointNum);
+       //     console.log(current_card.innerText);
 
             for (let i = 0; i < local_waypoints.length; i++) {
                 if (local_waypoints[i].location == current_card.innerText) {
@@ -259,13 +260,13 @@ async function initMap() {
             }
             local_waypoints = spliced_local_waypoints;
 
-            console.log(spliced_local_waypoints);
+         //   console.log(spliced_local_waypoints);
 
 
             // this is undefined, THIS NEEDS TO BE 
             // local_waypoints.splice(waypointNum, 1);
-            console.log("local_waypoints (post-splice): ");
-            console.log(local_waypoints);
+           // console.log("local_waypoints (post-splice): ");
+          //  console.log(local_waypoints);
             await deleteWaypoint(directionsService, directionsDisplay, local_waypoints);
         }
     
