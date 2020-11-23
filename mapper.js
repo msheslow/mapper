@@ -129,6 +129,9 @@ async function initMap() {
             let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log("Created a stop! See it below")
             console.log(result)
+            let newresult= await axios.get('https://mapper-project.herokuapp.com/gettrip/'+result.data.rows[0].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
+            console.log("result of calling get tripid on the trip that was just created")
+            console.log(newresult)
         } catch {
             console.log("Adding a stop Didn't work lol")
         }
