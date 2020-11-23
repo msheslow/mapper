@@ -159,7 +159,12 @@ async function initMap() {
         }
     
         // -------------- POPULATES THE WAYPOINT PART OF THE HTML WITH WAYPOINT CARDS ---------------
-        async function waypointMaker(waypointOrder, waypoints){
+        async function waypointMaker(waypointOrder, waypoints, local_waypoints){
+            let ordered_local_waypoints = [];
+            for (let i = 0; i < local_waypoints.length; i++) {
+                ordered_local_waypoints.push(waypoints[waypointOrder[i]]);
+            }
+            local_waypoints = ordered_local_waypoints;
             // ------- HTML stuff starts here -------
             $('#listWaypoints').empty()
             try{
@@ -175,9 +180,9 @@ async function initMap() {
                 let waypointNum = i; // waypointNum = this is the waypoint object
                 console.log("waypointNum: ")
                 console.log(waypointNum);
-                $('#listWaypoints').append(waypointCardAssembler(waypointNum,waypoints[waypointOrder[i]].location.query));
+                $('#listWaypoints').append(waypointCardAssembler(waypointNum,local_waypoints[i].location));
                 try {
-                    newresult= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: waypoints[waypointOrder[i]].location.query }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                    newresult= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: local_waypoints[i].location }, { headers: {'Access-Control-Allow-Origin': '*'}});
                     console.log("Created a stop! See it below")
                     console.log(newresult)
                 } catch {
@@ -196,17 +201,18 @@ async function initMap() {
             let current_card = event.currentTarget.parentElement.parentElement.parentElement;
             console.log(current_card);
             let waypointNum = current_card.id;
+            // let local_waypoint_deleted = waypointOrder[waypointNum];
             console.log("deleteWaypointHandler (waypointNum + 1):");
             console.log(waypointNum);
             // this is undefined, THIS NEEDS TO BE 
-            // local_waypoints.splice(waypointNum, 1);
+            local_waypoints.splice(waypointNum, 1);
             console.log("local_waypoints (post-splice): ");
             console.log(local_waypoints);
-            deleteWaypoint();
+            deleteWaypoint(local_waypoints);
         }
     
-        async function deleteWaypoint() {
-    
+        async function deleteWaypoint(local_waypoints) {
+            
             await directionsService.route({
                 origin: document.getElementById('start').value,
                 destination: document.getElementById('end').value,
@@ -217,7 +223,7 @@ async function initMap() {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
-                    delete_waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
+                    delete_waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
@@ -232,7 +238,12 @@ async function initMap() {
     
     
         // WHEN DELETING A WAYPOINT, CALL THIS INSTEAD  - BROKEN!!!!!! @ 3:51am 11/23 (lol)
-        async function delete_waypointMaker(waypointOrder, waypoints){
+        async function delete_waypointMaker(waypointOrder, waypoints, local_waypoints){
+            let ordered_local_waypoints = [];
+            for (let i = 0; i < local_waypoints.length; i++) {
+                ordered_local_waypoints.push(waypoints[waypointOrder[i]]);
+            }
+            local_waypoints = ordered_local_waypoints;
             // ------- HTML stuff starts here -------
             $('#listWaypoints').empty()
             try{
@@ -242,12 +253,12 @@ async function initMap() {
                     console.log("deleting all stops from the backend didn't work")
                 }
             let newresult;
-            for (i=0; i<waypointOrder.length; i++) {
+            for (i=0; i<local_waypoints.length; i++) {
                 let waypointNum = i;
                 console.log("waypointNum (delete_waypointMaker): ");
                 console.log(waypointNum);
             // POSSIBLE SOLUTION: Empty this HTML area right here - look in morning    
-                $('#listWaypoints').append(waypointCardAssembler(waypointNum, waypoints[waypointOrder[i]].location.query));
+                $('#listWaypoints').append(waypointCardAssembler(waypointNum, local_waypoints[i].location));
                 let waypointName = document.getElementById(waypointNum).getAttribute("waypoint-name");
                 try{
                         newresult = await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: waypointName }, { headers: {'Access-Control-Allow-Origin': '*'}});
@@ -366,7 +377,7 @@ async function initMap() {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
-                    await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
+                    await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
