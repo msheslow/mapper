@@ -35,6 +35,7 @@ async function initMap() {
 
     async function start_autocomplete_click_handler(event) {
         if (event.currentTarget.className != "autocomplete-box") {
+            $('#start-column').empty();
             return false;
         }
         console.log(event);
