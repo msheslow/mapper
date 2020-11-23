@@ -132,6 +132,6 @@
     max-height: 1.5%;
     text-align: left;
     cursor: pointer;
-    width: 20%;
+    width: auto;
     margin-bottom: 1px;
 }
