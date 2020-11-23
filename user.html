@@ -52,7 +52,7 @@
         function tripCardAssembler(aTrip, aTripID){
             let start = aTrip.data[0].rows[0].startLocation;
             let end = aTrip.data[0].rows[0].endLocation;
-            if (aTrip.data[1].rows){
+            if (aTrip.data[1].rows.length>1){
                 return (`<div class="box" style="margin-top: 10px;">
                         <div class="columns">
                             <div class="column is-2">
@@ -72,8 +72,28 @@
                             </div>
                         </div>
                     </div>`)
-            } else {
+            } else if (aTrip.data[1].rows.length=1) {
             return (`<div class="box" style="margin-top: 10px;">
+                        <div class="columns">
+                            <div class="column is-2">
+                                <span style="font-size: 18px; color: gray;">Trip ID: ${aTripID}</span>
+                                <br>
+                                <span style="font-size: 50px;"><i class="fas fa-car-side"></i></span>
+                            </div>
+                            <div class="column is-6">
+                                <span style="font-size: 25px;">${start} <i style="font-size: 40px;" class="fas fa-long-arrow-alt-right"></i> ${end}</span>
+                            </div>
+                            <div class="column is-2" style="text-align: center;">
+                                <span style="font-size: 18px; color: gray;">1 stop</span><br><br>
+                            </div>
+                            <div class="column is-2" style="text-align: center;">
+                                <button class="button is-small is-rounded" id="editTrip" editNum="${aTrip.tripID}">Edit Trip</button><br><br>
+                                <button class="button del is-small is-rounded" id="deleteTrip" deleteNum="${aTrip.tripID}"><i class="far fa-trash-alt"></i>
+                            </div>
+                        </div>
+                    </div>`)
+            } else {
+                return (`<div class="box" style="margin-top: 10px;">
                         <div class="columns">
                             <div class="column is-2">
                                 <span style="font-size: 18px; color: gray;">Trip ID: ${aTripID}</span>
@@ -120,6 +140,7 @@
         }
 
         function userCard() {
+            $('#userInfo').empty()
             const cookieValue = document.cookie
             .split('; ')
             .find(row => row.startsWith('user'))
