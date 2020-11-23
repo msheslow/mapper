@@ -443,7 +443,6 @@ async function initMap() {
                                         </div>
                                     </div>
                                 </div>`)
-
     }
 
 
