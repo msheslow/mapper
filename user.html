@@ -57,7 +57,7 @@
             console.log(aTrip.data[1]);
             if (aTrip.data[1].rows){
                 if (aTrip.data[1].rows.length>1){
-                    return (`<div class="box" style="margin-top: 10px;">
+                    return (`<div class="box" id="${aTripID}" style="margin-top: 10px;">
                         <div class="columns">
                             <div class="column is-2">
                                 <span style="font-size: 18px; color: gray;">Trip ID: ${aTripID}</span>
@@ -77,7 +77,7 @@
                         </div>
                     </div>`)
                 } else if (aTrip.data[1].rows.length=1) {
-                    return (`<div class="box" style="margin-top: 10px;">
+                    return (`<div class="box" id="${aTripID}" style="margin-top: 10px;">
                         <div class="columns">
                             <div class="column is-2">
                                 <span style="font-size: 18px; color: gray;">Trip ID: ${aTripID}</span>
@@ -98,7 +98,7 @@
                     </div>`)
                 }
             } else {
-                return (`<div class="box" style="margin-top: 10px;">
+                return (`<div class="box" id="${aTripID}" style="margin-top: 10px;">
                         <div class="columns">
                             <div class="column is-2">
                                 <span style="font-size: 18px; color: gray;">Trip ID: ${aTripID}</span>
@@ -120,6 +120,14 @@
             }
 
         }
+
+          async function deleteTripHandler(event){
+                let current_card = event.currentTarget.parentElement.parentElement.parentElement;
+                console.log(current_card);
+                let tripID = current_card.id;
+                let result = await axios.post('https://mapper-project.herokuapp.com/deletetrip', { tripID: tripID }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                document.getElementbyID(tripID).remove()
+            }
 
         async function loadTrips() {
             let result= await axios.get('https://mapper-project.herokuapp.com/tripids', { headers: {'Access-Control-Allow-Origin': '*'}});
@@ -154,6 +162,7 @@
         }
 
         window.onload = renderTrips();
+        $('main').on('click', '#deleteTrip', deleteTripHandler);
         </script>
 
     </body>

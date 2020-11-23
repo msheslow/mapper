@@ -164,12 +164,12 @@ app.post('/starttrip', async (req, res) => {
 
 //deletes trip that was last requested
 app.post('/deletetrip', async (req, res) => {
-    if (req.session.tripID == undefined || req.session.username== undefined){
+    if (req.session.username== undefined){
         res.status(403).send("missing credentials")
     }
     req.session.tripID=""
-    await searchWrapper(`DELETE FROM stops WHERE tripID = "${req.session.tripID}"`)
-    await searchWrapper(`DELETE FROM trips WHERE rowid = "${req.session.tripID}"`)
+    await searchWrapper(`DELETE FROM stops WHERE tripID = "${req.body.tripID}"`)
+    await searchWrapper(`DELETE FROM trips WHERE rowid = "${req.body.tripID}"`)
     res.json(true)
 })
 
