@@ -123,7 +123,7 @@ app.get('/deletallstops', async (req, res) => {
     if (req.session.tripID == undefined){
         res.status(403).send("Please provide stopID you would like to delete")
     }
-    await searchWrapper(`DELETE * FROM stops WHERE tripID = "${req.session.tripID}"`)
+    await searchWrapper(`DELETE FROM stops WHERE tripID = "${req.session.tripID}"`)
     res.json(true)
 })
 

@@ -241,9 +241,9 @@ async function initMap() {
                 let waypointName = document.getElementById(waypointNum).getAttribute("waypoint-name");
                 try{
                     let result = await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: waypointName }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                        console.log("deleting all stops from the backend worked!")
+                        console.log("add a stop worked")
                     } catch {
-                        console.log("deleting all stops from the backend didn't work")
+                        console.log("adding a stop didn't work")
                     }
             }
         }
