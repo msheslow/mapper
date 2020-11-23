@@ -192,7 +192,7 @@ async function initMap() {
         }
     }
 
-    // WHEN DELETING A WAYPOINT, CALL THIS INSTEAD 
+    // WHEN DELETING A WAYPOINT, CALL THIS INSTEAD  - BROKEN!!!!!! @ 3:51am 11/23 (lol)
     async function delete_waypointMaker(waypointOrder, waypoints){
         // ------- HTML stuff starts here -------
         $('#listWaypoints').empty()
@@ -200,6 +200,7 @@ async function initMap() {
             console.log("line 273: " + waypointOrder[i]);
             let waypointNum = waypointOrder[i];
             console.log("line 275: " + waypointNum);
+        // POSSIBLE SOLUTION: Empty this HTML area right here - look in morning    
             $('#listWaypoints').append(waypointCardAssembler(waypoints[waypointOrder[i]].location.query));
         }
     }
