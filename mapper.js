@@ -162,18 +162,25 @@ async function initMap() {
         async function waypointMaker(waypointOrder, waypoints){
             // ------- HTML stuff starts here -------
             $('#listWaypoints').empty()
+            try{
+                let result = await axios.get('https://mapper-project.herokuapp.com/deleteallstops', { headers: {'Access-Control-Allow-Origin': '*'}});
+                    console.log("deleting all stops from the backend worked!")
+                } catch {
+                    console.log("deleting all stops from the backend didn't work")
+                }
             for (i=0; i<waypointOrder.length; i++) {
                 let waypointNum = waypoints[waypointOrder[i]];
                 $('#listWaypoints').append(waypointCardAssembler(waypointNum,waypoints[waypointOrder[i]].location.query));
+                try {
+                    let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: waypoints[waypointOrder[i]].location.query }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                    console.log("Created a stop! See it below")
+                    console.log(result)
+                } catch {
+                    console.log("Adding a stop Didn't work lol")
+                }
             }
             // ---------- Back end stuff start here -------------
-            try {
-                let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                console.log("Created a stop! See it below")
-                console.log(result)
-            } catch {
-                console.log("Adding a stop Didn't work lol")
-            }
+            
         }
     
         async function deleteWaypointHandler(event) {
@@ -220,7 +227,7 @@ async function initMap() {
             // ------- HTML stuff starts here -------
             $('#listWaypoints').empty()
             try{
-                let result = await axios.post('https://mapper-project.herokuapp.com/deleteallstops', { headers: {'Access-Control-Allow-Origin': '*'}});
+                let result = await axios.get('https://mapper-project.herokuapp.com/deleteallstops', { headers: {'Access-Control-Allow-Origin': '*'}});
                     console.log("deleting all stops from the backend worked!")
                 } catch {
                     console.log("deleting all stops from the backend didn't work")

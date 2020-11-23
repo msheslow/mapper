@@ -119,7 +119,7 @@ app.post('/deletestop', async (req, res) => {
     res.json(true)
 })
 
-app.post('/deletallstops', async (req, res) => {
+app.get('/deletallstops', async (req, res) => {
     if (req.session.tripID == undefined){
         res.status(403).send("Please provide stopID you would like to delete")
     }
