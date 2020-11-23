@@ -26,16 +26,17 @@ async function initMap() {
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#anotherAdd', attractionCardAddHandler);// wat dis is?
     $('main').on('click', '#delete', deleteWaypointHandler)
+    $('main').on('click', 'start', db_autocomplete)
     $('main').on('input', '#start', db_autocomplete);
     $('main').on('input', '#end', db_autocomplete);
     $('main').on('input', '#addWaypoint', db_autocomplete);
     $('main').on('click', '.autocomplete-box',start_autocomplete_click_handler);
-    $('#start').on('blur', function () {
-        $('#start-column').empty();
-    });
+    $('#start').on('blur', start_autocomplete_click_handler);
 
     async function start_autocomplete_click_handler(event) {
-        // console.log(this.childElement.childElement.childElement.value);
+        if (event.currentTarget.className != "autocomplete-box") {
+            return false;
+        }
         console.log(event);
         console.log(event.currentTarget.firstChild.nextSibling.innerText);
         let place_name = event.currentTarget.firstChild.nextSibling.innerText;
@@ -142,7 +143,7 @@ async function initMap() {
     async function db_autocomplete(event){
         let input_string = event.currentTarget.value; 
 
-        if (!input_string) {
+        if (input_string.length == 0) {
             $('#start-column').empty();
             return false;
         }
