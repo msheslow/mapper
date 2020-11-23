@@ -197,10 +197,13 @@ async function initMap() {
             console.log("deleteWaypointHandler (waypointNum + 1):");
             console.log(waypointNum);
             // this is undefined, THIS NEEDS TO BE 
-            local_waypoints.splice(waypointNum + 1, 1);
-            console.log("deleteWaypointHandler local_points (post-splice): ");
+            console.log("local_waypoints (pre-splice): ");
             console.log(local_waypoints);
-            deleteWaypoint(waypointNum);
+          
+            local_waypoints.splice(waypointNum, 1);
+            console.log("local_waypoints (post-splice): ");
+            console.log(local_waypoints);
+            deleteWaypoint();
         }
     
         async function deleteWaypoint() {
@@ -215,7 +218,7 @@ async function initMap() {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
-                    delete_waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
+                    delete_waypointMaker(response.routes[0].waypoint_order, local_waypoints);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
