@@ -383,7 +383,7 @@ async function initMap() {
 
 
         function attractionsCardAssembler(attraction) {
-            return(`<div class="box">
+            return(`<div class="box attractionBoxes">
                         <div>
                             <div class="columns">
                                 <div class="column is-10">
