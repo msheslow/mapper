@@ -5,38 +5,7 @@ async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
     let local_waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
-
-    /*
-    async function duration(directionsDisplay) {
-        console.log(directionsDisplay);
-        let arr_len = directionsDisplay.directions.routes[0].legs.length;
-        let route_distance = 0;
-        let duration_len = 0;
-
-        for (let i = 0; i < arr_len; i++) {
-            route_distance += directionsDisplay.directions.routes[0].legs[i].distance.value;
-            duration_len += directionsDisplay.directions.routes[0].legs[i].duration.value;
-        }
-        let day = duration_len / (24 * 3600); 
-        day = duration_len % (24 * 3600); 
-        let hour = duration_len / 3600; 
-        hour %= 3600; 
-        let minutes = duration_len / 60 ; 
-        minutes %= 60; 
-        let seconds = duration_len; 
-        
-        let duration_str = day + " " + "days " + hour  
-        + " " + "hours " + minutes + " "
-        + "minutes " + seconds + " "
-        + "seconds ";
-        let route_distance_str = (Math.round(route_distance) * 0.000621371) + " mi";
-          
-        console.log(duration_str);    
-        console.log(route_distance_str);     
-     //   directionsDisplay.directions.routes[0].legs[0].duration.text
-        return {duration_str, route_distance_str};
-    }
-    */
+    
 
     let options = {
         zoom: 3,
@@ -167,10 +136,8 @@ async function initMap() {
         event.preventDefault();
         makeRoute(directionsService, directionsDisplay, local_waypoints);
         try {
-            let result= await axios.post('https://mapper-project.herokuapp.com/starttrip', {
-                startLocation: $('#start').val(),
-                destination: $('#end').val() 
-            }, { headers: {'Access-Control-Allow-Origin': '*'}});
+            let result= await axios.post('https://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
+            destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log("Created a trip!");
             console.log(result);
             document.cookie = "tripID=" + result.data.rows[0].tripID;
@@ -330,7 +297,7 @@ async function initMap() {
     }
 
     // makeRoute draws the route line between two locations on the map
-    // IT LOOKS LIKE makeRoute AND addRoute MIGHT BE EXACTLY THE SAME -- CHECK THIS LATER
+    // IT LOOKS LIKE makeRoute AND addRoute MIGHT BE EXACTLY THE SAME -- CHECK THIS
     async function makeRoute(directionsService, directionsDisplay, local_waypoints) {
         await directionsService.route({
             origin: document.getElementById('start').value,
@@ -352,7 +319,6 @@ async function initMap() {
             window.setTimeout(stateTrav,1000, directionsDisplay);
         }
         start();
-     //    duration(directionsDisplay);
     }
 
     async function addRoute(directionsService, directionsDisplay, local_waypoints) {
@@ -376,7 +342,6 @@ async function initMap() {
             window.setTimeout(stateTrav,1000, directionsDisplay);
         }
         start();
-   //     duration(directionsDisplay);
     }
 
 
