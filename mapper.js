@@ -8,29 +8,29 @@ async function initMap() {
 
     async function duration(directionsDisplay) {
         console.log(directionsDisplay);
-        let arr_len = await directionsDisplay.directions.routes[0].legs.length;
+        let arr_len = directionsDisplay.directions.routes[0].legs.length;
         let route_distance = 0;
         let duration_len = 0;
 
         for (let i = 0; i < arr_len; i++) {
-            route_distance += await directionsDisplay.directions.routes[0].legs[i].distance.value;
-            duration_len += await directionsDisplay.directions.routes[0].legs[i].duration.value;
+            route_distance += directionsDisplay.directions.routes[0].legs[i].distance.value;
+            duration_len += directionsDisplay.directions.routes[0].legs[i].duration.value;
         }
         
 
         let day = duration_len / (24 * 3600); 
-        duration_len = duration_len % (24 * 3600); 
+        day = duration_len % (24 * 3600); 
         let hour = duration_len / 3600; 
-        duration_len %= 3600; 
+        hour %= 3600; 
         let minutes = duration_len / 60 ; 
-        duration_len %= 60; 
+        minutes %= 60; 
         let seconds = duration_len; 
         
         let duration_str = day + " " + "days " + hour  
         + " " + "hours " + minutes + " "
         + "minutes " + seconds + " "
         + "seconds ";
-        let route_distance_str = (route_distance * 0.000621371) + " mi";
+        let route_distance_str = (Math.round(route_distance) * 0.000621371) + " mi";
           
         console.log(duration_str);    
         console.log(route_distance_str);     
@@ -352,7 +352,6 @@ async function initMap() {
             window.setTimeout(stateTrav,1000, directionsDisplay);
         }
         start();
-        console.log(directionsDisplay);
         duration(directionsDisplay);
     }
 
