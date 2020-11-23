@@ -170,7 +170,9 @@ async function initMap() {
                 }
             let newresult;
             for (i=0; i<waypointOrder.length; i++) {
-                let waypointNum = waypoints[waypointOrder[i]];
+                console.log(waypointOrder);
+                console.log(waypoints);
+                let waypointNum = i; // waypointNum = this is the waypoint object
                 console.log("waypointNum: ")
                 console.log(waypointNum);
                 $('#listWaypoints').append(waypointCardAssembler(waypointNum,waypoints[waypointOrder[i]].location.query));
