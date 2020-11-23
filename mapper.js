@@ -21,20 +21,6 @@ async function initMap() {
      
     };
 
-    // ---------- EVENT LISTENERS ----------------
-    $('main').on('click', '#add', waypointHandler);
-    $('main').on('click', '#generate-map', createTripHandler);
-    $('main').on('click', '#anotherAdd', attractionCardAddHandler);
-    $('main').on('click', '#delete', deleteWaypointHandler)
-    $('main').on('input', '#start', start_autocomplete_debounced);
-    $('main').on('input', '#end', end_autocomplete_debounced);
-    $('main').on('input', '#addWaypoint', waypoint_autocomplete_debounced);
-    // $('main').on('input', '#start', start_db_autocomplete);
-    // $('main').on('input', '#end', end_db_autocomplete);
-    // $('main').on('input', '#addWaypoint', waypoint_db_autocomplete);
-    $('main').on('click', '.autocomplete-box',start_autocomplete_click_handler);
-
-
     const debouncedFunction = (autofillFunction, timeout) => { 
         let debounceTimer 
         return function() { 
@@ -50,6 +36,21 @@ async function initMap() {
     let start_autocomplete_debounced = debouncedFunction(start_db_autocomplete, 500)
     let end_autocomplete_debounced = debouncedFunction(end_db_autocomplete, 500)
     let waypoint_autocomplete_debounced = debouncedFunction(waypoint_db_autocomplete, 500)
+    
+    // ---------- EVENT LISTENERS ----------------
+    $('main').on('click', '#add', waypointHandler);
+    $('main').on('click', '#generate-map', createTripHandler);
+    $('main').on('click', '#anotherAdd', attractionCardAddHandler);
+    $('main').on('click', '#delete', deleteWaypointHandler)
+    $('main').on('input', '#start', start_autocomplete_debounced);
+    $('main').on('input', '#end', end_autocomplete_debounced);
+    $('main').on('input', '#addWaypoint', waypoint_autocomplete_debounced);
+    // $('main').on('input', '#start', start_db_autocomplete);
+    // $('main').on('input', '#end', end_db_autocomplete);
+    // $('main').on('input', '#addWaypoint', waypoint_db_autocomplete);
+    $('main').on('click', '.autocomplete-box',start_autocomplete_click_handler);
+
+
 
     async function start_autocomplete_click_handler(event) {
         let place_name = event.currentTarget.firstChild.nextSibling.innerText;
