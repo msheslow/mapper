@@ -24,7 +24,7 @@ async function initMap() {
     // ---------- EVENT LISTENERS ----------------
     $('main').on('click', '#add', waypointHandler);
     $('main').on('click', '#generate-map', createTripHandler);
-    $('main').on('click', '#anotherAdd', attractionCardAddHandler);// wat dis is?
+    $('main').on('click', '#anotherAdd', attractionCardAddHandler);
     $('main').on('click', '#delete', deleteWaypointHandler)
     $('main').on('input', '#start', start_db_autocomplete);
     $('main').on('input', '#end', end_db_autocomplete);
@@ -171,11 +171,13 @@ async function initMap() {
             let newresult;
             for (i=0; i<waypointOrder.length; i++) {
                 let waypointNum = waypoints[waypointOrder[i]];
+                console.log("waypointNum: ")
+                console.log(waypointNum);
                 $('#listWaypoints').append(waypointCardAssembler(waypointNum,waypoints[waypointOrder[i]].location.query));
                 try {
                     newresult= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: waypoints[waypointOrder[i]].location.query }, { headers: {'Access-Control-Allow-Origin': '*'}});
                     console.log("Created a stop! See it below")
-                    console.log(result)
+                    console.log(newresult)
                 } catch {
                     console.log("Adding a stop Didn't work lol")
                 }
@@ -358,6 +360,8 @@ async function initMap() {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
+                    console.log("Reponse console log: ");
+                    console.log(reponse);
                     waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
@@ -473,18 +477,22 @@ async function initMap() {
     
             // Add a stop from suggested, stopID (this is not done)
             async function attractionCardAddHandler(event){
-            event.preventDefault();
-            try {
-                let result= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: $('#addWaypoint').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                console.log("Created a stop in a different way!")
-            } catch {
-                console.log("Didn't work lol")
-            }
+                event.preventDefault();
+                let current_card = event.currentTarget.parentElement.parentElement.parentElement;
+                console.log(current_card);
+                let waypointName = current_card.id;
+                let newWaypoint = {
+                    location: waypointName,
+                    stopover: true
+                }
+                local_waypoints.push(newWaypoint);
+                    await addRoute(directionsService, directionsDisplay, local_waypoints);
+            
             }
     
     
             function attractionsCardAssembler(attraction) {
-                return(`<div class="box attractionBoxes">
+                return(`<div class="box attractionBoxes" id="${attraction.Name}">
                             <div>
                                 <div class="columns">
                                     <div class="column is-10">
