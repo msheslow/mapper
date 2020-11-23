@@ -171,6 +171,8 @@ async function initMap() {
             let newresult;
             for (i=0; i<waypointOrder.length; i++) {
                 let waypointNum = waypoints[waypointOrder[i]];
+                console.log("waypointNum: ")
+                console.log(waypointNum);
                 $('#listWaypoints').append(waypointCardAssembler(waypointNum,waypoints[waypointOrder[i]].location.query));
                 try {
                     newresult= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: waypoints[waypointOrder[i]].location.query }, { headers: {'Access-Control-Allow-Origin': '*'}});
@@ -358,6 +360,8 @@ async function initMap() {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
+                    console.log("Reponse console log: ");
+                    console.log(reponse);
                     waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
