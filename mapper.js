@@ -6,7 +6,6 @@ async function initMap() {
     let directionsDisplay = await new google.maps.DirectionsRenderer;
     let local_waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
     
-
     let options = {
         zoom: 3,
         center: {lat:35.9132, lng:-79.0558}
@@ -136,8 +135,10 @@ async function initMap() {
         event.preventDefault();
         makeRoute(directionsService, directionsDisplay, local_waypoints);
         try {
-            let result= await axios.post('https://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
-            destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
+            let result= await axios.post('https://mapper-project.herokuapp.com/starttrip', {
+                startLocation: $('#start').val(),
+                destination: $('#end').val() 
+            }, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log("Created a trip!");
             console.log(result);
             document.cookie = "tripID=" + result.data.rows[0].tripID;
@@ -297,6 +298,7 @@ async function initMap() {
     }
 
     // makeRoute draws the route line between two locations on the map
+    // IT LOOKS LIKE makeRoute AND addRoute MIGHT BE EXACTLY THE SAME -- CHECK THIS LATER
     async function makeRoute(directionsService, directionsDisplay, local_waypoints) {
         await directionsService.route({
             origin: document.getElementById('start').value,
@@ -318,6 +320,7 @@ async function initMap() {
             window.setTimeout(stateTrav,1000, directionsDisplay);
         }
         start();
+        console.log(directionsService);
     }
 
     async function addRoute(directionsService, directionsDisplay, local_waypoints) {
