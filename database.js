@@ -123,7 +123,7 @@ app.get('/deleteallstops', async (req, res) => {
     if (req.session.tripID == undefined){
         res.status(403).send("Please provide stopID you would like to delete")
     }
-    await searchWrapper(`DELETE FROM stops WHERE tripID = "${req.session.tripID}"`)
+    await deleteAllStops(req.session.tripID)
     res.json(true)
 })
 
@@ -156,7 +156,7 @@ app.post('/starttrip', async (req, res) => {
         res.status(403).send("Trip Exists")
         return
     } else {
-        req.session.tripID = result
+        req.session.tripID = result.rows[0].tripID
         res.json(result)
         return result;
     } 
@@ -223,6 +223,11 @@ async function searchWrapper(sql){
     })
 }
 
+async function deleteAllStops(trip){
+    
+    return await searchWrapper(`DELETE FROM stops WHERE tripID = "${trip}"`)
+}
+
 
 //Finds all the sites in the state listed in the route object, states must be spelled out strings in an array
 async function getSitesInStates(states){
@@ -239,7 +244,6 @@ async function getSitesInStates(states){
     ORDER BY Weight DESC
     LIMIT 100`
     let ans = await searchWrapper(sql)
-    // console.log(ans)
     for (place of ans.rows) {
         if ((place.Description == -1 || place.Description.startsWith("https://")) && place.Checked==0){
             let wikiName = place.Name.split(" ").join("_")
@@ -250,7 +254,6 @@ async function getSitesInStates(states){
                 result = await axios.get(wikiRequest)
                 if (result.data.type=="standard"){
                     await searchWrapper(`UPDATE citiesAndSites SET Description ="${result.data.extract}" WHERE Name="${place.Name}"`)
-                    // console.log(result.data.extract)
                 }
             } catch {
                 console.log("wiki sad :(")
@@ -302,6 +305,8 @@ async function addTripStop(tripID, stopID){
     let sqlStopCommand = `INSERT INTO stops VALUES ("${stopID}", "${tripID}")`
     await searchWrapper(`UPDATE citiesAndSites Set Weight = Weight+1 WHERE Name = "${stopID}"`)
     await searchWrapper(sqlStopCommand)
+
+    //console.log(await searchWrapper(`"SELECT * FROM trips WHERE rowid="${tripID}"`))
     return  await getTripDetails(tripID, "arisf")
 }
 
@@ -376,14 +381,15 @@ function closeDB(){
     
 
 // // // // //writeSearch(route)
-// async function test(){
-//     console.log(await searchWrapper(`INSERT INTO users VALUES ("arisf", "arispassword")`))
-//     console.log(await searchWrapper(`INSERT INTO trips VALUES ("arisf", "New York, New York", "Charlotte, North Carolina")`))
-//     console.log(await searchWrapper(`INSERT INTO trips VALUES ("arisf", "Raleigh, North Carolina", "Sedona, Arizona")`))
-//     console.log(await searchWrapper(`INSERT INTO stops VALUES ("2", "Los Duranes Chapel")`))
-//     // console.log(await getSitesInStates(["New Mexico", "Utah"]))
-// }
-// test()
+async function test(){
+   
+    for (let i=0; i<10; i++){
+        await deleteAllStops(i)
+        await searchWrapper(`DELETE FROM trips WHERE rowid = "${i}"`)
+    }
+    // console.log(await getSitesInStates(["New Mexico", "Utah"]))
+}
+test()
 // // // // addUser("arisf", "arispassword")
 // createTrip("arisf", "Wake Forest", "Sedona, AZ")
 // addTripStop(1,"Great Sand Dunes National Park")
