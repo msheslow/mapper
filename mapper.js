@@ -26,9 +26,9 @@ async function initMap() {
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#anotherAdd', attractionCardAddHandler);// wat dis is?
     $('main').on('click', '#delete', deleteWaypointHandler)
-    $('main').on('input', '#start', db_autocomplete);
-    $('main').on('input', '#end', db_autocomplete);
-    $('main').on('input', '#addWaypoint', db_autocomplete);
+    $('main').on('input', '#start', start_db_autocomplete);
+    $('main').on('input', '#end', end_db_autocomplete);
+    $('main').on('input', '#addWaypoint', start_db_autocomplete);
     $('main').on('click', '.autocomplete-box',start_autocomplete_click_handler);
 
     async function start_autocomplete_click_handler(event) {
