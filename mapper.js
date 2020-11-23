@@ -38,6 +38,7 @@ async function initMap() {
         let place_name = event.currentTarget.firstChild.nextSibling.innerText;
 
         $('#start').value = place_name;
+        console.log(event.currentTarget);
     }
 
     async function createTripHandler(event){
@@ -156,7 +157,7 @@ async function initMap() {
 
         for (place of result){
             console.log(place.Name + ", " + place.State);
-            $('#start-column').append(`<div class="autocomplete-box" style="background-color: #CCFFCC; margin-bottom: 5px;">
+            $('#start-column').append(`<div class="autocomplete-box">
             <div>
             <span style="font-size: 10px; color: black;">${place.Name + ", " + place.State}</span>
             </div>
