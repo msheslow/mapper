@@ -315,6 +315,7 @@ async function initMap() {
                 travelMode: 'DRIVING',
                 waypoints: local_waypoints,
                 optimizeWaypoints: true,
+            },async function(response, status) {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
