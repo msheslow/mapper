@@ -265,7 +265,7 @@ async function initMap() {
             console.log(spliced_local_waypoints);
 
 
-            // this is undefined, THIS NEEDS TO BE 
+            // this is undefined, THIS NEEDS TO B 
             // local_waypoints.splice(waypointNum, 1);
             console.log("local_waypoints (post-splice): ");
             console.log(local_waypoints);
