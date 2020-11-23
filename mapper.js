@@ -144,7 +144,7 @@ async function initMap() {
             $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
             makeRoute(directionsService, directionsDisplay, local_waypoints);
         } catch {
-            // window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
+            window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
             console.log("Creating a trip Didn't work lol")
         }
     }
