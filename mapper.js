@@ -38,11 +38,12 @@ async function initMap() {
         console.log(event);
 
         let place_name = event.currentTarget.firstChild.nextSibling.innerText;
-        document.getElementById("start").value = place_name;
 
         if (event.currentTarget.parentElement.id == "start-column") {
+            document.getElementById("start").value = place_name;
             $('#start-column').empty();
         } else if (event.currentTarget.parentElement.id == "end-column") {
+            document.getElementById("end").value = place_name;
             $('#end-column').empty();
         }
 
