@@ -30,22 +30,14 @@ async function initMap() {
     $('main').on('input', '#start', db_autocomplete);
     $('main').on('input', '#end', db_autocomplete);
     $('main').on('input', '#addWaypoint', db_autocomplete);
-    $('main').on('click', '.autocomplete-box',start_autocomplete_click_handler);
-    $('#start').on('blur', start_autocomplete_click_handler);
+    $('#start').on('click', '.autocomplete-box',start_autocomplete_click_handler);
 
     async function start_autocomplete_click_handler(event) {
+            console.log(event);
 
-
-        if (!event.currentTarget.firstChild) {
-            $('#start-column').empty();
-            return;
+            let place_name = event.currentTarget.firstChild.nextSibling.innerText;
+            document.getElementById("start").value = place_name;
         }
-
-        console.log(event);
-        console.log(event.currentTarget.firstChild.nextSibling.innerText);
-
-        let place_name = event.currentTarget.firstChild.nextSibling.innerText;
-        document.getElementById("start").value = place_name;
 
         $('#start-column').empty();
     }
