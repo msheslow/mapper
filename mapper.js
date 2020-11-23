@@ -142,7 +142,7 @@ async function initMap() {
             $('#destinationWaypoint').empty();
             $('#originWaypoint').append(startCardAssembler($('#start').val()));
             $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
-            makeRoute(directionsService, directionsDisplay, local_waypoints);
+            makeRoute(directionsService, directionsDisplay);
         } catch {
             window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
             console.log("Creating a trip Didn't work lol")
@@ -308,18 +308,16 @@ async function initMap() {
     
         // makeRoute draws the route line between two locations on the map
         // IT LOOKS LIKE makeRoute AND addRoute MIGHT BE EXACTLY THE SAME -- CHECK THIS
-        async function makeRoute(directionsService, directionsDisplay, local_waypoints) {
+        async function makeRoute(directionsService, directionsDisplay) {
             await directionsService.route({
                 origin: document.getElementById('start').value,
                 destination: document.getElementById('end').value,
                 travelMode: 'DRIVING',
                 waypoints: local_waypoints,
                 optimizeWaypoints: true,
-            },async function(response, status) {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
-                    waypointMaker(response.routes[0].waypoint_order, response.request.waypoints);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
