@@ -34,14 +34,16 @@ async function initMap() {
     $('#start').on('blur', start_autocomplete_click_handler);
 
     async function start_autocomplete_click_handler(event) {
-        console.log(event);
-        console.log(event);
-        console.log(event.currentTarget.firstChild.nextSibling.innerText);
+
 
         if (!event.currentTarget.firstChild.nextSibling.innerText) {
             $('#start-column').empty();
             return;
         }
+
+        console.log(event);
+        console.log(event.currentTarget.firstChild.nextSibling.innerText);
+
         let place_name = event.currentTarget.firstChild.nextSibling.innerText;
         document.getElementById("start").value = place_name;
 
