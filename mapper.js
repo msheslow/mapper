@@ -194,11 +194,13 @@ async function initMap() {
             let current_card = event.currentTarget.parentElement.parentElement.parentElement;
             console.log(current_card);
             let waypointNum = current_card.id;
+            console.log("deleteWaypointHandler waypointNum: ");
+            console.log(waypointNum);
             // this is undefined, THIS NEEDS TO BE 
             local_waypoints.splice(waypointNum, 1);
+            console.log("deleteWaypointHandler local_points (post-splice): ");
+            console.log(local_waypoints);
             deleteWaypoint(waypointNum);
-    
-           
         }
     
         async function deleteWaypoint() {
@@ -239,9 +241,9 @@ async function initMap() {
                 }
             let newresult;
             for (i=0; i<waypointOrder.length; i++) {
-                console.log("line 273: " + waypointOrder[i]);
-                let waypointNum = waypointOrder[i];
-                console.log("line 275: " + waypointNum);
+                let waypointNum = i;
+                console.log("waypointNum (delete_waypointMaker): ");
+                console.log(waypointNum);
             // POSSIBLE SOLUTION: Empty this HTML area right here - look in morning    
                 $('#listWaypoints').append(waypointCardAssembler(waypointNum, waypoints[waypointOrder[i]].location.query));
                 let waypointName = document.getElementById(waypointNum).getAttribute("waypoint-name");
