@@ -5,6 +5,16 @@ async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
     let local_waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
+
+    async function duration(directionsDisplay) {
+        let arr_len = directionsDisplay.directions.routes[0].legs.length;
+        let route_len = 0;
+
+        for (let i = 0; i < arr_len; i++) {
+            console.log(directionsDisplay.directions.routes[0].legs[i].distance.text);
+        }
+     //   directionsDisplay.directions.routes[0].legs[0].duration.text
+    }
     
     let options = {
         zoom: 3,
@@ -344,7 +354,6 @@ async function initMap() {
             window.setTimeout(stateTrav,1000, directionsDisplay);
         }
         start();
-        console.log(directionsDisplay.directions.routes[0].legs[0].duration.text + directionsDisplay.directions.routes[0].legs[1].duration.text);
     }
 
 
