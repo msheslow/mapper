@@ -258,6 +258,7 @@ async function initMap() {
                     spliced_local_waypoints.push(local_waypoints[i]);
                 }
             }
+            local_waypoints = spliced_local_waypoints;
 
             console.log(spliced_local_waypoints);
 
@@ -266,8 +267,7 @@ async function initMap() {
             // local_waypoints.splice(waypointNum, 1);
             console.log("local_waypoints (post-splice): ");
             console.log(local_waypoints);
-            return;
-            // await deleteWaypoint(directionsService, directionsDisplay, local_waypoints);
+            await deleteWaypoint(directionsService, directionsDisplay, local_waypoints);
         }
     
         async function deleteWaypoint(directionsService, directionsDisplay, local_waypoints) {
