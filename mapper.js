@@ -90,7 +90,7 @@ async function initMap() {
             document.cookie = "tripID=" + result.data.rows[0].tripID;
             $('#originWaypoint').append(startCardAssembler($('#start').val()));
             $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
-            let newresult= await axios.post('https://mapper-project.herokuapp.com/gettrip/'+result.data.rows[0].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
+            let newresult= await axios.get('https://mapper-project.herokuapp.com/gettrip/'+result.data.rows[0].tripID, { headers: {'Access-Control-Allow-Origin': '*'}});
             console.log("result of calling get tripid on the trip that was just created")
             console.log(newresult)
             /*
