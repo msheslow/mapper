@@ -26,9 +26,9 @@ async function initMap() {
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#anotherAdd', attractionCardAddHandler);// wat dis is?
     $('main').on('click', '#delete', deleteWaypointHandler)
-    $('main').on('input', '#start', db_autocomplete);
-    $('main').on('input', '#end', db_autocomplete);
-    $('main').on('input', '#addWaypoint', db_autocomplete);
+    $('main').on('input', '#start', start_db_autocomplete);
+    $('main').on('input', '#end', end_db_autocomplete);
+    // $('main').on('input', '#addWaypoint', waypoint_db_autocomplete);
     $('main').on('click', '.autocomplete-box',start_autocomplete_click_handler);
 
     async function start_autocomplete_click_handler(event) {
@@ -136,7 +136,7 @@ async function initMap() {
     }
 
     // Sets the selected <input> html elements to become autocomplete objects
-    async function db_autocomplete(event){
+    async function start_db_autocomplete(event){
         let input_string = event.currentTarget.value; 
 
         if (!input_string) {
@@ -158,6 +158,35 @@ async function initMap() {
         for (place of result){
             console.log(place.Name + ", " + place.State);
             $('#start-column').append(`<div class="autocomplete-box">
+            <div>
+            <span style="font-size: 10px; color: black;">${place.Name + ", " + place.State}</span>
+            </div>
+        </div>`)
+        }
+    }
+
+    async function end_db_autocomplete(event){
+        let input_string = event.currentTarget.value; 
+
+        if (!input_string) {
+            $('end-column').empty();
+            return false;
+        }
+
+        let result;
+        try {
+            result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
+            console.log(result.data.rows);
+            result = result.data.rows
+           
+        } catch {
+            console.log("Autocomplete didnt work lol")
+        }
+        $('#end-column').empty();
+
+        for (place of result){
+            console.log(place.Name + ", " + place.State);
+            $('#end-column').append(`<div class="autocomplete-box">
             <div>
             <span style="font-size: 10px; color: black;">${place.Name + ", " + place.State}</span>
             </div>
