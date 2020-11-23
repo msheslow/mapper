@@ -344,7 +344,7 @@ async function initMap() {
             window.setTimeout(stateTrav,1000, directionsDisplay);
         }
         start();
-        console.log(directionsDisplay);
+        console.log(directionsDisplay.directions.routes[0].legs[0].duration.text + directionsDisplay.directions.routes[0].legs[1].duration.text);
     }
 
 
