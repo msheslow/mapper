@@ -320,7 +320,7 @@ async function initMap() {
             window.setTimeout(stateTrav,1000, directionsDisplay);
         }
         start();
-        console.log(directionsService);
+        console.log(directionsDisplay);
     }
 
     async function addRoute(directionsService, directionsDisplay, local_waypoints) {
