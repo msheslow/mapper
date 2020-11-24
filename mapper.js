@@ -5,7 +5,15 @@ async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
     let local_waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
+    let session_trip;
     
+    session_trip = await axios.get('https://mapper-project.herokuapp.com/edittrip/');
+    if (session_trip=="Unauthorized"||session_trip=="Not your trip") {
+        console.log(session_trip)
+    } else {
+        console.log(session_trip)
+    }
+
 
     let options = {
         zoom: 3,
