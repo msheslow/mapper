@@ -273,18 +273,15 @@ async function initMap() {
                     await directionsDisplay.setDirections(response);
                     await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
                     calculate_distance(response);
-                    async function start() {
-                        window.setTimeout(stateTrav,1000, directionsDisplay);
-                    }
-                    start();
                 } else {
                     console.log('Please enter an origin and destination, then click "Plan Route"');
-                    console.log(response);
-                    local_waypoints.pop();
                 }
             });
     
-
+            async function start() {
+                window.setTimeout(stateTrav,1000, directionsDisplay);
+            }
+            start();
         }
 
         async function edit_Waypoint(directionsService, directionsDisplay, edit_origin, edit_destination, local_waypoints) {
@@ -641,7 +638,7 @@ async function initMap() {
     
     
             function attractionsCardAssembler(attraction) {
-                return(`<div class="box attractionBoxes" id="${attraction.Name}">
+                return(`<div class="box attractionBoxes" id="${attraction.Name + " - " + attraction.Type}">
                             <div>
                                 <div class="columns">
                                     <div class="column is-10">
