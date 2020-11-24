@@ -153,4 +153,7 @@
 
 .metric-box {
     width: 48%;
+    display: inline-block; 
+    white-space: nowrap; 
+    overflow-x: auto;
 }
