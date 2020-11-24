@@ -12,6 +12,18 @@ async function initMap() {
         console.log(session_trip)
     } else {
         console.log(session_trip)
+        let edit_origin = session_trip.data[0].rows[0].startLocation;
+        let edit_destination = session_trip.data[0].rows[0].endLocation;
+        let edit_waypoints = [];
+
+        for (let i = 0; i < session_trip.data[1].rows.length; i++) {
+            edit_waypoints.push(session_trip.data[1].rows[i].stopID);
+        }
+
+        $('main').getElementById('start').value = edit_origin;
+        $('main').getElementById('end').value = edit_destination;
+
+        await edit_Waypoint(directionsService, directionsDisplay, edit_origin, edit_destination, edit_waypoints);
     }
 
 
@@ -241,6 +253,29 @@ async function initMap() {
             await directionsService.route({
                 origin: document.getElementById('start').value,
                 destination: document.getElementById('end').value,
+                travelMode: 'DRIVING',
+                waypoints: local_waypoints,
+                optimizeWaypoints: true,
+            },async function(response, status) {
+                if (status === 'OK') {
+                    await directionsDisplay.setDirections(response);
+                    await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
+                    calculate_distance(response);
+                } else {
+                    window.alert('Please enter an origin and destination, then click "Plan Route"');
+                }
+            });
+    
+            async function start() {
+                window.setTimeout(stateTrav,1000, directionsDisplay);
+            }
+            start();
+        }
+
+        async function edit_Waypoint(directionsService, directionsDisplay, edit_origin, edit_destination, local_waypoints) {
+            await directionsService.route({
+                origin: edit_origin,
+                destination: edit_destination,
                 travelMode: 'DRIVING',
                 waypoints: local_waypoints,
                 optimizeWaypoints: true,
