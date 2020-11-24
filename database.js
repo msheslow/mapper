@@ -90,6 +90,25 @@ app.get('/gettrip/:id', async (req, res) => {
     } 
 })
 
+app.get('/edittrip', async (req, res) => {
+    let tripID = req.session.tripID
+    let username = req.session.username
+    if (username == undefined || tripID== undefined) {
+        res.status(403).send("Unauthorized");
+        return;
+    }
+    let result = await getTripDetails(tripID, username)
+    if (result == -1){
+        res.status(403).send("Not your trip")
+        return;
+    } else {
+        res.json(result)
+        return
+    } 
+})
+
+
+
 // add stop to trip, stopID must be passed in body of request
 app.post('/addstop', async (req, res) => {
     let tripID = req.session.tripID
