@@ -25,10 +25,8 @@ async function initMap() {
         document.getElementById('start').value = edit_origin;
         document.getElementById('end').value = edit_destination;
 
-        $('#originWaypoint').empty();
-        $('#destinationWaypoint').empty();
-        $('#originWaypoint').append(startCardAssembler($('#start').val()));
-        $('#destinationWaypoint').append(endCardAssembler($('#end').val()))
+        $('#originWaypoint').replaceWith(startCardAssembler($('#start').val()));
+        $('#destinationWaypoint').replaceWith(endCardAssembler($('#end').val()))
         $('#loadingBox').replaceWith(
             `<div class="box" style="text-align: center;">
                 <span style="font-size: 20px; color: black;">Suggestions are loading...</span><br>
@@ -233,10 +231,6 @@ async function initMap() {
             let result= await axios.post('https://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
             destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
             document.cookie = "tripID=" + result.data.rows[0].tripID;
-            $('#originWaypoint').empty();
-            $('#destinationWaypoint').empty();
-            $('#originWaypoint').append(startCardAssembler($('#start').val()));
-            $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
             makeRoute(directionsService, directionsDisplay);
             // loading button
             window.scrollTo(0,700)
@@ -510,6 +504,8 @@ async function initMap() {
                 optimizeWaypoints: true,
             },async function(response, status) {
                 if (status === 'OK') {
+                    $('#originWaypoint').replaceWith(startCardAssembler($('#start').val()));
+                    $('#destinationWaypoint').replaceWith(endCardAssembler($('#end').val()));
                     await directionsDisplay.setDirections(response);
                     calculate_distance(response);
                 } else {
@@ -665,7 +661,7 @@ async function initMap() {
             async function getStopsInStates(states){
                 let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { states: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
                 console.log("you hit this line")
-                $('#loadingBox').relaceWith(
+                $('#loadingBox').replaceWith(
                     `<div class="box" style="text-align: center;">
                         <span style="font-size: 20px; color: black;">Suggestions are loaded</span><br>
                         <progress class="progress is-large is-primary" value="100" max="100">100%</progress>
