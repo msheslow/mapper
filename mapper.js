@@ -478,12 +478,12 @@ async function initMap() {
     
     
     
-        // Makes an array of all the states the route passes through (Adjust incrementation for price savings)
+        // Makes an array of all the states the route passes through (Adjust incrementation for price savings) There is a better way to do this...
         async function stateTrav(directionsDisplay) {
             let states = [];
             let step_length = directionsDisplay.directions.routes[0].overview_path.length;
     
-            for (let i = 0; i < step_length; i = i + 5) {
+            for (let i = 0; i < step_length - 4; i = i + 5) {
                 let LAT = directionsDisplay.directions.routes[0].overview_path[i].lat();
                 let LNG = directionsDisplay.directions.routes[0].overview_path[i].lng();
                 let state = await getState(LAT, LNG);
