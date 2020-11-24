@@ -54,6 +54,7 @@
 
 .upper{
     width: fixed;
+    margin: auto;
     background-repeat: no-repeat;
     background-position: -500px -200px; 
     z-index: -2;
