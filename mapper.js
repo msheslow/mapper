@@ -289,6 +289,7 @@ async function initMap() {
         }
 
         async function edit_Waypoint(directionsService, directionsDisplay, edit_origin, edit_destination, local_waypoints) {
+            let save_directionsService = directionsService;
             await directionsService.route({
                 origin: edit_origin,
                 destination: edit_destination,
@@ -302,6 +303,7 @@ async function initMap() {
                     calculate_distance(response);
                 } else {
                     console.log('Please enter an origin and destination, then click "Plan Route"');
+                    directionsService = save_directionsService;
                 }
             });
     
@@ -367,7 +369,7 @@ async function initMap() {
         }
     
         async function deleteWaypoint(directionsService, directionsDisplay, local_waypoints) {
-            
+            let save_directionsService = directionsService;
             await directionsService.route({
                 origin: document.getElementById('start').value,
                 destination: document.getElementById('end').value,
@@ -381,6 +383,7 @@ async function initMap() {
                     calculate_distance(response);
                 } else {
                     console.log('Please enter an origin and destination, then click "Plan Route"');
+                    directionsService = save_directionsService;
                 }
             });
         
@@ -498,6 +501,7 @@ async function initMap() {
         }
     
         async function makeRoute(directionsService, directionsDisplay) {
+            let save_directionsService = directionsService;
             await directionsService.route({
                 origin: document.getElementById('start').value,
                 destination: document.getElementById('end').value,
@@ -510,6 +514,7 @@ async function initMap() {
                     calculate_distance(response);
                 } else {
                     console.log('Please enter an origin and destination, then click "Plan Route"');
+                    directionsService = save_directionsService;
                 }
             });
     
