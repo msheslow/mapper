@@ -94,12 +94,12 @@ app.get('/edittrip', async (req, res) => {
     let tripID = req.session.tripID
     let username = req.session.username
     if (username == undefined || tripID== undefined) {
-        res.status(403).send("Unauthorized");
+        res.json("Unauthorized");
         return;
     }
     let result = await getTripDetails(tripID, username)
     if (result == -1){
-        res.status(403).send("Not your trip")
+        res.json("Not your trip")
         return;
     } else {
         res.json(result)
@@ -411,20 +411,20 @@ async function addUser(username, password){
 
 
 // closes database
-function closeDB(){
-    db.close((e) => {
-    if (e) {
-        return console.error(e.message);
-    }
-    console.log('Close the database connection.');
-    });
-}
+// function closeDB(){
+//     db.close((e) => {
+//     if (e) {
+//         return console.error(e.message);
+//     }
+//     console.log('Close the database connection.');
+//     });
+// }
 
     
-async function test(){
-    console.log(await searchWrapper(`SELECT Count(Description) FROM citiesAndSites WHERE Type= "National Historic Register" AND Description <> -1 AND SUBSTR(Description,1,5) <>"https"`))
-}
-test()
+// async function test(){
+//     console.log(await searchWrapper(`SELECT Count(Description) FROM citiesAndSites WHERE Type= "National Historic Register" AND Description <> -1 AND SUBSTR(Description,1,5) <>"https"`))
+// }
+// test()
 // // // // //writeSearch(route)
 // dUser("arisf", "arispassword")
 // createTrip("arisf", "Wake Forest", "Sedona, AZ")
