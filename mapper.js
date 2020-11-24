@@ -29,6 +29,11 @@ async function initMap() {
         $('#destinationWaypoint').empty();
         $('#originWaypoint').append(startCardAssembler($('#start').val()));
         $('#destinationWaypoint').append(endCardAssembler($('#end').val()))
+        $('#loadingBox').append(
+            `<div class="box" style="text-align: center;">
+                <span style="font-size: 20px; color: black;">Suggestions are loading...</span><br>
+                <progress class="progress is-large is-primary" max="100">15%</progress>
+            </div>`);
 
         await edit_Waypoint(directionsService, directionsDisplay, edit_origin, edit_destination, local_waypoints);
         window.scrollTo(0, 700);
