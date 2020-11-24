@@ -240,7 +240,7 @@ async function initMap() {
                     <progress class="progress is-large is-primary" max="100">15%</progress>
                 </div>`);
         } catch {
-            console.log('Please enter an origin and destination, then click "Plan Route"');
+            window.alert("Looks like that isn't working... maybe try again with different inputs?");
             console.log("Creating a trip Didn't work lol")
         }
     }
@@ -269,8 +269,7 @@ async function initMap() {
                     await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
                     calculate_distance(response);
                 } else {
-                    console.log('Please enter an origin and destination, then click "Plan Route"');
-                    console.log(local_waypoints);
+                    window.alert("Looks like that isn't working... maybe try again with different inputs?");
                     directionsService = save_directionsService;
                     local_waypoints.pop();
                 }
@@ -296,7 +295,7 @@ async function initMap() {
                     await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
                     calculate_distance(response);
                 } else {
-                    console.log('Please enter an origin and destination, then click "Plan Route"');
+                    window.alert("Looks like that isn't working... maybe try again with different inputs?");
                     directionsService = save_directionsService;
                 }
             });
@@ -376,7 +375,7 @@ async function initMap() {
                     await delete_waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
                     calculate_distance(response);
                 } else {
-                    console.log('Please enter an origin and destination, then click "Plan Route"');
+                    window.alert("Looks like that isn't working... maybe try again with different inputs?");
                     directionsService = save_directionsService;
                 }
             });
@@ -509,7 +508,7 @@ async function initMap() {
                     await directionsDisplay.setDirections(response);
                     calculate_distance(response);
                 } else {
-                    console.log('Please enter an origin and destination, then click "Plan Route"');
+                    window.alert("Looks like that isn't working... maybe try again with different inputs?");
                     directionsService = save_directionsService;
                 }
             });
