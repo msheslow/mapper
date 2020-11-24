@@ -8,7 +8,7 @@ async function initMap() {
     let session_trip;
     
     session_trip = await axios.get('https://mapper-project.herokuapp.com/edittrip/');
-    if (session_trip=="Unauthorized"||session_trip=="Not your trip" || session_trip == undefined) {
+    if (session_trip.data =="Unauthorized"||session_trip.data=="Not your trip" || session_trip.data == undefined) {
         console.log(session_trip)
     } else {
         console.log(session_trip)
