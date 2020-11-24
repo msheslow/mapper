@@ -94,9 +94,9 @@ async function initMap() {
             min_str = " minute";
         }
         let time_str = computedDays + day_str + computedHours + hr_str + computedMinutes + min_str;
-        // console.log("total distance is: " + distance_str + "<br>total time is: " + time_str);
-        document.getElementById("distance").value = "<b>Total Distance: </b>" + distance_str;
-        document.getElementById("time").value = "<b>Estimated Travel Time: </b>" + time_str;
+        console.log("total distance is: " + distance_str + "<br>total time is: " + time_str);
+        document.getElementById("distance").innerText = "<b>Total Distance: </b>" + distance_str;
+        document.getElementById("time").innerText = "<b>Estimated Travel Time: </b>" + time_str;
     }
 
 
