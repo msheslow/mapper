@@ -279,6 +279,7 @@ async function initMap() {
                     start();
                 } else {
                     console.log('Please enter an origin and destination, then click "Plan Route"');
+                    console.log(response);
                 }
             });
     
