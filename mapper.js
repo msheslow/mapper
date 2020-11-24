@@ -24,6 +24,7 @@ async function initMap() {
     async function calculate_distance(result) {
         let totalDist = 0;
         let totalTime = 0;
+        let computedDistance;
         let computedMinutes;
         let computedHours;
         let computedDays;
@@ -33,8 +34,17 @@ async function initMap() {
           totalTime += myroute.legs[i].duration.value;
         }
 
-        totalDist = totalDist / 1609.34;
-        document.getElementById("total").innerHTML = "total distance is: " + totalDist + " mi<br>total time is: " + + " hours" + (totalTime / 60).toFixed(2) + " minutes";
+        computedDays = Math.floor((totalTime / (24*60*60)));
+        computedHours = Math.floor((totalTime % (24*60*60)) / (60*60));
+        computedMinutes = Math.floor((totalTime % (60*60) / 60));
+        computedDistance = totalDist / 1609.34;
+
+        
+        let distance_str = computedDistance.toFixed(2) + " mi";
+        let time_str = computedDays + " days, " + computedHours + " hours, " + computedMinutes + " minutes";
+
+        console.log("total distance is: " + distance_str + "<br>total time is: " + time_str);
+        document.getElementById("total").innerHTML = "total distance is: " + distance_str + "<br>total time is: " + time_str;
     }
 
 
@@ -203,6 +213,7 @@ async function initMap() {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
                     await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
+                    calculate_distance(response);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
@@ -281,6 +292,7 @@ async function initMap() {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
                     await delete_waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
+                    calculate_distance(response);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
