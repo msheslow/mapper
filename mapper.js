@@ -8,7 +8,7 @@ async function initMap() {
     let session_trip;
     
     session_trip = await axios.get('https://mapper-project.herokuapp.com/edittrip/');
-    if (session_trip.data =="Unauthorized"||session_trip.data=="Not your trip" || session_trip.data == undefined) {
+    if (session_trip.data =="Unauthorized"||session_trip.data=="Not your trip") {
         console.log(session_trip)
     } else {
         console.log(session_trip)
@@ -20,6 +20,8 @@ async function initMap() {
             edit_waypoints.push({location: session_trip.data[1].rows[i].stopID, stopover: true});
         }
 
+        local_waypoints = edit_waypoints;
+
         document.getElementById('start').value = edit_origin;
         document.getElementById('end').value = edit_destination;
 
@@ -28,7 +30,7 @@ async function initMap() {
         $('#originWaypoint').append(startCardAssembler($('#start').val()));
         $('#destinationWaypoint').append(endCardAssembler($('#end').val()))
 
-        await edit_Waypoint(directionsService, directionsDisplay, edit_origin, edit_destination, edit_waypoints);
+        await edit_Waypoint(directionsService, directionsDisplay, edit_origin, edit_destination, local_waypoints);
     }
 
 
