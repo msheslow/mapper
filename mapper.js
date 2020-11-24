@@ -24,6 +24,7 @@ async function initMap() {
         document.getElementById('end').value = edit_destination;
 
         await edit_Waypoint(directionsService, directionsDisplay, edit_origin, edit_destination, edit_waypoints);
+        window.scrollTo(0, 700);
     }
 
 
