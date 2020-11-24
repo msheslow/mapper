@@ -208,6 +208,11 @@ async function initMap() {
             makeRoute(directionsService, directionsDisplay);
             // loading button
             window.scrollTo(0,700)
+            document.getElementById("loadingBox").append(
+                `<div class="box" style="text-align: center;">
+                    <span style="font-size: 20px; color: black;">Trip is loading...</span><br>
+                    <progress class="progress is-large is-primary" max="100">15%</progress>
+                </div>`);
         } catch {
             window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
             console.log("Creating a trip Didn't work lol")
@@ -612,6 +617,13 @@ async function initMap() {
                             $('#attractionsOne').append(attractionsCardAssembler(result.data.rows[i+2]));
                         } else { return}
                     }
+                    document.getElementById("loadingBox").empty();
+                    document.getElementById("loadingBox").append(
+                        `<div class="box" style="text-align: center;">
+                            <span style="font-size: 20px; color: black;">Trip is loaded</span><br>
+                            <progress class="progress is-large is-primary" value="100" max="100">100%</progress>
+                            <span style="font-size: 20px; color: black;">Scroll down and add stops to trip</span><br>
+                        </div>`);
             }
     
         //  console.log("reached")
