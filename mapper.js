@@ -234,11 +234,6 @@ async function initMap() {
             makeRoute(directionsService, directionsDisplay);
             // loading button
             window.scrollTo(0,700)
-            $('#loadingBox').replaceWith(
-                `<div class="box" style="text-align: center;">
-                    <span style="font-size: 20px; color: black;">Suggestions are loading...</span><br>
-                    <progress class="progress is-large is-primary" max="100">15%</progress>
-                </div>`);
         } catch {
             window.alert("Looks like that isn't working... maybe try again with different inputs?");
             console.log("Creating a trip Didn't work lol")
@@ -505,6 +500,11 @@ async function initMap() {
                 if (status === 'OK') {
                     $('#originWaypoint').replaceWith(startCardAssembler($('#start').val()));
                     $('#destinationWaypoint').replaceWith(endCardAssembler($('#end').val()));
+                    $('#loadingBox').replaceWith(
+                        `<div class="box" style="text-align: center;">
+                            <span style="font-size: 20px; color: black;">Suggestions are loading...</span><br>
+                            <progress class="progress is-large is-primary" max="100">15%</progress>
+                        </div>`);
                     await directionsDisplay.setDirections(response);
                     calculate_distance(response);
                 } else {
