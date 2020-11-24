@@ -11,7 +11,7 @@ async function initMap() {
     // Loads Edit if and Edit is present
     if (sessionStorage.getItem("edited_trip")) {
     session_trip = sessionStorage.getItem("edited_trip");
-    console.log(session_trip);
+    console.log(session_trip.data);
     if (session_trip.data =="Unauthorized"||session_trip.data=="Not your trip") {
     } else {
         let edit_origin = session_trip.data[0].rows[0].startLocation;
