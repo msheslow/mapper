@@ -310,7 +310,7 @@ async function initMap() {
                 //placeholder
                 let result = await axios.get('https://mapper-project.herokuapp.com/deleteallstops',{tripID: 1}, { headers: {'Access-Control-Allow-Origin': '*'}});
                 } catch {
-                    console.log("deleting all stops from the backend didn't work")
+                    console.log("deleting all stops from the backend didn't work");
                 }
             let newresult;
             for (i=0; i<waypointOrder.length; i++) {
@@ -612,6 +612,10 @@ async function initMap() {
                         } else { return}
                     }
             }
+}
+
+if (!document.getElementById('map').firstChild) {
+    initMap();
 }
 
 
