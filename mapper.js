@@ -363,6 +363,11 @@ async function initMap() {
                 optimizeWaypoints: true,
             },async function(response, status) {
                 if (status === 'OK') {
+                    $('#loadingBox').replaceWith(
+                        `<div class="box" id="loadingBox" style="text-align: center;">
+                            <span style="font-size: 20px; color: black;">Suggestions are loading...</span><br>
+                            <progress class="progress is-large is-primary" max="100">15%</progress>
+                        </div>`);
                     await directionsDisplay.setDirections(response);
                     await delete_waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
                     calculate_distance(response);
