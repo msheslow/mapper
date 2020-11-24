@@ -280,6 +280,7 @@ async function initMap() {
                 } else {
                     console.log('Please enter an origin and destination, then click "Plan Route"');
                     console.log(response);
+                    local_waypoints.pop();
                 }
             });
     
