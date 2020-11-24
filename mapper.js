@@ -208,7 +208,7 @@ async function initMap() {
             makeRoute(directionsService, directionsDisplay);
             // loading button
             window.scrollTo(0,700)
-            document.getElementById("loadingBox").append(
+            $('#loadingBox').append(
                 `<div class="box" style="text-align: center;">
                     <span style="font-size: 20px; color: black;">Trip is loading...</span><br>
                     <progress class="progress is-large is-primary" max="100">15%</progress>
@@ -617,8 +617,8 @@ async function initMap() {
                             $('#attractionsOne').append(attractionsCardAssembler(result.data.rows[i+2]));
                         } else { return}
                     }
-                    document.getElementById("loadingBox").empty();
-                    document.getElementById("loadingBox").append(
+                    $('#loadingBox').empty();
+                    $('#loadingBox').append(
                         `<div class="box" style="text-align: center;">
                             <span style="font-size: 20px; color: black;">Trip is loaded</span><br>
                             <progress class="progress is-large is-primary" value="100" max="100">100%</progress>
