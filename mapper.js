@@ -246,7 +246,7 @@ async function initMap() {
                     <progress class="progress is-large is-primary" max="100">15%</progress>
                 </div>`);
         } catch {
-            window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
+            console.log('Please enter an origin and destination, then click "Plan Route"');
             console.log("Creating a trip Didn't work lol")
         }
     }
@@ -274,7 +274,7 @@ async function initMap() {
                     await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
                     calculate_distance(response);
                 } else {
-                    window.alert('Please enter an origin and destination, then click "Plan Route"');
+                    console.log('Please enter an origin and destination, then click "Plan Route"');
                 }
             });
     
@@ -297,7 +297,7 @@ async function initMap() {
                     await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
                     calculate_distance(response);
                 } else {
-                    window.alert('Please enter an origin and destination, then click "Plan Route"');
+                    console.log('Please enter an origin and destination, then click "Plan Route"');
                 }
             });
     
@@ -376,7 +376,7 @@ async function initMap() {
                     await delete_waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
                     calculate_distance(response);
                 } else {
-                    window.alert('Please enter an origin and destination, then click "Plan Route"');
+                    console.log('Please enter an origin and destination, then click "Plan Route"');
                 }
             });
         
@@ -505,7 +505,7 @@ async function initMap() {
                     await directionsDisplay.setDirections(response);
                     calculate_distance(response);
                 } else {
-                    window.alert('Please enter an origin and destination, then click "Plan Route"');
+                    console.log('Please enter an origin and destination, then click "Plan Route"');
                 }
             });
     
