@@ -86,7 +86,6 @@ async function initMap() {
             min_str = " minute";
         }
         let time_str = computedDays + day_str + computedHours + hr_str + computedMinutes + min_str;
-        console.log("total distance is: " + distance_str + "<br>total time is: " + time_str);
         document.getElementById("distance").innerHTML = "<b>Total Distance: </b>" + distance_str;
         document.getElementById("time").innerHTML = "<b>Estimated Travel Time: </b>" + time_str;
     }
@@ -128,7 +127,6 @@ async function initMap() {
             document.getElementById("end").value = place_name;
             $('#end-column').empty();
         } else if (event.currentTarget.parentElement.id == "waypoint-column") {
-            console.log(event);
             document.getElementById("addWaypoint").value = event.currentTarget.childNodes[1].lastElementChild.innerText;
             $('#waypoint-column').empty();
         }
@@ -146,7 +144,6 @@ async function initMap() {
         let result;
         try {
             result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log(result.data.rows);
             result = result.data.rows
            
         } catch {
@@ -174,7 +171,6 @@ async function initMap() {
         let result;
         try {
             result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log(result.data.rows);
             result = result.data.rows
            
         } catch {
@@ -202,7 +198,6 @@ async function initMap() {
         let result;
         try {
             result= await axios.post('https://mapper-project.herokuapp.com/autofill', { wordFrag: input_string }, { headers: {'Access-Control-Allow-Origin': '*'}});
-            console.log(result.data.rows);
             result = result.data.rows
            
         } catch {
@@ -314,7 +309,6 @@ async function initMap() {
             try{
                 //placeholder
                 let result = await axios.get('https://mapper-project.herokuapp.com/deleteallstops',{tripID: 1}, { headers: {'Access-Control-Allow-Origin': '*'}});
-                    console.log("deleting all stops from the backend worked!")
                 } catch {
                     console.log("deleting all stops from the backend didn't work")
                 }
@@ -495,20 +489,6 @@ async function initMap() {
                 return states;
         }
     
-        //Eventually, this function needs to take in the array of states passed through and make a call to the backend to find stops in states (in order to build the cards for each site)
-        /* 
-        async function getSitesinStates() {
-            try {
-                let result= await axios.post('http://mapper-project.herokuapp.com/stopsinstates', { states: stateTrav(directionsDisplay) }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                console.log("result of states axios");
-                console.log(result);
-                return result;
-            } catch {
-                console.log("get sites in states didn't work");
-            }
-        }
-        */
-    
         // asks google geocode API which state the LatLng falls within
         async function revGeocode(LAT, LNG) {
             try {
@@ -612,7 +592,6 @@ async function initMap() {
     
             async function getStopsInStates(states){
                 let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { states: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                console.log("you hit this line");
                 $('#loadingBox').replaceWith(`<div class="box" id="loadingBox" style="text-align: center;">
                         <span style="font-size: 20px; color: black;">Suggestions are loaded</span><br>
                         <progress class="progress is-large is-primary" value="100" max="100">100%</progress>
@@ -633,11 +612,6 @@ async function initMap() {
                         } else { return}
                     }
             }
-    
-        //  console.log("reached")
-        //  console.log(getStopsInStates(["Connecticut", "New York", "Pennsylvania", "Ohio"]))
-
-
 }
 
 
