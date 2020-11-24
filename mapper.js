@@ -617,6 +617,7 @@ async function initMap() {
                             $('#attractionsOne').append(attractionsCardAssembler(result.data.rows[i+2]));
                         } else { return}
                     }
+                    console.log("you hit this line")
                     $('#loadingBox').empty();
                     $('#loadingBox').append(
                         `<div class="box" style="text-align: center;">
