@@ -25,9 +25,12 @@ async function initMap() {
         let totalDist = 0;
         let totalTime = 0;
         let computedDistance;
-        let computedMinutes;
-        let computedHours;
         let computedDays;
+        let computedHours;
+        let computedMinutes;
+        let day_str;
+        let hr_str;
+        let min_str;
         let myroute = result.routes[0];
         for (i = 0; i < myroute.legs.length; i++) {
           totalDist += myroute.legs[i].distance.value;
@@ -37,14 +40,34 @@ async function initMap() {
         computedDays = Math.floor((totalTime / (24*60*60)));
         computedHours = Math.floor((totalTime % (24*60*60)) / (60*60));
         computedMinutes = Math.floor((totalTime % (60*60) / 60));
+
         computedDistance = totalDist / 1609.34;
 
         
         let distance_str = computedDistance.toFixed(2) + " mi";
-        let time_str = computedDays + " days, " + computedHours + " hours, " + computedMinutes + " minutes";
+        
+        if (computedDays != 1) {
+            day_str = " days, ";
+        } else {
+            day_str = " day, ";
+        }
+
+        if (computedHours != 1) {
+            hr_str = " hours, ";
+        } else {
+            hr_str = " hour, ";
+        }
+
+        if (computedMinutes != 1) {
+            min_str = " minutes";
+        } else {
+            min_str = " minute";
+        }
+        
+        let time_str = computedDays + day_str + computedHours + hr_str + computedMinutes + min_str;
 
         console.log("total distance is: " + distance_str + "<br>total time is: " + time_str);
-        document.getElementById("total").innerHTML = "total distance is: " + distance_str + "<br>total time is: " + time_str;
+        // document.getElementById("total").innerHTML = "total distance is: " + distance_str + "<br>total time is: " + time_str;
     }
 
 
