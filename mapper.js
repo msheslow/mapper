@@ -262,6 +262,7 @@ async function initMap() {
         }
 
         async function add_Waypoint(directionsService, directionsDisplay, local_waypoints) {
+            let save_directionsService = directionsService;
             await directionsService.route({
                 origin: document.getElementById('start').value,
                 destination: document.getElementById('end').value,
@@ -275,6 +276,9 @@ async function initMap() {
                     calculate_distance(response);
                 } else {
                     console.log('Please enter an origin and destination, then click "Plan Route"');
+                    console.log(local_waypoints);
+                    directionsService = save_directionsService;
+                    local_waypoints.pop();
                 }
             });
     
