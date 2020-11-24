@@ -131,7 +131,7 @@ app.get('/deleteallstops', async (req, res) => {
 app.post('/stopsinstates', async (req, res) => {
     let states = req.body.states 
     if (states == undefined ){
-        res.status(403).send("Please states you would like to see")
+        res.status(403).send("Please specify states you would like to see")
     }
     let results = await getSitesInStates(states)
     res.json(results)
@@ -243,9 +243,9 @@ async function getSitesInStates(states){
     }
     sql = sql.slice(0,-5)
     // Ensures that out of ~100,000 possible stops, only the 100 most popular stops (Weight=popularity) are returned.
-    sql = "SELECT * FROM ("+sql+`)
+    sql = "SELECT * FROM (SELECT * FROM ("+sql+`)
     ORDER BY Weight DESC
-    LIMIT 100`
+    LIMIT 100) WHERE Checked = 0 AND Type = "National Historic Register"`
     let ans = await searchWrapper(sql)
     //iterates through each suggestion to get the description if it doesn't exist
     for (place of ans.rows) {
@@ -263,7 +263,6 @@ async function getSitesInStates(states){
                 }
             //logs to console if suggestion is not in Wikepedia
             } catch {
-                console.log("wiki sad :(")
             }
         }
     }
@@ -393,18 +392,12 @@ function closeDB(){
 }
 
     
-
+async function test(){
+    console.log(await searchWrapper(`SELECT Count(Description) FROM citiesAndSites WHERE Type= "National Historic Register" AND Description <> -1 AND SUBSTR(Description,1,5) <>"https"`))
+}
+test()
 // // // // //writeSearch(route)
-// async function test(){
-//    console.log(await getNPS())
-//     // for (let i=0; i<10; i++){
-//     //     await deleteAllStops(i)
-//     //     await searchWrapper(`DELETE FROM trips WHERE rowid = "${i}"`)
-//     // }
-//     // console.log(await getSitesInStates(["New Mexico", "Utah"]))
-// }
-// test()
-// // // // // addUser("arisf", "arispassword")
+// dUser("arisf", "arispassword")
 // createTrip("arisf", "Wake Forest", "Sedona, AZ")
 // addTripStop(1,"Great Sand Dunes National Park")
 // console.log(await getUsersTripNumbers("arisf"))
