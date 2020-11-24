@@ -62,8 +62,8 @@ async function initMap() {
         }
         let time_str = computedDays + day_str + computedHours + hr_str + computedMinutes + min_str;
         console.log("total distance is: " + distance_str + "<br>total time is: " + time_str);
-        document.getElementById("distance").innerHTML = "Distance: " + distance_str;
-        document.getElementById("time").innerHTML = "Estimated Travel Time: " + time_str;
+        document.getElementById("distance").innerHTML += distance_str;
+        document.getElementById("time").innerHTML += time_str;
 
     }
 
@@ -210,7 +210,7 @@ async function initMap() {
             window.scrollTo(0,700)
             $('#loadingBox').append(
                 `<div class="box" style="text-align: center;">
-                    <span style="font-size: 20px; color: black;">Trip is loading...</span><br>
+                    <span style="font-size: 20px; color: black;">Suggestions are loading...</span><br>
                     <progress class="progress is-large is-primary" max="100">15%</progress>
                 </div>`);
         } catch {
@@ -602,6 +602,14 @@ async function initMap() {
     
             async function getStopsInStates(states){
                 let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { states: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                console.log("you hit this line")
+                $('#loadingBox').empty();
+                $('#loadingBox').append(
+                    `<div class="box" style="text-align: center;">
+                        <span style="font-size: 20px; color: black;">Suggestions are loaded</span><br>
+                        <progress class="progress is-large is-primary" value="100" max="100">100%</progress>
+                        <span style="font-size: 20px; color: black;">Scroll down and add stops to trip</span><br>
+                    </div>`);
                 console.log(result);
                 $('#attractionsOne').empty();
                 $('#attractionsTwo').empty();
@@ -617,14 +625,6 @@ async function initMap() {
                             $('#attractionsOne').append(attractionsCardAssembler(result.data.rows[i+2]));
                         } else { return}
                     }
-                    console.log("you hit this line")
-                    $('#loadingBox').empty();
-                    $('#loadingBox').append(
-                        `<div class="box" style="text-align: center;">
-                            <span style="font-size: 20px; color: black;">Trip is loaded</span><br>
-                            <progress class="progress is-large is-primary" value="100" max="100">100%</progress>
-                            <span style="font-size: 20px; color: black;">Scroll down and add stops to trip</span><br>
-                        </div>`);
             }
     
         //  console.log("reached")
