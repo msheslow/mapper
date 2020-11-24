@@ -156,7 +156,7 @@
             $('#userInfo').empty()
             const cookieValue = document.cookie
             .split('; ')
-            .find(row => row.startsWith('user'))
+            .find(row => row.startsWith('username'))
             .split('=')[1];
             $('#userInfo').append(userCardBuilder(cookieValue));
         }

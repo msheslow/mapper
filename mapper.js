@@ -181,11 +181,16 @@ async function initMap() {
             let result= await axios.post('https://mapper-project.herokuapp.com/starttrip', { startLocation: $('#start').val(),
             destination: $('#end').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
             document.cookie = "tripID=" + result.data.rows[0].tripID;
+            let button = document.getElementById('generate-map');
+            button.classList.add('is-loading');
             $('#originWaypoint').empty();
             $('#destinationWaypoint').empty();
             $('#originWaypoint').append(startCardAssembler($('#start').val()));
             $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
             makeRoute(directionsService, directionsDisplay);
+            // loading button
+            button.classList.remove('is-loading');
+            window.scrollTo(0,680)
         } catch {
             window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
             console.log("Creating a trip Didn't work lol")
@@ -199,6 +204,7 @@ async function initMap() {
             }
             local_waypoints.push(newWaypoint);
             await add_Waypoint(directionsService, directionsDisplay, local_waypoints);
+            window.scrollTo(0, 700);
         }
 
         async function add_Waypoint(directionsService, directionsDisplay, local_waypoints) {
@@ -211,7 +217,6 @@ async function initMap() {
             },async function(response, status) {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
-                    window.scrollTo(0, 700);
                     await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
                     calculate_distance(response);
                 } else {
@@ -277,6 +282,7 @@ async function initMap() {
             local_waypoints = spliced_local_waypoints;
 
             await deleteWaypoint(directionsService, directionsDisplay, local_waypoints);
+            window.scrollTo(0, 700);
         }
     
         async function deleteWaypoint(directionsService, directionsDisplay, local_waypoints) {
@@ -290,7 +296,6 @@ async function initMap() {
             },async function(response, status) {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
-                    window.scrollTo(0, 700);
                     await delete_waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
                     calculate_distance(response);
                 } else {
@@ -423,7 +428,6 @@ async function initMap() {
             },async function(response, status) {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
-                    window.scrollTo(0, 700);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
