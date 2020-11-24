@@ -18,9 +18,8 @@
             <div class="pageHeader" id="fixedHeader">
                 <a href="./index.html" class="titleLogo title">Mapper&nbsp&nbsp<i class="fas fa-route"></i></a>
                     <div class="header-right">
-                        <button class="button is-rounded" id="logout">Logout</button>
                         <a href="./login.html" class="button top is-rounded">Get started</a>
-                        <a href="./user.html" class="userIcon"><i class="fas fa-user"></i></a>
+                        <a href="./user.html" class="button top is-rounded">My Trips</a>
                     </div>
             </div>
             <div class="content">
@@ -122,13 +121,26 @@
 
         }
 
-          async function deleteTripHandler(event){
-                let current_card = event.currentTarget.parentElement.parentElement.parentElement;
-                console.log(current_card);
-                let atripID = current_card.id;
-                let result = await axios.post('https://mapper-project.herokuapp.com/deletetrip', { tripID: atripID }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                current_card.remove()
-            }
+
+        $('main').on('click', '#editTrip', editTripHandler);
+
+        async function editTripHandler(event) {
+            let edited_trip;
+            let current_card = event.currentTarget.parentElement.parentElement.parentElement;
+            console.log(current_card);
+            let edited_tripID = current_card.id;
+            console.log(edited_trip);
+            edited_trip = await axios.get('https://mapper-project.herokuapp.com/gettrip/' + edited_tripID);
+            console.log(edited_trip);
+        }
+
+        async function deleteTripHandler(event){
+            let current_card = event.currentTarget.parentElement.parentElement.parentElement;
+            console.log(current_card);
+            let atripID = current_card.id;
+            let result = await axios.post('https://mapper-project.herokuapp.com/deletetrip', { tripID: atripID }, { headers: {'Access-Control-Allow-Origin': '*'}});
+            current_card.remove()
+        }
 
         async function loadTrips() {
             let result= await axios.get('https://mapper-project.herokuapp.com/tripids', { headers: {'Access-Control-Allow-Origin': '*'}});
@@ -157,13 +169,23 @@
             $('#userInfo').empty()
             const cookieValue = document.cookie
             .split('; ')
-            .find(row => row.startsWith('user'))
+            .find(row => row.startsWith('username'))
             .split('=')[1];
             $('#userInfo').append(userCardBuilder(cookieValue));
         }
 
         window.onload = renderTrips();
         $('main').on('click', '#deleteTrip', deleteTripHandler);
+        </script>
+        <script>
+        const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('username'))
+            .split('=')[1];
+            if (cookieValue != "guest") {
+                $('.header-right').append(`<button class="button top is-rounded" id="logout">Logout</button>`)
+            }
+      
         </script>
 
     </body>

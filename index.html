@@ -19,9 +19,8 @@
                 <div class="pageHeader" id="fixedHeader">
                     <a href="./index.html" class="titleLogo title">Mapper&nbsp&nbsp<i class="fas fa-route"></i></a>
                         <div class="header-right">
-                            <button class="button top is-rounded" id="logout">Logout</button>
                             <a href="./login.html" class="button top is-rounded">Get started</a>
-                            <a href="./user.html" class="userIcon"><i class="fas fa-user"></i></a>
+                            <a href="./user.html" class="button top is-rounded">My Trips</a>
                         </div>
                 </div>
                     <div class="upper" style="height: 600px;">
@@ -80,6 +79,16 @@
                         </div>
                         <div class="column is-two-thirds" id="right">
                             <div id="map" style="margin-bottom: 10px;"></div>
+                            <div class="columns">
+                                <div class="column is-half">
+                                    <div id="distance" class="box metric-box"></div>
+                                    <div id="time" class="box metric-box"></div>
+                                </div>
+                                <div class="column is-half">
+                                    <div id="loadingBox">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="attractions">
@@ -106,6 +115,16 @@
 
         <script src="./mapper.js"></script>
         <script src="./logout.js"></script>
+        <script>
+        const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('username'))
+            .split('=')[1];
+            if (cookieValue != "guest") {
+                $('.header-right').append(`<button class="button top is-rounded" id="logout">Logout</button>`)
+            }
+      
+        </script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhcNo_EDGsF_lGfThVgAVtweh_DlciUCQ&libraries=places&callback=initMap"></script>
         <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
         <script src="node_modules/axios/dist/axios.js"></script>

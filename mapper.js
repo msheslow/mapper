@@ -21,15 +21,61 @@ async function initMap() {
      
     };
 
+    async function calculate_distance(result) {
+        let totalDist = 0;
+        let totalTime = 0;
+        let computedDistance;
+        let computedDays;
+        let computedHours;
+        let computedMinutes;
+        let day_str;
+        let hr_str;
+        let min_str;
+        let myroute = result.routes[0];
+        for (i = 0; i < myroute.legs.length; i++) {
+          totalDist += myroute.legs[i].distance.value;
+          totalTime += myroute.legs[i].duration.value;
+        }
+
+        computedDays = Math.floor((totalTime / (24*60*60)));
+        computedHours = Math.floor((totalTime % (24*60*60)) / (60*60));
+        computedMinutes = Math.floor((totalTime % (60*60) / 60));
+
+        computedDistance = totalDist / 1609.34;
+
+        let distance_str = computedDistance.toFixed(2) + " mi";
+        
+        if (computedDays != 1) {
+            day_str = " days, ";
+        } else {
+            day_str = " day, ";
+        }
+        if (computedHours != 1) {
+            hr_str = " hours, ";
+        } else {
+            hr_str = " hour, ";
+        }
+        if (computedMinutes != 1) {
+            min_str = " minutes";
+        } else {
+            min_str = " minute";
+        }
+        let time_str = computedDays + day_str + computedHours + hr_str + computedMinutes + min_str;
+        console.log("total distance is: " + distance_str + "<br>total time is: " + time_str);
+        document.getElementById("distance").innerHTML = "Distance: " + distance_str;
+        document.getElementById("time").innerHTML = "Estimated Travel Time: " + time_str;
+
+    }
+
 
     const debouncedFunction = (autocomplete, delay) => { 
         let timer 
         return function() { 
             const context = this
             const args = arguments 
-                clearTimeout(timer) 
-                    timer 
-                = setTimeout(() => autocomplete.apply(context, args), delay) 
+            clearTimeout(timer) 
+                timer 
+            = setTimeout(() => autocomplete.apply(context, args), delay) 
         } 
     }  
     // ---------- EVENT LISTENERS ----------------
@@ -37,9 +83,9 @@ async function initMap() {
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#anotherAdd', attractionCardAddHandler);
     $('main').on('click', '#delete', deleteWaypointHandler)
-    $('main').on('input', '#start', debouncedFunction(start_db_autocomplete, 150));
-    $('main').on('input', '#end', debouncedFunction(end_db_autocomplete, 150));
-    $('main').on('input', '#addWaypoint', debouncedFunction(waypoint_db_autocomplete, 150));
+    $('main').on('input', '#start', debouncedFunction(start_db_autocomplete, 100));
+    $('main').on('input', '#end', debouncedFunction(end_db_autocomplete, 100));
+    $('main').on('input', '#addWaypoint', debouncedFunction(waypoint_db_autocomplete, 100));
     // $('main').on('input', '#start', start_db_autocomplete);
     // $('main').on('input', '#end', end_db_autocomplete);
     // $('main').on('input', '#addWaypoint', waypoint_db_autocomplete);
@@ -160,6 +206,13 @@ async function initMap() {
             $('#originWaypoint').append(startCardAssembler($('#start').val()));
             $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
             makeRoute(directionsService, directionsDisplay);
+            // loading button
+            window.scrollTo(0,700)
+            $('#loadingBox').append(
+                `<div class="box" style="text-align: center;">
+                    <span style="font-size: 20px; color: black;">Trip is loading...</span><br>
+                    <progress class="progress is-large is-primary" max="100">15%</progress>
+                </div>`);
         } catch {
             window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
             console.log("Creating a trip Didn't work lol")
@@ -173,6 +226,7 @@ async function initMap() {
             }
             local_waypoints.push(newWaypoint);
             await add_Waypoint(directionsService, directionsDisplay, local_waypoints);
+            window.scrollTo(0, 700);
         }
 
         async function add_Waypoint(directionsService, directionsDisplay, local_waypoints) {
@@ -185,8 +239,8 @@ async function initMap() {
             },async function(response, status) {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
-                    window.scrollTo(0, 700);
                     await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
+                    calculate_distance(response);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
@@ -250,6 +304,7 @@ async function initMap() {
             local_waypoints = spliced_local_waypoints;
 
             await deleteWaypoint(directionsService, directionsDisplay, local_waypoints);
+            window.scrollTo(0, 700);
         }
     
         async function deleteWaypoint(directionsService, directionsDisplay, local_waypoints) {
@@ -263,8 +318,8 @@ async function initMap() {
             },async function(response, status) {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
-                    window.scrollTo(0, 700);
                     await delete_waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
+                    calculate_distance(response);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
@@ -395,7 +450,7 @@ async function initMap() {
             },async function(response, status) {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
-                    window.scrollTo(0, 700);
+                    calculate_distance(response);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
@@ -405,6 +460,7 @@ async function initMap() {
                 window.setTimeout(stateTrav,1000, directionsDisplay);
             }
             start();
+
         }
     
        
@@ -561,6 +617,14 @@ async function initMap() {
                             $('#attractionsOne').append(attractionsCardAssembler(result.data.rows[i+2]));
                         } else { return}
                     }
+                    console.log("you hit this line")
+                    $('#loadingBox').empty();
+                    $('#loadingBox').append(
+                        `<div class="box" style="text-align: center;">
+                            <span style="font-size: 20px; color: black;">Trip is loaded</span><br>
+                            <progress class="progress is-large is-primary" value="100" max="100">100%</progress>
+                            <span style="font-size: 20px; color: black;">Scroll down and add stops to trip</span><br>
+                        </div>`);
             }
     
         //  console.log("reached")
