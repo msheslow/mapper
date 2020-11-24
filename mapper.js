@@ -28,7 +28,7 @@ async function initMap() {
         $('#originWaypoint').replaceWith(startCardAssembler($('#start').val()));
         $('#destinationWaypoint').replaceWith(endCardAssembler($('#end').val()))
         $('#loadingBox').replaceWith(
-            `<div class="box" style="text-align: center;">
+            `<div class="box" id="loadingBox" style="text-align: center;">
                 <span style="font-size: 20px; color: black;">Suggestions are loading...</span><br>
                 <progress class="progress is-large is-primary" max="100">15%</progress>
             </div>`);
