@@ -1,4 +1,5 @@
 // Google Maps mapping script
+window.onload = alert(localStorage.getItem("editTrip_id"));
 
 // This initMap function builds the map. initMap() is set as the callback for the google maps API request.
 async function initMap() {
@@ -614,6 +615,7 @@ async function initMap() {
             }
 }
 
+console.log(document.getElementById('map'));
 if (!document.getElementById('map').firstChild) {
     initMap();
 }

@@ -133,7 +133,7 @@
             console.log(edited_trip);
 
             window.location.assign('https://mapper-project.herokuapp.com/index.html');
-            
+            window.location.href = "https://mapper-project.herokuapp.com.index.html?edited_tripID='"+edited_tripID+"'";
         }
 
         async function deleteTripHandler(event){
