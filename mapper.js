@@ -1,5 +1,4 @@
 // Google Maps mapping script
-window.onload = alert(sessionStorage.getItem("edited_tripID"));
 
 // This initMap function builds the map. initMap() is set as the callback for the google maps API request.
 async function initMap() {
