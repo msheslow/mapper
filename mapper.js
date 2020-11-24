@@ -39,9 +39,6 @@ async function initMap() {
     $('main').on('input', '#start', debouncedFunction(start_db_autocomplete, 150));
     $('main').on('input', '#end', debouncedFunction(end_db_autocomplete, 150));
     $('main').on('input', '#addWaypoint', debouncedFunction(waypoint_db_autocomplete, 150));
-    // $('main').on('input', '#start', start_db_autocomplete);
-    // $('main').on('input', '#end', end_db_autocomplete);
-    // $('main').on('input', '#addWaypoint', waypoint_db_autocomplete);
     $('main').on('click', '.autocomplete-box',start_autocomplete_click_handler);
 
 

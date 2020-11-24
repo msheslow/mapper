@@ -104,7 +104,7 @@ app.post('/addstop', async (req, res) => {
         res.status(403).send("Not your trip")
         return;
     } else {
-        let returnedStop = await addTripStop(tripID, stopID)
+        let returnedStop = await addTripStop(tripID, stopID, username)
         res.json(returnedStop)
         return
     } 
@@ -188,7 +188,7 @@ app.post('/updateroute', async (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log("User Login Example up and running on port " + port);
+    console.log("Mapper up and running on port " + port);
 });
 //returns trip details
 
@@ -308,13 +308,12 @@ async function createTrip(username, startLocation, endLocation){
 
 
 // Creates stops on trip that can be matched by ID to respective trip
-async function addTripStop(tripID, stopID){
+async function addTripStop(tripID, stopID, username){
     let sqlStopCommand = `INSERT INTO stops VALUES ("${stopID}", "${tripID}")`
     await searchWrapper(`UPDATE citiesAndSites Set Weight = Weight+1 WHERE Name = "${stopID}"`)
     await searchWrapper(sqlStopCommand)
 
-    //console.log(await searchWrapper(`"SELECT * FROM trips WHERE rowid="${tripID}"`))
-    return  await getTripDetails(tripID, "arisf")
+    return  await getTripDetails(tripID, username)
 }
 
 async function getNPS(){
@@ -339,7 +338,7 @@ async function getUsersTripNumbers(username){
 
 //returns start location, destination, and stops for trip
 async function getTripDetails(tripID, username){
-    let tripOwner = await searchWrapper(`SELECT username FROM trips`)
+    let tripOwner = await searchWrapper(`SELECT username FROM trips WHERE rowid="${tripID}"`)
     if (tripOwner.rows[0].username != username){
         return -1
     }
@@ -396,23 +395,21 @@ function closeDB(){
     
 
 // // // // //writeSearch(route)
-async function test(){
-   console.log(await getNPS())
-    // for (let i=0; i<10; i++){
-    //     await deleteAllStops(i)
-    //     await searchWrapper(`DELETE FROM trips WHERE rowid = "${i}"`)
-    // }
-    // console.log(await getSitesInStates(["New Mexico", "Utah"]))
-}
-test()
-// // // // addUser("arisf", "arispassword")
+// async function test(){
+//    console.log(await getNPS())
+//     // for (let i=0; i<10; i++){
+//     //     await deleteAllStops(i)
+//     //     await searchWrapper(`DELETE FROM trips WHERE rowid = "${i}"`)
+//     // }
+//     // console.log(await getSitesInStates(["New Mexico", "Utah"]))
+// }
+// test()
+// // // // // addUser("arisf", "arispassword")
 // createTrip("arisf", "Wake Forest", "Sedona, AZ")
 // addTripStop(1,"Great Sand Dunes National Park")
 // console.log(await getUsersTripNumbers("arisf"))
 // addUser("asd", "arisotherpassowrd")
-// getTripDetails(1)
 // removeTripStop(2, "Black Canyon of the Gunnison")
-// getTripDetails(2)
 // removeTrip(1)
 // let res = checkLogin("arisf", "arispassword")
 // console.log("res"+res)
