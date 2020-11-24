@@ -35,6 +35,7 @@ async function initMap() {
 
         await edit_Waypoint(directionsService, directionsDisplay, edit_origin, edit_destination, local_waypoints);
         window.scrollTo(0, 700);
+        session_trip = null;
     }
 
 
