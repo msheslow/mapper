@@ -421,10 +421,10 @@ async function addUser(username, password){
 // }
 
     
-// async function test(){
-//     console.log(await searchWrapper(`SELECT Count(Description) FROM citiesAndSites WHERE Type= "National Historic Register" AND Description <> -1 AND SUBSTR(Description,1,5) <>"https"`))
-// }
-// test()
+async function test(){
+    console.log(await searchWrapper(`DELETE FROM citiesAndSites WHERE Name LIKE "%island%"`))
+}
+test()
 // // // // //writeSearch(route)
 // dUser("arisf", "arispassword")
 // createTrip("arisf", "Wake Forest", "Sedona, AZ")
