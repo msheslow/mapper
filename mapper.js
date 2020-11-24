@@ -17,7 +17,7 @@ async function initMap() {
         let edit_waypoints = [];
 
         for (let i = 0; i < session_trip.data[1].rows.length; i++) {
-            edit_waypoints.push(session_trip.data[1].rows[i].stopID);
+            edit_waypoints.push({location: session_trip.data[1].rows[i].stopID, stopover: true});
         }
 
         document.getElementById('start').value = edit_origin;
