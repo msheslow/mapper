@@ -22,14 +22,14 @@ async function initMap() {
     };
 
 
-    const debounce = (func, delay) => { 
-        let debounceTimer 
+    const debouncedFunction = (autocomplete, delay) => { 
+        let timer 
         return function() { 
             const context = this
             const args = arguments 
-                clearTimeout(debounceTimer) 
-                    debounceTimer 
-                = setTimeout(() => func.apply(context, args), delay) 
+                clearTimeout(timer) 
+                    timer 
+                = setTimeout(() => autocomplete.apply(context, args), delay) 
         } 
     }  
     // ---------- EVENT LISTENERS ----------------
@@ -40,9 +40,6 @@ async function initMap() {
     $('main').on('input', '#start', debouncedFunction(start_db_autocomplete, 150));
     $('main').on('input', '#end', debouncedFunction(end_db_autocomplete, 150));
     $('main').on('input', '#addWaypoint', debouncedFunction(waypoint_db_autocomplete, 150));
-    $('main').on('input', '#start', debounce(start_db_autocomplete, 500));
-    $('main').on('input', '#end', debounce(end_db_autocomplete, 500));
-    $('main').on('input', '#addWaypoint', debounce(waypoint_db_autocomplete, 500));
     // $('main').on('input', '#start', start_db_autocomplete);
     // $('main').on('input', '#end', end_db_autocomplete);
     // $('main').on('input', '#addWaypoint', waypoint_db_autocomplete);
