@@ -373,7 +373,7 @@ async function initMap() {
             });
         
             async function start() {
-                window.setTimeout(stateTrav,1000, directionsDisplay);
+                window.setTimeout(stateTrav, 1000, directionsDisplay);
             }
             start();
         }
@@ -488,7 +488,7 @@ async function initMap() {
                     states.push(state);
                 }
             }
-                await getStopsInStates(states);
+                getStopsInStates(states);
                 return states;
         }
     
