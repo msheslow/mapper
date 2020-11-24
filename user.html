@@ -126,6 +126,7 @@
 
         async function editTripHandler(event) {
             let edited_tripID = event.currentTarget.getAttribute("editNum");
+            console.log(edited_tripID);
             let edited_trip = await axios.get('https://mapper-project.herokuapp.com/gettrip/' + edited_tripID);
 
             console.log(edited_trip);
