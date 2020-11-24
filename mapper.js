@@ -23,6 +23,11 @@ async function initMap() {
         document.getElementById('start').value = edit_origin;
         document.getElementById('end').value = edit_destination;
 
+        $('#originWaypoint').empty();
+        $('#destinationWaypoint').empty();
+        $('#originWaypoint').append(startCardAssembler($('#start').val()));
+        $('#destinationWaypoint').append(endCardAssembler($('#end').val()))
+
         await edit_Waypoint(directionsService, directionsDisplay, edit_origin, edit_destination, edit_waypoints);
     }
 
