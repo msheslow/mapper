@@ -11,7 +11,7 @@ async function initMap() {
     // Loads Edit if and Edit is present
     if (sessionStorage.getItem("edited_tripID")) {
     edited_tripID = sessionStorage.getItem("edited_tripID");
-    let session_trip = await axios.get('https://mapper-project.herokuapp.com/gettrip/'+session_trip);
+    session_trip = await axios.get('https://mapper-project.herokuapp.com/gettrip/'+session_trip);
     console.log(session_trip);
     if (session_trip.data =="Unauthorized"||session_trip.data=="Not your trip") {
     } else {
