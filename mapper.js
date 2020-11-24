@@ -70,8 +70,8 @@ async function initMap() {
         }
         let time_str = computedDays + day_str + computedHours + hr_str + computedMinutes + min_str;
         console.log("total distance is: " + distance_str + "<br>total time is: " + time_str);
-        document.getElementById("distance").innerHTML = "Distance: " + distance_str;
-        document.getElementById("time").innerHTML = "Estimated Travel Time: " + time_str;
+        document.getElementById("distance").innerHTML += distance_str;
+        document.getElementById("time").innerHTML += time_str;
 
     }
 
@@ -216,6 +216,11 @@ async function initMap() {
             makeRoute(directionsService, directionsDisplay);
             // loading button
             window.scrollTo(0,700)
+            $('#loadingBox').append(
+                `<div class="box" style="text-align: center;">
+                    <span style="font-size: 20px; color: black;">Suggestions are loading...</span><br>
+                    <progress class="progress is-large is-primary" max="100">15%</progress>
+                </div>`);
         } catch {
             window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
             console.log("Creating a trip Didn't work lol")
@@ -605,6 +610,14 @@ async function initMap() {
     
             async function getStopsInStates(states){
                 let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { states: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                console.log("you hit this line")
+                $('#loadingBox').empty();
+                $('#loadingBox').append(
+                    `<div class="box" style="text-align: center;">
+                        <span style="font-size: 20px; color: black;">Suggestions are loaded</span><br>
+                        <progress class="progress is-large is-primary" value="100" max="100">100%</progress>
+                        <span style="font-size: 20px; color: black;">Scroll down and add stops to trip</span><br>
+                    </div>`);
                 console.log(result);
                 $('#attractionsOne').empty();
                 $('#attractionsTwo').empty();
