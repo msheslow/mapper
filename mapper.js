@@ -209,8 +209,7 @@ async function initMap() {
             $('#destinationWaypoint').append(endCardAssembler($('#end').val()));
             makeRoute(directionsService, directionsDisplay);
             // loading button
-            window.setTimeout(function(){let button = document.getElementById('generate-map'); button.classList.remove('is-loading');}, 8000)
-            window.scrollTo(0,680)
+            window.setTimeout(function(){let button = document.getElementById('generate-map'); button.classList.remove('is-loading'); window.scrollTo(0,680)}, 8000)
         } catch {
             window.alert("This trip already exists! Please enter a start and end location that is different from a trip you have already created. If you want to edit this trip, click on the user icon in the top right corner and select 'Edit Trip'");
             console.log("Creating a trip Didn't work lol")
