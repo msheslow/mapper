@@ -638,7 +638,7 @@ async function initMap() {
     
     
             function attractionsCardAssembler(attraction) {
-                return(`<div class="box attractionBoxes" id="${attraction.Name + " - " + attraction.Type}">
+                return(`<div class="box attractionBoxes" id="${attraction.Name + " " + attraction.Type}">
                             <div>
                                 <div class="columns">
                                     <div class="column is-10">
