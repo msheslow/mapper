@@ -132,9 +132,15 @@
             edited_trip = await axios.get('https://mapper-project.herokuapp.com/gettrip/' + edited_tripID);
             console.log(edited_trip);
 
-            window.location.assign('https://mapper-project.herokuapp.com/index.html');
-            window.location.href = "https://mapper-project.herokuapp.com.index.html?edited_tripID='"+edited_tripID+"'";
+            window.onload = function() {
+                localStorage.setItem("edited_tripID",edited_tripID);
+            }
+            window.location.reload('https://mapper-project.herokuapp.com/index.html');
+
         }
+
+
+
 
         async function deleteTripHandler(event){
             let current_card = event.currentTarget.parentElement.parentElement.parentElement;
