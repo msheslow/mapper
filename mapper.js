@@ -618,7 +618,7 @@ async function initMap() {
 }
 
 console.log(document.getElementById('map'));
-if (!document.getElementById('map').firstChild) {
+if (!document.getElementById('map').innerHTML) {
     initMap();
 }
 
