@@ -21,15 +21,31 @@ async function initMap() {
      
     };
 
+    async function calculate_distance(result) {
+        let totalDist = 0;
+        let totalTime = 0;
+        let computedMinutes;
+        let computedHours;
+        let computedDays;
+        let myroute = result.routes[0];
+        for (i = 0; i < myroute.legs.length; i++) {
+          totalDist += myroute.legs[i].distance.value;
+          totalTime += myroute.legs[i].duration.value;
+        }
+
+        totalDist = totalDist / 1609.34;
+        document.getElementById("total").innerHTML = "total distance is: " + totalDist + " mi<br>total time is: " + + " hours" + (totalTime / 60).toFixed(2) + " minutes";
+    }
+
 
     const debouncedFunction = (autocomplete, delay) => { 
         let timer 
         return function() { 
             const context = this
             const args = arguments 
-                clearTimeout(timer) 
-                    timer 
-                = setTimeout(() => autocomplete.apply(context, args), delay) 
+            clearTimeout(timer) 
+                timer 
+            = setTimeout(() => autocomplete.apply(context, args), delay) 
         } 
     }  
     // ---------- EVENT LISTENERS ----------------
@@ -37,9 +53,9 @@ async function initMap() {
     $('main').on('click', '#generate-map', createTripHandler);
     $('main').on('click', '#anotherAdd', attractionCardAddHandler);
     $('main').on('click', '#delete', deleteWaypointHandler)
-    $('main').on('input', '#start', debouncedFunction(start_db_autocomplete, 150));
-    $('main').on('input', '#end', debouncedFunction(end_db_autocomplete, 150));
-    $('main').on('input', '#addWaypoint', debouncedFunction(waypoint_db_autocomplete, 150));
+    $('main').on('input', '#start', debouncedFunction(start_db_autocomplete, 100));
+    $('main').on('input', '#end', debouncedFunction(end_db_autocomplete, 100));
+    $('main').on('input', '#addWaypoint', debouncedFunction(waypoint_db_autocomplete, 100));
     // $('main').on('input', '#start', start_db_autocomplete);
     // $('main').on('input', '#end', end_db_autocomplete);
     // $('main').on('input', '#addWaypoint', waypoint_db_autocomplete);
