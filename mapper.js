@@ -7,11 +7,10 @@ async function initMap() {
     let local_waypoints = []; // Pulled from back-end API
     let session_trip;
     
+    // Loads Edit if and Edit is present
     session_trip = await axios.get('https://mapper-project.herokuapp.com/edittrip/');
     if (session_trip.data =="Unauthorized"||session_trip.data=="Not your trip") {
-        console.log(session_trip)
     } else {
-        console.log(session_trip)
         let edit_origin = session_trip.data[0].rows[0].startLocation;
         let edit_destination = session_trip.data[0].rows[0].endLocation;
         let edit_waypoints = [];
@@ -46,11 +45,6 @@ async function initMap() {
     // New map object initialized at <div id="map"> 
     let map = await new google.maps.Map(document.getElementById('map'), options);
     await directionsDisplay.setMap(map);
-
-    // eventHandler function for onsite action
-    let planRouteHandler = async function() {
-     
-    };
 
     async function calculate_distance(result) {
         let totalDist = 0;
@@ -537,7 +531,7 @@ async function initMap() {
                     states.push(state);
                 }
             }
-                getStopsInStates(states);
+                await getStopsInStates(states);
                 return states;
         }
     
@@ -659,14 +653,13 @@ async function initMap() {
     
             async function getStopsInStates(states){
                 let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { states: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                console.log("you hit this line")
+                console.log("you hit this line");
                 $('#loadingBox').empty();
                 $('#loadingBox').append(`<div class="box" style="text-align: center;">
                         <span style="font-size: 20px; color: black;">Suggestions are loaded</span><br>
                         <progress class="progress is-large is-primary" value="100" max="100">100%</progress>
                         <span style="font-size: 20px; color: black;">Scroll down and add stops to trip</span><br>
                     </div>`);
-                console.log(result);
                 $('#attractionsOne').empty();
                 $('#attractionsTwo').empty();
                 $('#attractionsThree').empty();
