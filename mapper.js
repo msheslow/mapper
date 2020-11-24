@@ -9,6 +9,7 @@ async function initMap() {
     let session_trip;
     
     // Loads Edit if and Edit is present
+    if (localStorage.getItem("editTrip_ID")) {
     session_trip = await axios.get('https://mapper-project.herokuapp.com/edittrip/' +localStorage.getItem("editTrip_ID"));
     if (session_trip.data =="Unauthorized"||session_trip.data=="Not your trip") {
     } else {
@@ -36,6 +37,7 @@ async function initMap() {
         await edit_Waypoint(directionsService, directionsDisplay, edit_origin, edit_destination, local_waypoints);
         window.scrollTo(0, 700);
     }
+}
 
 
     let options = {
