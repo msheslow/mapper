@@ -150,3 +150,7 @@
     border-color: linear-gradient(to right, purple, navy);
     border: 2px;
 }
+
+.metric-box {
+    width: 48%;
+}

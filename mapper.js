@@ -62,7 +62,8 @@ async function initMap() {
         }
         let time_str = computedDays + day_str + computedHours + hr_str + computedMinutes + min_str;
         console.log("total distance is: " + distance_str + "<br>total time is: " + time_str);
-        // document.getElementById("total").innerHTML = "total distance is: " + distance_str + "<br>total time is: " + time_str;
+        document.getElementById("distance").innerHTML = "total distance is: " + distance_str;
+        
     }
 
 
