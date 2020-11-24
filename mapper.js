@@ -43,7 +43,6 @@ async function initMap() {
 
         computedDistance = totalDist / 1609.34;
 
-        
         let distance_str = computedDistance.toFixed(2) + " mi";
         
         if (computedDays != 1) {
@@ -51,21 +50,17 @@ async function initMap() {
         } else {
             day_str = " day, ";
         }
-
         if (computedHours != 1) {
             hr_str = " hours, ";
         } else {
             hr_str = " hour, ";
         }
-
         if (computedMinutes != 1) {
             min_str = " minutes";
         } else {
             min_str = " minute";
         }
-        
         let time_str = computedDays + day_str + computedHours + hr_str + computedMinutes + min_str;
-
         console.log("total distance is: " + distance_str + "<br>total time is: " + time_str);
         // document.getElementById("total").innerHTML = "total distance is: " + distance_str + "<br>total time is: " + time_str;
     }
@@ -447,6 +442,7 @@ async function initMap() {
                 if (status === 'OK') {
                     await directionsDisplay.setDirections(response);
                     window.scrollTo(0, 700);
+                    calculate_distance(response);
                 } else {
                     window.alert('Please enter an origin and destination, then click "Plan Route"');
                 }
