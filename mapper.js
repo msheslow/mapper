@@ -29,7 +29,7 @@ async function initMap() {
         $('#destinationWaypoint').empty();
         $('#originWaypoint').append(startCardAssembler($('#start').val()));
         $('#destinationWaypoint').append(endCardAssembler($('#end').val()))
-        $('#loadingBox').append(
+        $('#loadingBox').replaceWith(
             `<div class="box" style="text-align: center;">
                 <span style="font-size: 20px; color: black;">Suggestions are loading...</span><br>
                 <progress class="progress is-large is-primary" max="100">15%</progress>
@@ -240,7 +240,7 @@ async function initMap() {
             makeRoute(directionsService, directionsDisplay);
             // loading button
             window.scrollTo(0,700)
-            $('#loadingBox').append(
+            $('#loadingBox').replaceWith(
                 `<div class="box" style="text-align: center;">
                     <span style="font-size: 20px; color: black;">Suggestions are loading...</span><br>
                     <progress class="progress is-large is-primary" max="100">15%</progress>
@@ -665,8 +665,7 @@ async function initMap() {
             async function getStopsInStates(states){
                 let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { states: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
                 console.log("you hit this line")
-                $('#loadingBox').empty();
-                $('#loadingBox').append(
+                $('#loadingBox').relaceWith(
                     `<div class="box" style="text-align: center;">
                         <span style="font-size: 20px; color: black;">Suggestions are loaded</span><br>
                         <progress class="progress is-large is-primary" value="100" max="100">100%</progress>
