@@ -20,8 +20,8 @@ async function initMap() {
             edit_waypoints.push(session_trip.data[1].rows[i].stopID);
         }
 
-        $('main').getElementById('start').value = edit_origin;
-        $('main').getElementById('end').value = edit_destination;
+        document.getElementById('start').value = edit_origin;
+        document.getElementById('end').value = edit_destination;
 
         await edit_Waypoint(directionsService, directionsDisplay, edit_origin, edit_destination, edit_waypoints);
     }
