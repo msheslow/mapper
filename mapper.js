@@ -519,7 +519,7 @@ async function initMap() {
         }
     
         function startCardAssembler(waypoint){
-            return (`<div class="waypointCard box" style="background-color: #CCFFCC; margin-bottom: 10px;">
+            return (`<div class="waypointCard box" id="originWaypoint" style="background-color: #CCFFCC; margin-bottom: 10px;">
                                         <div class="columns">
                                             <div class="column is-four-fifths">
                                                 <span style="font-size: 20px; color: black;">${waypoint}</span>
@@ -532,7 +532,7 @@ async function initMap() {
         }
     
             function endCardAssembler(waypoint){
-            return (`<div class="waypointCard box" style="background-color: #FFCCCC;">
+            return (`<div class="waypointCard box" id="destinationWaypoint" style="background-color: #FFCCCC;">
                                         <div class="columns">
                                             <div class="column is-four-fifths">
                                                 <span style="font-size: 20px; color: black;">${waypoint}</span>
