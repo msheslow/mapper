@@ -254,6 +254,13 @@ async function initMap() {
                 optimizeWaypoints: true,
             },async function(response, status) {
                 if (status === 'OK') {
+                    $('#originWaypoint').replaceWith(startCardAssembler($('#start').val()));
+                    $('#destinationWaypoint').replaceWith(endCardAssembler($('#end').val()));
+                    $('#loadingBox').replaceWith(
+                        `<div class="box" id="loadingBox" style="text-align: center;">
+                            <span style="font-size: 20px; color: black;">Suggestions are loading...</span><br>
+                            <progress class="progress is-large is-primary" max="100">15%</progress>
+                        </div>`);
                     await directionsDisplay.setDirections(response);
                     await waypointMaker(response.routes[0].waypoint_order, response.request.waypoints, local_waypoints);
                     calculate_distance(response);
@@ -402,58 +409,11 @@ async function initMap() {
                 let waypointName = document.getElementById(waypointNum).getAttribute("waypoint-name");
                 try{
                         newresult = await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: waypointName }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                        console.log("add a stop worked, see it below")
-                        console.log(newresult)
                     } catch {
                         console.log("adding a stop didn't work")
                     }
             }
         }
-    
-    
-    
-       
-    
-        function removeSuggestions(){
-            //will eventually close autocomplete suggestions
-        }
-    
-        // Sets the selected <input> html elements to become autocomplete objects
-        
-    
-        /*
-        let start_autocomplete = await new google.maps.places.Autocomplete(
-                document.getElementById('start'),
-                {
-                    types: ['(regions)'],
-                    componentRestrictions: {'country': ['US']},
-                    fields: ['place_id', 'geometry', 'name']
-        });
-        */
-    
-        /*
-        let end_autocomplete = await new google.maps.places.Autocomplete(
-                document.getElementById('end'),
-                {
-                    types: ['(regions)'],
-                    componentRestrictions: {'country': ['US']},
-                    fields: ['place_id', 'geometry', 'name']
-        });
-        */
-    
-    
-    /*
-        let addWaypoint_autocomplete = await new google.maps.places.Autocomplete(
-            document.getElementById('addWaypoint'),
-            {
-                types: [
-                    'geocode',
-                    'establishment'
-                ],
-                componentRestrictions: {'country': ['US']},
-                fields: ['place_id', 'geometry', 'name']
-        });
-        */
     
         // Array of Markers that are places on the map
         let markers = [];
@@ -620,7 +580,6 @@ async function initMap() {
             // Add a stop from suggested, stopID (this is not done)
             async function attractionCardAddHandler(event){
                 let current_card = event.currentTarget.parentElement.parentElement.parentElement.parentElement;
-                console.log(current_card);
                 let waypointName = current_card.id;
                 let newWaypoint = {
                     location: waypointName,
