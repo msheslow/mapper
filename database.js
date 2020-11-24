@@ -95,11 +95,16 @@ app.post('/addstop', async (req, res) => {
     let tripID = req.session.tripID
     let username = req.session.username
     let stopID = req.body.stopID
-    if (username == undefined || tripID == undefined) {
+    if (tripID == undefined) {
         res.status(403).send("Unauthorized");
         return;
     }
-    let result = await getTripDetails(tripID, username)
+    let result;
+    if (username == undefined){
+        result = await getTripDetails(tripID, "guest")
+    } else {
+        result = await getTripDetails(tripID, username)
+    }
     if (result == -1){
         res.status(403).send("Not your trip")
         return;
@@ -147,11 +152,16 @@ app.post('/autofill/', async (req, res) => {
 app.post('/starttrip', async (req, res) => {
     let startLocation = req.body.startLocation
     let destination = req.body.destination
-    if (startLocation == undefined || destination == undefined || req.session.username == undefined){
+    if (startLocation == undefined || destination == undefined){
         res.status(403).send("missing credentials")
         return
     }
-    let result = await createTrip(req.session.username, startLocation, destination)
+    let result;
+    if (req.session.username == undefined) {
+        result = await createTrip("guest", startLocation, destination)
+    } else {
+        result = await createTrip(req.session.username, startLocation, destination)
+    }
     if (result == "Trip Exists"){
         res.status(403).send("Trip Exists")
         return

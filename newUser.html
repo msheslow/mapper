@@ -59,6 +59,16 @@
 
             $('main').on('click', '#createAccountButton', createAccountButtonHandler);
         </script>
+        <script>
+        const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('user'))
+            .split('=')[1];
+            if (cookieValue != "guest") {
+                $('.header-right').append(`<button class="button top is-rounded" id="logout">Logout</button>`)
+            }
+      
+        </script>
         </main>
 </body>
 </html>
