@@ -4,7 +4,7 @@
 async function initMap() {
     let directionsService = await new google.maps.DirectionsService;
     let directionsDisplay = await new google.maps.DirectionsRenderer;
-    let local_waypoints = []; // THIS NEEDS TO BE PULLED FROM SERVER
+    let local_waypoints = []; // Pulled from back-end API
     let session_trip;
     
     session_trip = await axios.get('https://mapper-project.herokuapp.com/edittrip/');
@@ -493,8 +493,6 @@ async function initMap() {
             }
         }
     
-        // makeRoute draws the route line between two locations on the map
-        // IT LOOKS LIKE makeRoute AND addRoute MIGHT BE EXACTLY THE SAME -- CHECK THIS
         async function makeRoute(directionsService, directionsDisplay) {
             await directionsService.route({
                 origin: document.getElementById('start').value,
