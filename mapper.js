@@ -1,5 +1,5 @@
 // Google Maps mapping script
-window.onload = alert(localStorage.getItem("editTrip_id"));
+window.onload = alert(localStorage.getItem("editTrip_ID"));
 
 // This initMap function builds the map. initMap() is set as the callback for the google maps API request.
 async function initMap() {
@@ -9,7 +9,7 @@ async function initMap() {
     let session_trip;
     
     // Loads Edit if and Edit is present
-    session_trip = await axios.get('https://mapper-project.herokuapp.com/edittrip/');
+    session_trip = await axios.get('https://mapper-project.herokuapp.com/edittrip/' +localStorage.getItem("editTrip_ID"));
     if (session_trip.data =="Unauthorized"||session_trip.data=="Not your trip") {
     } else {
         let edit_origin = session_trip.data[0].rows[0].startLocation;
