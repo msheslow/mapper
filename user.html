@@ -132,9 +132,8 @@
             edited_trip = await axios.get('https://mapper-project.herokuapp.com/gettrip/' + edited_tripID);
             console.log(edited_trip);
 
-            sessionStorage.setItem("edited_tripID", edited_tripID);
             window.location.assign('https://mapper-project.herokuapp.com/index.html');
-
+            
         }
 
 

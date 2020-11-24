@@ -8,13 +8,11 @@ async function initMap() {
     let local_waypoints = []; // Pulled from back-end API
     let session_trip;
     
-    // Loads Edit if and Edit is present
-    if (sessionStorage.getItem("edited_tripID")) {
-    edited_tripID = sessionStorage.getItem("edited_tripID");
-    session_trip = await axios.get('https://mapper-project.herokuapp.com/gettrip/'+session_trip);
-    console.log(session_trip);
+    session_trip = await axios.get('https://mapper-project.herokuapp.com/edittrip/');
     if (session_trip.data =="Unauthorized"||session_trip.data=="Not your trip") {
+        console.log(session_trip)
     } else {
+        console.log(session_trip)
         let edit_origin = session_trip.data[0].rows[0].startLocation;
         let edit_destination = session_trip.data[0].rows[0].endLocation;
         let edit_waypoints = [];
@@ -31,7 +29,7 @@ async function initMap() {
         $('#originWaypoint').replaceWith(startCardAssembler($('#start').val()));
         $('#destinationWaypoint').replaceWith(endCardAssembler($('#end').val()))
         $('#loadingBox').replaceWith(
-            `<div class="box" id="loadingBox" style="text-align: center;">
+            `<div class="box" style="text-align: center;">
                 <span style="font-size: 20px; color: black;">Suggestions are loading...</span><br>
                 <progress class="progress is-large is-primary" max="100">15%</progress>
             </div>`);
@@ -39,7 +37,6 @@ async function initMap() {
         await edit_Waypoint(directionsService, directionsDisplay, edit_origin, edit_destination, local_waypoints);
         window.scrollTo(0, 700);
     }
-}
 
 
     let options = {
