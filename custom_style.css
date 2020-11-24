@@ -156,4 +156,5 @@
     display: inline-block; 
     white-space: nowrap; 
     overflow-x: auto;
+    height: 25%;
 }
