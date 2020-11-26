@@ -123,12 +123,12 @@
             .find(row => row.startsWith('username'))
             .split('=')[1];
             if (cookieValue != "guest") {
-                document.getElementById('login').innerText = `<str>${cookieValue}<str>` + "logged in";
+                document.getElementById('login').innerHTML = `<str>${cookieValue}<str>` + "logged in";
                 $('.header-right').append(`<button class="button top is-rounded" id="logout">Logout</button>`);
                 console.log('cookie value not guest: ')
                 console.log(cookieValue)
             } else {
-                document.getElementById('login').innerText = "Login";
+                document.getElementById('login').innerHTML = "Login";
                 console.log('cookie value guest: ')
                 console.log(cookieValue);
                 $('.header-right').empty();
