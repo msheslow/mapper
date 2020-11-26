@@ -11,14 +11,13 @@
 
 .leftUpperBox {
     background: rgba(204, 204, 204, 0.6);
-    width: 75%;
+    width: 400px;
     margin: auto;
     text-align: center;
 }
 
 #leftUpper {
     padding-top: 60px;
-    height: 67%;
 }
 
 .leftUpperText{
@@ -55,7 +54,6 @@
 
 .upper{
     width: fixed;
-    height: 400px;
     margin-left: auto;
     margin-right: auto;
     background-position: center;
