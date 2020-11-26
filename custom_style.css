@@ -11,9 +11,11 @@
 
 .leftUpperBox {
     background: rgba(204, 204, 204, 0.6);
-    width: 50%;
+    width: 67%;
     max-block-size: 350px;
-    margin: auto;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
 }
 
@@ -155,5 +157,9 @@
 .attractionBoxes {
     border-color: linear-gradient(to right, purple, navy);
     border: 2px;
+}
+
+.start-to-end-entry {
+    width: 100%;
 }
 
