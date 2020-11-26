@@ -21,8 +21,8 @@
                 <div class="pageHeader" id="fixedHeader">
                     <a href="./index.html" class="titleLogo title">Mapper&nbsp&nbsp<i class="fas fa-route"></i></a>
                         <div class="header-right">
-                            <a href="./login.html" class="button top is-rounded">Login</a>
-                            <a href="./user.html" class="button top is-rounded">My Trips</a>
+                            <a href="./login.html" id="login" class="button top is-rounded">Login</a>
+                            <a href="./user.html" id="mytrips" class="button top is-rounded">My Trips</a>
                         </div>
                 </div>
                     <div class="upper" style="height: 600px;">
@@ -123,6 +123,7 @@
             .find(row => row.startsWith('username'))
             .split('=')[1];
             if (cookieValue != "guest") {
+                $('#login').innerText = "Logged in";
                 $('.header-right').append(`<button class="button top is-rounded" id="logout">Logout</button>`);
                 console.log('cookie value not guest: ')
                 console.log(cookieValue)
