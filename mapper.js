@@ -9,9 +9,9 @@ async function initMap() {
     
     session_trip = await axios.get('https://mapper-project.herokuapp.com/edittrip/');
     if (session_trip.data =="Unauthorized"||session_trip.data=="Not your trip") {
-        console.log(session_trip)
+        console.log(session_trip);
     } else {
-        console.log(session_trip)
+        console.log(session_trip);
         let edit_origin = session_trip.data[0].rows[0].startLocation;
         let edit_destination = session_trip.data[0].rows[0].endLocation;
         let edit_waypoints = [];
