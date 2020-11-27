@@ -5,7 +5,7 @@ const cookieValue = document.cookie
 if (cookieValue != "guest") {
     $('#login').hide();
     $('.header-right').append(`<button class="button top is-rounded" id="logout">Logout</button>`);
-    document.getElementById('mytrips').innerHTML = `My trips: ` + `<b>${cookieValue}</b>`
+    document.getElementById('mytrips').innerHTML = `My trips: ` + ` :<b>${cookieValue}</b>`;
     console.log('cookie value not guest: ')
     console.log(cookieValue)
 } else {
