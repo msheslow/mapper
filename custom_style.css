@@ -12,12 +12,12 @@
 .leftUpperWrapper {
     resize: both;
     padding: 40px;
+    height: fit-content;
+    width: fit-content;
 }
 
 .leftUpperBox {
     background: rgba(204, 204, 204, 0.6);
-    width: fit-content;
-    max-block-size: 350px;
     margin-top: auto;
     margin-left: auto;
     margin-right: auto;
