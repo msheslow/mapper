@@ -178,4 +178,6 @@
 #generate-map {
     margin-top: 10px;
     display: flex;
+    margin-left: auto;
+    margin-right: auto;
 }
