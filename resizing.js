@@ -16,8 +16,8 @@ function doResize(event) {
   let scale, origin;
     
   scale = Math.min(
-    ui.size.width / elWidth,    
-    ui.size.height / elHeight
+    document.size.width / elWidth,    
+    document.size.height / elHeight
   );
   
   $el.css({
