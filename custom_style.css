@@ -199,17 +199,14 @@
 }
 
 #waypoint-input {
-    width: 75%; 
-    display: inline-block;
-}
-
-.waypoint .div text.box {
-    font-size: 30px; 
-    color: black;
+    width: 67%; 
+    display: inline-flex;
 }
 
 #add {
-    display: inline-block;
+    display: inline-flex;
+    width: fit-content;
+    text-align: center;
 }
 
 #waypoint-input-text {
