@@ -55,10 +55,10 @@
                 <div class="content" style="margin-top: 10px;">
                     <div class="columns">
                         <div class="column is-one-third" id="left">
-                            <div>
+                            <div class="waypoint">
                                 <div class="box" style="margin-bottom: 7.5px; white-space: nowrap; overflow-x: auto;">
-                                        <text style="font-size: 30px; color: black;">Add a waypoint</text><br><br>
-                                        <input class="input is-small" style="width: 75%; display: inline-block;" id="addWaypoint" type="text" placeholder="Add a stop"/>
+                                        <text>Add a waypoint</text><br><br>
+                                        <input class="input is-small" id="addWaypoint" type="text" placeholder="Add a stop"/>
                                         <button class="button is-rounded is-small" id="add" style="display: inline-block;">Add stop</button><br><br>
                                         <div class="is-medium" id="waypoint-column"></div>
                                 </div>
@@ -126,7 +126,7 @@
             if (cookieValue != "guest") {
                 $('#login').hide();
                 $('.header-right').append(`<button class="button top is-rounded" id="logout">Logout</button>`);
-                document.getElementById('mytrips').innerHTML = `My trips: ${cookieValue}`
+                document.getElementById('mytrips').innerHTML = `My trips: <b>${cookieValue}</b>`
                 console.log('cookie value not guest: ')
                 console.log(cookieValue)
             } else {

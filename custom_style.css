@@ -191,3 +191,23 @@
 #upper-subheader {
     font-size: 12px;
 }
+
+.waypoint .box {
+    margin-bottom: 7.5px; 
+    white-space: nowrap; 
+    overflow-x: auto;
+}
+
+input.waypoint {
+    width: 75%; 
+    display: inline-block
+}
+
+text.waypoint {
+    font-size: 30px; 
+    color: black;
+}
+
+button.waypoint {
+    display: inline-block;
+}
