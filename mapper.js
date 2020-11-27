@@ -110,7 +110,7 @@ async function initMap() {
     $('main').on('click', '#delete', deleteWaypointHandler)
     $('main').on('input', '#start', debouncedFunction(start_db_autocomplete, 100));
     $('main').on('input', '#end', debouncedFunction(end_db_autocomplete, 100));
-    $('main').on('input', '#addWaypoint', debouncedFunction(waypoint_db_autocomplete, 100));
+    $('main').on('input', '#waypoint-input', debouncedFunction(waypoint_db_autocomplete, 100));
     // $('main').on('input', '#start', start_db_autocomplete);
     // $('main').on('input', '#end', end_db_autocomplete);
     // $('main').on('input', '#addWaypoint', waypoint_db_autocomplete);
@@ -129,7 +129,7 @@ async function initMap() {
             document.getElementById("end").value = place_name;
             $('#end-column').empty();
         } else if (event.currentTarget.parentElement.id == "waypoint-column") {
-            document.getElementById("addWaypoint").value = event.currentTarget.childNodes[1].lastElementChild.innerText;
+            document.getElementById("waypoint-input").value = event.currentTarget.childNodes[1].lastElementChild.innerText;
             $('#waypoint-column').empty();
         }
 
@@ -233,7 +233,7 @@ async function initMap() {
 
         async function waypointHandler(event) {
             let newWaypoint = {
-                location: document.getElementById('addWaypoint').value,
+                location: document.getElementById('waypoint-input').value,
                 stopover: true
             }
             local_waypoints.push(newWaypoint);
