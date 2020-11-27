@@ -12,6 +12,8 @@
 .leftUpperWrapper {
     resize: both;
     object-fit: contain;
+    flex: 0;
+    padding: 40px;
 }
 
 .leftUpperBox {
