@@ -13,7 +13,7 @@
     resize: both;
     padding: 40px;
     height: fit-content;
-    width: fit-content;
+    max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -199,7 +199,7 @@
 }
 
 #waypoint-input {
-    width: 67%; 
+    width: 80%; 
     display: inline-flex;
 }
 
