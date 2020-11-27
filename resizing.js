@@ -7,7 +7,7 @@ let elWidth = $el.outerWidth();
 
 let $wrapper = $("#leftUpperWrapper");
 
-$wrapper.resizable({
+$wrapper.css({
   resize: doResize
 });
 
