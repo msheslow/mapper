@@ -1,15 +1,15 @@
-let $el = $("#very-specific-design");
+let $el = $("#leftUpperBox");
 let elHeight = $el.outerHeight();
 let elWidth = $el.outerWidth();
 
-let $wrapper = $("#scaleable-wrapper");
+let $wrapper = $("#leftUpperWrapper");
 
 $wrapper.resizable({
   resize: doResize
 });
 
 function doResize(event, ui) {
-  
+  console.log("resizing...");
   let scale, origin;
     
   scale = Math.min(

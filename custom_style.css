@@ -176,3 +176,12 @@
     display: block;
 }
 
+.ui-resizable-se {
+    width: 1px;
+    height: 1px;
+    background: purple;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
