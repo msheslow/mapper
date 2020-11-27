@@ -10,10 +10,8 @@
 }
 
 .leftUpperWrapper {
-    padding: 20px;
     resize: both;
-    position: relative;
-    height: 400px;
+    object-fit: contain;
 }
 
 .leftUpperBox {
@@ -175,13 +173,3 @@
     color: #4a4a4a;
     display: block;
 }
-
-.ui-resizable-se {
-    width: 1px;
-    height: 1px;
-    background: purple;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-}
-
