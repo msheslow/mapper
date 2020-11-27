@@ -14,6 +14,8 @@
     padding: 40px;
     height: fit-content;
     width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .leftUpperBox {
@@ -180,4 +182,12 @@
     display: flex;
     margin-left: auto;
     margin-right: auto;
+}
+
+#upper-header {
+    font-size: 20%;
+}
+
+#upper-subheader {
+    font-size: 10%;
 }
