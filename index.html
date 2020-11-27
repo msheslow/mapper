@@ -124,7 +124,7 @@
             .find(row => row.startsWith('username'))
             .split('=')[1]
             if (cookieValue != "guest") {
-                document.getElementById('login').empty();
+                $('#login').empty();
                 $('.header-right').append(`<button class="button top is-rounded" id="logout">Logout</button>`);
                 document.getElementById('mytrips').innerHTML = `My trips: ${cookieValue}`
                 console.log('cookie value not guest: ')
