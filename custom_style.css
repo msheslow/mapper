@@ -11,10 +11,8 @@
 
 .leftUpperWrapper {
     resize: both;
-    object-fit: contain;
-    flex: 0;
+    position: relative;
     padding: 40px;
-    align-items: center;
 }
 
 .leftUpperBox {
@@ -26,6 +24,8 @@
     margin-right: auto;
     margin-bottom: auto;
     text-align: center;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
 }
 
 .leftUpperText{

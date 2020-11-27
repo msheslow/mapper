@@ -1,3 +1,6 @@
+$('document').on('onresize', doResize);
+
+
 let $el = $("#leftUpperBox");
 let elHeight = $el.outerHeight();
 let elWidth = $el.outerWidth();
@@ -8,9 +11,9 @@ $wrapper.resizable({
   resize: doResize
 });
 
-function doResize(event, ui) {
-  console.log("resizing...");
-  let scale, origin;
+function doResize(event) {
+  
+  let scale;
     
   scale = Math.min(
     ui.size.width / elWidth,    
