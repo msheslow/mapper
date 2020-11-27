@@ -4,6 +4,7 @@ $('document').on('onresize', doResize);
 let $el = $("#leftUpperBox");
 let elHeight = $el.outerHeight();
 let elWidth = $el.outerWidth();
+let top_background = document.getElementsByClassName('upper');
 
 let $wrapper = $("#leftUpperWrapper");
 
@@ -16,8 +17,8 @@ function doResize(event) {
   let scale, origin;
     
   scale = Math.min(
-    document.size.width / elWidth,    
-    document.size.height / elHeight
+    top_background.outerWidth() / elWidth,    
+    top_background.outerHeight() / elHeight
   );
   
   $el.css({

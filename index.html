@@ -122,7 +122,7 @@
         const cookieValue = document.cookie
             .split('; ')
             .find(row => row.startsWith('username'))
-            .split('=')[1];
+            .split('=')[1]
             if (cookieValue != "guest") {
                 document.getElementById('login').innerHTML = `Welcome back, <b>${cookieValue} </b>`;
                 $('.header-right').append(`<button class="button top is-rounded" id="logout">Logout</button>`);
