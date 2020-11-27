@@ -192,22 +192,22 @@
     font-size: 12px;
 }
 
-.waypoint .box {
+.waypoint div.box {
     margin-bottom: 7.5px; 
     white-space: nowrap; 
     overflow-x: auto;
 }
 
-.waypoint input.box {
+.waypoint .div input.box {
     width: 75%; 
     display: inline-block
 }
 
-.waypoint text.box {
+.waypoint .div text.box {
     font-size: 30px; 
     color: black;
 }
 
-.waypoint button.box {
+.waypoint .div button.box {
     display: inline-block;
 }
