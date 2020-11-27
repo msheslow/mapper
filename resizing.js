@@ -13,7 +13,7 @@ $wrapper.resizable({
 
 function doResize(event) {
   
-  let scale;
+  let scale, origin;
     
   scale = Math.min(
     ui.size.width / elWidth,    
