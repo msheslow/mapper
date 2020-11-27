@@ -9,6 +9,10 @@
     padding-top: 5px;
 }
 
+.leftUpper {
+    padding: 40px;
+}
+
 .leftUpperBox {
     background: rgba(204, 204, 204, 0.6);
     width: 67%;
