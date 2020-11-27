@@ -43,18 +43,18 @@
         </div>
         <script>
             async function LoginButtonHandler(event){
-            event.preventDefault();
-            try {
-                let result= await axios.post('https://mapper-project.herokuapp.com/login', { user: $('#username').val(),
-                password: $('#password').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
-                console.log("result of login")
-                console.log(result);
-                document.cookie = "username=" + $('#username').val();
-                console.log("Logged in and set cookie")
-                window.location.replace("https://mapper-project.herokuapp.com/index.html");
-            } catch {
-                window.alert("Username and password not found!")
-            }
+                event.preventDefault();
+                try {
+                    let result= await axios.post('https://mapper-project.herokuapp.com/login', { user: $('#username').val(),
+                    password: $('#password').val() }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                    console.log("result of login")
+                    console.log(result);
+                    document.cookie = "username=" + $('#username').val();
+                    console.log("Logged in and set cookie")
+                    window.location.assign("https://mapper-project.herokuapp.com/index.html");
+                } catch {
+                    window.alert("Username and password not found!")
+                }
             }
 
             $('main').on('click', '#loginButton', LoginButtonHandler);
