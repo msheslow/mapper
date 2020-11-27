@@ -9,12 +9,17 @@
     padding-top: 5px;
 }
 
-.leftUpper {
-    padding: 40px;
+.leftUpperWrapper {
+    padding: 20px;
+    resize: both;
+    position: relative;
+    background: #666;
+    height: 400px;
 }
 
 .leftUpperBox {
     background: rgba(204, 204, 204, 0.6);
+    width: fit-content;
     max-block-size: 350px;
     margin-top: auto;
     margin-left: auto;
