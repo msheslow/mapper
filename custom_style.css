@@ -15,7 +15,6 @@
 
 .leftUpperBox {
     background: rgba(204, 204, 204, 0.6);
-    width: 67%;
     max-block-size: 350px;
     margin-top: auto;
     margin-left: auto;
@@ -58,7 +57,7 @@
 
 .upper{
     width: fixed;
-    height: 400px;
+    height: min-content;
     margin-left: auto;
     margin-right: auto;
     background-position: center;
