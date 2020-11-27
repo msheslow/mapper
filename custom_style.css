@@ -16,11 +16,8 @@
     margin-top: auto;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: auto;
     text-align: center;
-}
-
-.leftUpper {
-    padding-top: 60px;
 }
 
 .leftUpperText{
@@ -161,7 +158,5 @@
 
 .start-to-end-entry {
     width: 100%;
-    margin-left: 16%;
-    margin-right: 16%;
 }
 
