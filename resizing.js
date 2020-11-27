@@ -17,8 +17,8 @@ function doResize(event) {
   let scale, origin;
     
   scale = Math.min(
-    top_background.outerWidth() / elWidth,    
-    top_background.outerHeight() / elHeight
+    top_background.width / elWidth,    
+    top_background.height / elHeight
   );
   
   $el.css({
