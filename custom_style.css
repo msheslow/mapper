@@ -60,14 +60,11 @@
 }
 
 .upper{
-    width: fixed;
     height: min-content;
     margin-left: auto;
     margin-right: auto;
-    background-position: center center;
+    background-position: -1000px -390px;
     background-repeat: repeat-x ;
-    background-color: linear-gradient(to right, purple, navy);;
-    background-position: -500px -200px; 
     z-index: -2;
     background-image: url("https://www.tripsavvy.com/thmb/_-smTM34WNa3lGFMdFTbIZEoi3M=/2844x1053/filters:fill(auto,1)/icefields-parkway-road-trip-641871108-c9c504640f8849c5bdef26c8eee4d1bb.jpg");
 }
