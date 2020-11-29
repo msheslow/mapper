@@ -153,11 +153,12 @@ app.get('/deleteallstops', async (req, res) => {
 
 //deletes stop specified in the body
 app.post('/stopsinstates', async (req, res) => {
-    let states = req.body.states 
-    if (states == undefined ){
+    let latLong = req.body.latAndLng 
+    let radius = req.body.radius
+    if (latLong == undefined ){
         res.status(403).send("Please specify states you would like to see")
     }
-    let results = await getSitesInStates(states)
+    let results = await testSitesInStates(latLong, radius)
     res.json(results)
 })
 
@@ -230,14 +231,7 @@ let db = new sqlite3.Database('db.sqlite', (e) => {
 });
 
 
-let sql 
-
-
-//returns all destinations in database
-function getAllPlaces(){
-    sql = `SELECT Name FROM combinedSites`
-    searchWrapper(sql)
-}
+let sql =""
 
 
 //executes the sql comand passed as a parameter
@@ -258,16 +252,31 @@ async function deleteAllStops(trip){
     return await searchWrapper(`DELETE FROM stops WHERE tripID = "${trip}"`)
 }
 
-
-//Finds all the sites in the state listed in the route object, states must be spelled out strings in an array
-async function getSitesInStates(states){
-    sql = ""
-    //Creates a SQL command that selects all stops in states
-    for (state of states){
+async function testSitesInStates(latAndLongs, radius){
+    let sql =""
+    for (latLong of latAndLongs){
+        console.log(latLong)
+        console.log(sql)
+        console.log("")
         sql = sql+`
         SELECT * 
-        FROM citiesAndSites
-        WHERE State LIKE "${state}" AND Type <> "City/Town"
+        FROM finalDB
+        WHERE Latitude between ${latLong.LAT-radius.latDeg} AND ${latLong.LAT+radius.latDeg} AND Longitude between ${latLong.LNG-radius.lngDeg} AND ${latLong.LNG+radius.lngDeg}
+        UNION`
+    }
+    sql = sql.slice(0,-5)
+    return await searchWrapper(sql)
+}
+
+//Finds all the sites in the state listed in the route object, states must be spelled out strings in an array
+async function getSitesInStates(latAndLongs, radius){
+    sql = ""
+    //Creates a SQL command that selects all stops in states
+    for (latLong of latAndLongs){
+        sql = sql+`
+        SELECT * 
+        FROM finalDB
+        WHERE Latitude between ${latLong.LAT-radius.latDeg} AND ${latLong.LAT+radius.latDeg} AND Longitude between ${latLong.LNG-radius.lngDeg} AND ${latLong.LNG+radius.lngDeg} AND Type <> "City/Town"
         UNION`
     }
     sql = sql.slice(0,-5)
@@ -275,41 +284,95 @@ async function getSitesInStates(states){
     sql = "SELECT * FROM (SELECT * FROM ("+sql+`)
     ORDER BY Weight DESC
     LIMIT 100) WHERE Checked = 0 AND Type = "National Historic Register"`
-    let ans = await searchWrapper(sql)
-    //iterates through each suggestion to get the description if it doesn't exist
-    for (place of ans.rows) {
-        //Checks to see if Wikipedia needs to be queried for this stop
-        if ((place.Description == -1 || place.Description.startsWith("https://")) && place.Checked==0){
-            let wikiName = place.Name.split(" ").join("_")
-            let wikiRequest = "https://en.wikipedia.org/api/rest_v1/page/summary/"+wikiName
-            let result
-            // queries Wikipedia for description
-            try {
-                await searchWrapper(`UPDATE citiesAndSites SET Checked =1 WHERE Name="${place.Name}"`)
-                result = await axios.get(wikiRequest)
-                if (result.data.type=="standard"){
-                    await searchWrapper(`UPDATE citiesAndSites SET Description ="${result.data.extract}" WHERE Name="${place.Name}"`)
-                }
-            //logs to console if suggestion is not in Wikepedia
-            } catch {
-            }
-        }
-    }
-    sql = ""
-    for (state of states){
-        sql = sql+`
-        SELECT * 
-        FROM citiesAndSites
-        WHERE State LIKE "${state}" AND Type <> "City/Town" AND Description <>-1 AND Description NOT LIKE "https%"
-        UNION`
-    }
-    sql = sql.slice(0,-5)
-    sql = "SELECT * FROM ("+sql+`)
-    ORDER BY Weight DESC
-    LIMIT 100`
-    return await searchWrapper(sql)
+    console.log(sql)
+//     let ans = await searchWrapper(sql)
+//     //iterates through each suggestion to get the description if it doesn't exist
+//     for (place of ans.rows) {
+//         //Checks to see if Wikipedia needs to be queried for this stop
+//         if ((place.Description == -1 || place.Description.startsWith("https://")) && place.Checked==0){
+//             let wikiName = place.Name.split(" ").join("_")
+//             let wikiRequest = "https://en.wikipedia.org/api/rest_v1/page/summary/"+wikiName
+//             let result
+//             // queries Wikipedia for description
+//             try {
+//                 await searchWrapper(`UPDATE finalDB SET Checked =1 WHERE Name="${place.Name}"`)
+//                 result = await axios.get(wikiRequest)
+//                 if (result.data.type=="standard"){
+//                     await searchWrapper(`UPDATE finalDB SET Description ="${result.data.extract}" WHERE Name="${place.Name}"`)
+//                 }
+//             //logs to console if suggestion is not in Wikepedia
+//             } catch {
+//             }
+//         }
+//     }
+//     sql = ""
+//     for (latLong of latAndLongs){
+//         sql = sql+`
+//         SELECT * 
+//         FROM finalDB
+//         WHERE Latitude < "${latLong.LAT+radius}" AND Longitude < "${latLong.LNG+radius}" Latitude > "${latLong.LAT-radius}" AND Longitude > "${latLong.LNG-radius}" AND Type <> "City/Town"
+//         UNION`
+//     }
+//     sql = sql.slice(0,-5)
+//     // Ensures that out of ~100,000 possible stops, only the 100 most popular stops (Weight=popularity) are returned.
+//     sql = "SELECT * FROM (SELECT * FROM ("+sql+`)
+//     ORDER BY Weight DESC
+//     LIMIT 100)`
+//     return await searchWrapper(sql)
     
 }
+
+// //Finds all the sites in the state listed in the route object, states must be spelled out strings in an array
+// async function getSitesInStates(states){
+//     sql = ""
+//     //Creates a SQL command that selects all stops in states
+//     for (state of states){
+//         sql = sql+`
+//         SELECT * 
+//         FROM citiesAndSites
+//         WHERE State LIKE "${state}" AND Type <> "City/Town"
+//         UNION`
+//     }
+//     sql = sql.slice(0,-5)
+//     // Ensures that out of ~100,000 possible stops, only the 100 most popular stops (Weight=popularity) are returned.
+//     sql = "SELECT * FROM (SELECT * FROM ("+sql+`)
+//     ORDER BY Weight DESC
+//     LIMIT 100) WHERE Checked = 0 AND Type = "National Historic Register"`
+//     let ans = await searchWrapper(sql)
+//     //iterates through each suggestion to get the description if it doesn't exist
+//     for (place of ans.rows) {
+//         //Checks to see if Wikipedia needs to be queried for this stop
+//         if ((place.Description == -1 || place.Description.startsWith("https://")) && place.Checked==0){
+//             let wikiName = place.Name.split(" ").join("_")
+//             let wikiRequest = "https://en.wikipedia.org/api/rest_v1/page/summary/"+wikiName
+//             let result
+//             // queries Wikipedia for description
+//             try {
+//                 await searchWrapper(`UPDATE citiesAndSites SET Checked =1 WHERE Name="${place.Name}"`)
+//                 result = await axios.get(wikiRequest)
+//                 if (result.data.type=="standard"){
+//                     await searchWrapper(`UPDATE citiesAndSites SET Description ="${result.data.extract}" WHERE Name="${place.Name}"`)
+//                 }
+//             //logs to console if suggestion is not in Wikepedia
+//             } catch {
+//             }
+//         }
+//     }
+//     sql = ""
+//     for (state of states){
+//         sql = sql+`
+//         SELECT * 
+//         FROM citiesAndSites
+//         WHERE State LIKE "${state}" AND Type <> "City/Town" AND Description <>-1 AND Description NOT LIKE "https%"
+//         UNION`
+//     }
+//     sql = sql.slice(0,-5)
+//     sql = "SELECT * FROM ("+sql+`)
+//     ORDER BY Weight DESC
+//     LIMIT 100`
+//     return await searchWrapper(sql)
+    
+// }
 
 async function autofillLocations(inputString){
     sql = `SELECT Name, State FROM citiesAndSites
@@ -410,21 +473,40 @@ async function addUser(username, password){
 }
 
 
-// closes database
-// function closeDB(){
-//     db.close((e) => {
-//     if (e) {
-//         return console.error(e.message);
-//     }
-//     console.log('Close the database connection.');
-//     });
+// // closes database
+// // function closeDB(){
+// //     db.close((e) => {
+// //     if (e) {
+// //         return console.error(e.message);
+// //     }
+// //     console.log('Close the database connection.');
+// //     });
+// // }
+
+// let coordinatesNYC = {
+//     LAT: 	40.6943,
+//     LNG: -73.9249
+// }
+// let coordinatesDarien = {
+//     LAT: 41.0772,
+//     LNG: 73.4687	
 // }
 
+// let radius = {
+//     latDeg: .5,
+//     lngDeg: .5
+// }
+
+// async function test(){
+//     console.log(await testSitesInStates([coordinatesDarien, coordinatesNYC], radius))
+// }
+// test()
+
     
-async function test(){
-    console.log(await searchWrapper(`DELETE FROM citiesAndSites WHERE Name LIKE "%island%"`))
-}
-test()
+// async function test(){
+//     console.log(await searchWrapper(`DELETE FROM citiesAndSites WHERE Name LIKE "%island%"`))
+// }
+// test()
 // // // // //writeSearch(route)
 // dUser("arisf", "arispassword")
 // createTrip("arisf", "Wake Forest", "Sedona, AZ")
