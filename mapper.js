@@ -511,7 +511,7 @@ async function initMap() {
                 latLngArr.push(latLng);
             }
 
-            let radius
+            // let radius
             // calc_radius(step_length)
             getStopsInStates(latLngArr, {latDeg: 0.15, lngDeg: 0.15});
             return;
@@ -659,7 +659,7 @@ async function initMap() {
             */
 
             async function getStopsInStates(latLngArr, radiusDegs){
-                let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { states: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { latAndLng: latLngArr, radius: radiusDegs }, { headers: {'Access-Control-Allow-Origin': '*'}});
                 $('#loadingBox').replaceWith(`<div class="box" id="loadingBox" style="text-align: center;">
                         <span style="font-size: 20px; color: black;">Suggestions are loaded</span><br>
                         <progress class="progress is-large is-primary" value="100" max="100">100%</progress>
