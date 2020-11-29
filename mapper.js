@@ -480,6 +480,7 @@ async function initMap() {
     
     
         // Makes an array of all the states the route passes through (Adjust incrementation for price savings) There is a better way to do this...
+        /*
         async function stateTrav(directionsDisplay) {
             let states = [];
             console.log(directionsDisplay.directions);
@@ -496,8 +497,39 @@ async function initMap() {
                 getStopsInStates(states);
                 return states;
         }
+        */
+
+        async function stateTrav(directionsDisplay) {
+            let latLngArr = [];
+            console.log(directionsDisplay.directions);
+            let step_length = directionsDisplay.directions.routes[0].overview_path.length;
     
-        // asks google geocode API which state the LatLng falls within
+            for (let i = 0; i < step_length; i = i + 1) {
+                let LAT = directionsDisplay.directions.routes[0].overview_path[i].lat();
+                let LNG = directionsDisplay.directions.routes[0].overview_path[i].lng();
+                let latLng = {LAT, LNG};
+                latLngArr.push(latLng);
+            }
+
+            let radius
+            // calc_radius(step_length)
+            getStopsInStates(latLngArr, {latDeg: 0.15, lngDeg: 0.15});
+            return;
+        }
+
+        /*
+        async function calc_radius_degrees(step_length) {
+            let radiusDegs = {
+                latDeg,
+                lngDeg
+            }
+
+            radiusDegs.latDeg =
+        }
+        */
+    
+        // asks google geocode API which state the LatLng falls within - 11/29/2020 DEPRECATED
+       /*
         async function revGeocode(LAT, LNG) {
             try {
                 let KEY = "AIzaSyBhcNo_EDGsF_lGfThVgAVtweh_DlciUCQ";
@@ -516,12 +548,15 @@ async function initMap() {
             }
             return;
         }
+        */
     
-        // call this to get the State abbreviation for a given latitude and longitude
+        // call this to get the State abbreviation for a given latitude and longitude - 11/29/2020 DEPRECATED
+        /*
         async function getState(LAT, LNG) {
             let result = await revGeocode(LAT, LNG);
             return result;
         }
+        */
     
         function startCardAssembler(waypoint){
             return (`<div class="waypointCard box" id="originWaypoint" style="background-color: #CCFFCC; margin-bottom: 10px;">
@@ -598,7 +633,32 @@ async function initMap() {
                         </div>`)
             }
     
+            /*
             async function getStopsInStates(states){
+                let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { states: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
+                $('#loadingBox').replaceWith(`<div class="box" id="loadingBox" style="text-align: center;">
+                        <span style="font-size: 20px; color: black;">Suggestions are loaded</span><br>
+                        <progress class="progress is-large is-primary" value="100" max="100">100%</progress>
+                        <span style="font-size: 20px; color: black;">Scroll down and add stops to trip</span><br>
+                    </div>`);
+                $('#attractionsOne').empty();
+                $('#attractionsTwo').empty();
+                $('#attractionsThree').empty();
+                for(let i=0; i<result.data.rows.length; i+=3) {
+                    if (i!=result.data.rows.length) {
+                        $('#attractionsTwo').append(attractionsCardAssembler(result.data.rows[i]));
+                        } else { return }
+                        if (i+1!=result.data.rows.length) {
+                            $('#attractionsThree').append(attractionsCardAssembler(result.data.rows[i+1]));
+                        } else { return}
+                        if (i+2!=result.data.rows.length) {
+                            $('#attractionsOne').append(attractionsCardAssembler(result.data.rows[i+2]));
+                        } else { return}
+                    }
+            }
+            */
+
+            async function getStopsInStates(latLngArr, radiusDegs){
                 let result= await axios.post('https://mapper-project.herokuapp.com/stopsinstates', { states: states }, { headers: {'Access-Control-Allow-Origin': '*'}});
                 $('#loadingBox').replaceWith(`<div class="box" id="loadingBox" style="text-align: center;">
                         <span style="font-size: 20px; color: black;">Suggestions are loaded</span><br>
