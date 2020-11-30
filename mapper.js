@@ -605,6 +605,12 @@ async function initMap() {
             // Add a stop from suggested, stopID (this is not done)
             async function attractionCardAddHandler(event){
                 let current_card = event.currentTarget.parentElement.parentElement.parentElement.parentElement;
+                let card_name = event.currentTarget.parentElement.parentElement.getElementById('attractionName'
+                );
+                console.log("this is the event: ");
+                console.log(event);
+                console.log("this is the name I found: ")
+                console.log(card_name);
                 console.log("current card: (latlng): ");
                 console.log(current_card.id);
                 let waypointLatLng = current_card.id;
@@ -626,7 +632,7 @@ async function initMap() {
                             <div>
                                 <div class="columns">
                                     <div class="column is-10">
-                                        <span style="font-size: 30px;"><b>${attraction.Name}</b></span><br>
+                                        <span id="attractionName" style="font-size: 30px;"><b>${attraction.Name}</b></span><br>
                                         <span style="color: black; font-size:14px;"><b>${attraction.Type}</b></span>
                                     </div>
                                 <div class="column">
