@@ -10,6 +10,7 @@ async function initMap() {
     session_trip = await axios.get('https://mapper-project.herokuapp.com/edittrip/');
     if (session_trip.data =="Unauthorized"||session_trip.data=="Not your trip") {
         console.log(session_trip);
+        session_trip = null;
     } else {
         console.log(session_trip);
         let edit_origin = session_trip.data[0].rows[0].startLocation;
@@ -501,12 +502,13 @@ async function initMap() {
 
         async function stateTrav(directionsDisplay) {
             let latLngArr = [];
-            console.log(directionsDisplay.directions);
-            let step_length = directionsDisplay.directions.routes[0].overview_path.length;
+            let dirDisplay = await directionsDisplay;
+            console.log(dirDisplayDirections);
+            let step_length = dirDisplay.directions.routes[0].overview_path.length;
     
             for (let i = 0; i < step_length; i = i + 1) {
-                let LAT = directionsDisplay.directions.routes[0].overview_path[i].lat();
-                let LNG = directionsDisplay.directions.routes[0].overview_path[i].lng();
+                let LAT = dirDisplay.directions.routes[0].overview_path[i].lat();
+                let LNG = dirDisplay.directions.routes[0].overview_path[i].lng();
                 let latLng = {LAT, LNG};
                 latLngArr.push(latLng);
             }
