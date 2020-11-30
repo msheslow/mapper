@@ -606,8 +606,8 @@ async function initMap() {
             async function attractionCardAddHandler(event){
                 let current_card = event.currentTarget.parentElement.parentElement.parentElement.parentElement;
                 console.log("current card: (latlng): ");
-                console.log(current_card.latLng);
-                let waypointLatLng = current_card.latLng;
+                console.log(current_card.id);
+                let waypointLatLng = current_card.id;
                 let newWaypoint = {
                     location: waypointLatLng,
                     stopover: true
@@ -622,7 +622,7 @@ async function initMap() {
     
     
             function attractionsCardAssembler(attraction) {
-                return(`<div class="box attractionBoxes" id="${attraction.Name}" latLng="${attraction.Latitude}, ${attraction.Longitude}">
+                return(`<div class="box attractionBoxes" id="${attraction.Latitude}, ${attraction.Longitude}">
                             <div>
                                 <div class="columns">
                                     <div class="column is-10">
