@@ -503,7 +503,7 @@ async function initMap() {
         async function stateTrav(directionsDisplay) {
             let latLngArr = [];
             let dirDisplay = await directionsDisplay;
-            console.log(dirDisplayDirections);
+            console.log(dirDisplay.directions);
             let step_length = dirDisplay.directions.routes[0].overview_path.length;
     
             for (let i = 0; i < step_length; i = i + 1) {
