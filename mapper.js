@@ -672,6 +672,8 @@ async function initMap() {
                 $('#attractionsOne').empty();
                 $('#attractionsTwo').empty();
                 $('#attractionsThree').empty();
+                console.log("What attractions the backend comes up with: ");
+                console.log(result);
                 for(let i=0; i<result.data.rows.length; i+=3) {
                     if (i!=result.data.rows.length) {
                         $('#attractionsTwo').append(attractionsCardAssembler(result.data.rows[i]));
