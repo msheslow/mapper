@@ -316,7 +316,7 @@ async function getSitesInStates(latAndLongs, radius){
         sql = sql+`
         SELECT * 
         FROM completeDB
-        WHERE Latitude between ${latLow} AND ${latHigh} AND Longitude between ${lngLow} AND ${lngHigh} AND Type <> "City/Town"
+        WHERE Latitude between ${latLow} AND ${latHigh} AND Longitude between ${lngLow} AND ${lngHigh} AND Type <> "City/Town" AND Description <> NULL
         UNION`
     }
     sql = sql.slice(0,-5)
