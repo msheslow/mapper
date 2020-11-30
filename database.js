@@ -267,7 +267,7 @@ async function testSitesInStates(latAndLongs, radius){
 
 //Finds all the sites in the state listed in the route object, states must be spelled out strings in an array
 async function getSitesInStates(latAndLongs, radius){
-    sql = ""
+    let sql = ""
     //Creates a SQL command that selects all stops in states
     for (latLong of latAndLongs){
         let latLow = (latLong.LAT-radius.latDeg).toFixed(4)
