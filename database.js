@@ -158,7 +158,7 @@ app.post('/stopsinstates', async (req, res) => {
     if (latLong == undefined ){
         res.status(403).send("Please specify states you would like to see")
     }
-    let results = await testSitesInStates(latLong, radius)
+    let results = await getSitesInStates(latLong, radius)
     res.json(results)
 })
 
@@ -255,12 +255,9 @@ async function deleteAllStops(trip){
 async function testSitesInStates(latAndLongs, radius){
     let sql =""
     for (latLong of latAndLongs){
-        console.log(latLong)
-        console.log(sql)
-        console.log("")
         sql = sql+`
         SELECT * 
-        FROM finalDB
+        FROM completeDB
         WHERE Latitude between ${latLong.LAT-radius.latDeg} AND ${latLong.LAT+radius.latDeg} AND Longitude between ${latLong.LNG-radius.lngDeg} AND ${latLong.LNG+radius.lngDeg}
         UNION`
     }
@@ -273,52 +270,62 @@ async function getSitesInStates(latAndLongs, radius){
     sql = ""
     //Creates a SQL command that selects all stops in states
     for (latLong of latAndLongs){
+        let latLow = (latLong.LAT-radius.latDeg).toFixed(4)
+        let latHigh = (latLong.LAT+radius.latDeg).toFixed(4)
+        let lngLow = (latLong.LNG-radius.latDeg).toFixed(4)
+        let lngHigh = (latLong.LNG+radius.latDeg).toFixed(4)
         sql = sql+`
         SELECT * 
-        FROM finalDB
-        WHERE Latitude between ${latLong.LAT-radius.latDeg} AND ${latLong.LAT+radius.latDeg} AND Longitude between ${latLong.LNG-radius.lngDeg} AND ${latLong.LNG+radius.lngDeg} AND Type <> "City/Town"
+        FROM completeDB
+        WHERE Latitude between ${latLow} AND ${latHigh} AND Longitude between ${lngLow} AND ${lngHigh} AND Type <> "City/Town"
         UNION`
     }
     sql = sql.slice(0,-5)
     // Ensures that out of ~100,000 possible stops, only the 100 most popular stops (Weight=popularity) are returned.
     sql = "SELECT * FROM (SELECT * FROM ("+sql+`)
     ORDER BY Weight DESC
-    LIMIT 100) WHERE Checked = 0 AND Type = "National Historic Register"`
-    console.log(sql)
-//     let ans = await searchWrapper(sql)
-//     //iterates through each suggestion to get the description if it doesn't exist
-//     for (place of ans.rows) {
-//         //Checks to see if Wikipedia needs to be queried for this stop
-//         if ((place.Description == -1 || place.Description.startsWith("https://")) && place.Checked==0){
-//             let wikiName = place.Name.split(" ").join("_")
-//             let wikiRequest = "https://en.wikipedia.org/api/rest_v1/page/summary/"+wikiName
-//             let result
-//             // queries Wikipedia for description
-//             try {
-//                 await searchWrapper(`UPDATE finalDB SET Checked =1 WHERE Name="${place.Name}"`)
-//                 result = await axios.get(wikiRequest)
-//                 if (result.data.type=="standard"){
-//                     await searchWrapper(`UPDATE finalDB SET Description ="${result.data.extract}" WHERE Name="${place.Name}"`)
-//                 }
-//             //logs to console if suggestion is not in Wikepedia
-//             } catch {
-//             }
-//         }
-//     }
-//     sql = ""
-//     for (latLong of latAndLongs){
-//         sql = sql+`
-//         SELECT * 
-//         FROM finalDB
-//         WHERE Latitude < "${latLong.LAT+radius}" AND Longitude < "${latLong.LNG+radius}" Latitude > "${latLong.LAT-radius}" AND Longitude > "${latLong.LNG-radius}" AND Type <> "City/Town"
-//         UNION`
-//     }
-//     sql = sql.slice(0,-5)
-//     // Ensures that out of ~100,000 possible stops, only the 100 most popular stops (Weight=popularity) are returned.
-//     sql = "SELECT * FROM (SELECT * FROM ("+sql+`)
-//     ORDER BY Weight DESC
-//     LIMIT 100)`
-//     return await searchWrapper(sql)
+    LIMIT 100) WHERE Checked = 0`
+    let ans = await searchWrapper(sql)
+    //iterates through each suggestion to get the description if it doesn't exist
+    for (place of ans.rows) {
+        //Checks to see if Wikipedia needs to be queried for this stop
+        if ((place.Description == "" || place.Description == null || place.Description.startsWith("https://")) && place.Checked==0){
+            let wikiName = place.Name.split(" ").join("_")
+            let wikiRequest = "https://en.wikipedia.org/api/rest_v1/page/summary/"+wikiName
+            let result
+            // queries Wikipedia for description
+            try {
+                console.log("reached")
+                await searchWrapper(`UPDATE completeDB SET Checked =1 WHERE Name="${place.Name}"`)
+                result = await axios.get(wikiRequest)
+                console.log(result)
+                if (result.data.type=="standard"){
+                    await searchWrapper(`UPDATE completeDB SET Description ="${result.data.extract}" WHERE Name="${place.Name}"`)
+                }
+            //logs to console if suggestion is not in Wikepedia
+            } catch(err){
+                console.log(err)
+            }
+        }
+    }
+    sql = ""
+    for (latLong of latAndLongs){
+        let latLow = (latLong.LAT-radius.latDeg).toFixed(4)
+        let latHigh = (latLong.LAT+radius.latDeg).toFixed(4)
+        let lngLow = (latLong.LNG-radius.latDeg).toFixed(4)
+        let lngHigh = (latLong.LNG+radius.latDeg).toFixed(4)
+        sql = sql+`
+        SELECT * 
+        FROM completeDB
+        WHERE Latitude between ${latLow} AND ${latHigh} AND Longitude between ${lngLow} AND ${lngHigh} AND Type <> "City/Town"
+        UNION`
+    }
+    sql = sql.slice(0,-5)
+    // Ensures that out of ~100,000 possible stops, only the 100 most popular stops (Weight=popularity) are returned.
+    sql = "SELECT * FROM (SELECT * FROM ("+sql+`)
+    ORDER BY Weight DESC
+    LIMIT 100)`
+    return await searchWrapper(sql)
     
 }
 
