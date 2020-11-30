@@ -317,11 +317,7 @@ async function initMap() {
                 }
             let newresult;
             for (i=0; i<waypointOrder.length; i++) {
-                console.log(waypointOrder);
-                console.log(waypoints);
                 let waypointNum = i; //
-                console.log("waypointNum: ")
-                console.log(waypointNum);
                 $('#listWaypoints').append(waypointCardAssembler(waypointNum,local_waypoints[i]));
                 try {
                     newresult= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: local_waypoints[i].location }, { headers: {'Access-Control-Allow-Origin': '*'}});
@@ -587,7 +583,10 @@ async function initMap() {
         }
     
         function waypointCardAssembler(waypointNum,waypoint){
+            console.log("waypointCardAssembler 'waypoint': ");
             console.log(waypoint);
+            console.log("waypointCardAssembler 'waypointNum': ");
+            console.log(waypointNum);
             return (`<div class="waypointCard box" id="${waypointNum}" waypoint-name="${waypoint}" style="background-color: #ECECEC; margin-bottom: 10px;">
                                         <div class="columns">
                                             <div class="column is-four-fifths">
