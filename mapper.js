@@ -514,7 +514,7 @@ async function initMap() {
             // let radius
             // calc_radius(step_length)
             getStopsInStates(latLngArr, {latDeg: 0.15, lngDeg: 0.15});
-            return;
+            return latLngArr;
         }
 
         /*
@@ -603,6 +603,8 @@ async function initMap() {
             // Add a stop from suggested, stopID (this is not done)
             async function attractionCardAddHandler(event){
                 let current_card = event.currentTarget.parentElement.parentElement.parentElement.parentElement;
+                console.log("current card: (latlng): ")
+                console.log(current_card);
                 let waypointName = current_card.id;
                 let newWaypoint = {
                     location: waypointName,
