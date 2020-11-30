@@ -587,6 +587,7 @@ async function initMap() {
         }
     
         function waypointCardAssembler(waypointNum,waypoint){
+            console.log(waypoint);
             return (`<div class="waypointCard box" id="${waypointNum}" waypoint-name="${waypoint}" style="background-color: #ECECEC; margin-bottom: 10px;">
                                         <div class="columns">
                                             <div class="column is-four-fifths">
