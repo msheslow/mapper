@@ -382,5 +382,3 @@ async function dummy() {
         await geocode(nameArray[i]);
     }
 }
-
-dummy();
