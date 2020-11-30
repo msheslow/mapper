@@ -605,11 +605,11 @@ async function initMap() {
             // Add a stop from suggested, stopID (this is not done)
             async function attractionCardAddHandler(event){
                 let current_card = event.currentTarget.parentElement.parentElement.parentElement.parentElement;
-                console.log("current card: (latlng): ")
-                console.log(current_card);
-                let waypointName = current_card.id;
+                console.log("current card: (latlng): ");
+                console.log(current_card.latLng);
+                let waypointLatLng = current_card.latLng;
                 let newWaypoint = {
-                    location: waypointName,
+                    location: waypointLatLng,
                     stopover: true
                 }
                 local_waypoints.push(newWaypoint);
@@ -622,7 +622,7 @@ async function initMap() {
     
     
             function attractionsCardAssembler(attraction) {
-                return(`<div class="box attractionBoxes" id="${attraction.Name + " " + attraction.Type}">
+                return(`<div class="box attractionBoxes" id="${attraction.Name}" latLng="${attraction.Latitude}, ${attraction.Longitude}">
                             <div>
                                 <div class="columns">
                                     <div class="column is-10">
