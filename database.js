@@ -298,7 +298,6 @@ async function getSitesInStates(latAndLongs, radius){
                 console.log("reached")
                 await searchWrapper(`UPDATE completeDB SET Checked =1 WHERE Name="${place.Name}"`)
                 result = await axios.get(wikiRequest)
-                console.log(result)
                 if (result.data.type=="standard"){
                     await searchWrapper(`UPDATE completeDB SET Description ="${result.data.extract}" WHERE Name="${place.Name}"`)
                 }
