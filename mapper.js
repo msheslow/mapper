@@ -317,7 +317,11 @@ async function initMap() {
                 }
             let newresult;
             for (i=0; i<waypointOrder.length; i++) {
+                console.log(waypointOrder);
+                console.log(waypoints);
                 let waypointNum = i; //
+                console.log("waypointNum: ")
+                console.log(waypointNum);
                 $('#listWaypoints').append(waypointCardAssembler(waypointNum,local_waypoints[i]));
                 try {
                     newresult= await axios.post('https://mapper-project.herokuapp.com/addstop', { stopID: local_waypoints[i].location }, { headers: {'Access-Control-Allow-Origin': '*'}});
