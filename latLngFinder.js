@@ -1,28 +1,179 @@
 const axios = require('axios');
 const fs = require('fs');
 let txt_str = "";
+const fetch = require("node-fetch");
 
-async function geocode(name) {
-    try {
-        await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-            params: {
-                address: name,
-                key: 'AIzaSyBhcNo_EDGsF_lGfThVgAVtweh_DlciUCQ'
-            }
-        })
-        .then(function(response) {
-            let lat = response.data.results[0].geometry.location.lat;
-            let lng = response.data.results[0].geometry.location.lng;
-            let latLngOutput = '\n' + name + "," + lat + "," + lng;
-            txt_str += latLngOutput;
-        })
-    } catch (err) {
-        console.log(err);
-    }
-    return;
-}
+let testArray = [`Blue Springs State Park`,
+`Buck's Pocket State Park`,
+`Cathedral Caverns State Park`,
+`Cheaha State Park`,
+`Chewacla State Park`,
+`DeSoto State Park`,
+`Frank Jackson State Park`,
+`Gulf State Park`,
+`Joe Wheeler State Park`,
+`Lake Guntersville State Park`,
+`Lake Lurleen State Park`,
+`Lakepoint Resort State Park`,
+`Meaher State Park`,
+`Monte Sano State Park`,
+`Oak Mountain State Park`,
+`Rickwood Caverns State Park`,
+`Wind Creek State Park`,
+`Bladon Springs State Park`,
+`Historic Blakeley State Park`,
+`Brierfield Ironworks Historical State Park`,
+`Chattahoochee State Park`,
+`Chickasaw State Park`,
+`Florala City Park`,
+`Paul M. Grist State Park`,
+`Roland Cooper State Park`,
+`Tannehill Ironworks Historical State Park`,
+`Chugach State Park`,
+`Dry Creek State Recreation Site`,
+`Lake Louise State Recreation Area`,
+`Liberty Falls State Recreation Site`,
+`Porcupine Creek State Recreation Site`,
+`Squirrel Creek State Recreation Site`,
+`Fairbanks area`,
+`Birch Lake State Recreation Site`,
+`Chena River State Recreation Area`,
+`Chena River State Recreation Site`,
+`Harding Lake State Recreation Area`,
+`Lower Chatanika River State Recreation Area`,
+`Salcha River State Recreation Site`,
+`Upper Chatanika River State Recreation Site`,
+`Delta Junction area`,
+`Big Delta State Historical Park`,
+`Clearwater State Recreation Site`,
+`Delta State Recreation Site`,
+`Donnelly Creek State Recreation Site`,
+`Fielding Lake State Recreation Site`,
+`Quartz Lake State Recreation Area`,
+`Tok area`,
+`Eagle Trail State Recreation Site`,
+`Moon Lake State Recreation Site`,
+`Tok River State Recreation Site`,
+`Homer area`,
+`Anchor River State Recreation Area`,
+`Deep Creek State Recreation Area`,
+`Diamond Creek State Recreation Area`,
+`Stariski State Recreation Site`,
+`Kachemak Bay State Park`,
+`Kachemak Bay State Wilderness Park`,
+`Ninilchik State Recreation Area`,
+`Captain Cook State Recreation Area`,
+`Stormy Lake at Captain Cook SRA`,
+`Clam Gulch State Recreation Area`,
+`Crooked Creek State Recreation Site`,
+`Johnson Lake State Recreation Area`,
+`Kasilof River State Recreation Site`,
+`Kenai River Special Management Area`,
+`Morgan’s Landing State Recreation Area`,
+`Scout Lake State Recreation Site`,
+`Seward area`,
+`Caines Head State Recreation Area`,
+`Driftwood Bay State Marine Park`,
+`Lowell Point State Recreation Site`,
+`Safety Cove State Marine Park`,
+`Sandspit Point State Marine Park`,
+`Sunny Cove State Marine Park`,
+`Thumb Cove State Marine Park`,
+`Afognak Island State Park`,
+`Buskin River State Recreation Site`,
+`Fort Abercrombie State Historical Park`,
+`Pasagshak River State Recreation Site`,
+`Shuyak Island State Park`,
+`Woody Island State Recreation Site`,
+`Big Lake North State Recreation Area`,
+`Big Lake South State Recreation Site`,
+`Blair Lake State Recreation Site`,
+`Denali State Park`,
+`Lake Louise State Recreation Area`,
+`Nancy Lake State Recreation Area`,
+`Nancy Lake State Recreation Site`,
+`Finger Lake State Recreation Area`,
+`Hatcher Pass East Special Management Area`,
+`Independence Mine State Historical Park`,
+`Kepler-Bradley Lakes State Recreation Area`,
+`King Mountain State Recreation Site`,
+`Matanuska Glacier State Recreation Site`,
+`Montana Creek State Recreation Site`,
+`Rocky Lake State Recreation Site`,
+`Summit Lake State Recreation Site`,
+`Tokositna River State Recreation Site`,
+`Willow Creek State Recreation Area`,
+`Bettles Bay State Marine Park`,
+`Blueberry Lake State Recreation Site`,
+`Boswell Bay Beaches State Marine Park`,
+`Canoe Passage State Marine Park`,
+`Decision Point State Marine Park`,
+`Entry Cove State Marine Park`,
+`Granite Bay State Marine Park`,
+`Horseshoe Bay State Marine Park`,
+`Jack Bay State Marine Park`,
+`Kayak Island State Marine Park`,
+`Sawmill Bay State Marine Park`,
+`Shoup Bay State Marine Park`,
+`South Esther Island State Marine Park`,
+`Surprise Cove State Marine Park`,
+`Surprise Ridge State Marine Park`,
+`Worthington Glacier State Recreation Site`,
+`Ziegler Cove State Marine Park`,
+`Alaska Chilkat Bald Eagle Preserve`,
+`Chilkat Islands State Marine Park`,
+`Chilkat State Park`,
+`Chilkoot Lake State Recreation Site`,
+`Mosquito Lake State Recreation Site`,
+`Portage Cove State Recreation Site`,
+`Sullivan Island State Marine Park`,
+`Juneau area`,
+`Eagle Beach State Recreation Area`,
+`Ernest Gruening State Historical Park`,
+`Funter Bay State Marine Park`,
+`Juneau Trail System`,
+`Oliver Inlet State Marine Park`,
+`Point Bridget State Park`,
+`Shelter Island State Marine Park`,
+`St. James Bay State Marine Park`,
+`Taku Harbor State Marine Park`,
+`Wickersham State Historic Site`,
+`Ketchikan area`,
+`Black Sands Beach State Marine Park`,
+`Dall Bay State Marine Park`,
+`Grindall Island State Marine Park`,
+`Refuge Cove State Recreation Site`,
+`Settlers Cove State Recreation Site`,
+`Totem Bight State Historical Park`,
+`Sitka area`,
+`Baranof Castle Hill State Historic Site`,
+`Big Bear/Baby Bear State Marine Park`,
+`Halibut Point State Recreation Site`,
+`Magoun Islands State Marine Park`,
+`Old Sitka State Historical Park`,
+`Sealion Cove State Marine Park`,
+`Security Bay State Marine Park`,
+`Wrangell/Petersburg area`,
+`Beecher Pass State Marine Park`,
+`Joe Mace Island State Marine Park`,
+`Petroglyph Beach State Historic Site`,
+`Thoms Place State Marine Park`,
+`Lake Aleknagik State Recreation Site`,
+`Wood-Tikchik State Park`,
+`Mount Nebo State Park`,
+`Ozark Folk Center State Park`,
+`Parkin Archeological State Park`,
+`Petit Jean State Park`,
+`Pinnacle Mountain State Park`,
+`Plantation Agriculture Museum`,
+`Poison Springs Battleground State Park`,
+`Powhatan Historic State Park`];
 
-let nameArray = [`Blue Springs State Park`,
+console.log("inputArray length: ")
+console.log(testArray.length)
+
+
+let parkArray = [`Blue Springs State Park`,
 `Buck's Pocket State Park`,
 `Cathedral Caverns State Park`,
 `Cheaha State Park`,
@@ -3012,14 +3163,76 @@ let nameArray = [`Blue Springs State Park`,
 `South Pass City`,
 `Woodruff Cabin Site`,
 `Wyoming Pioneer Museum`,
-`Wyoming Territorial Prison`];
+`Wyoming Territorial Prison`,];
 
-async function dummy() {
-    txt_str = "";
-    for (let i = 0; i < nameArray.length; i++) {
-        await geocode(nameArray[i]);
+
+/**
+ * Queries 
+ * @param {string} fileName - the path of the specified .txt file you want to store the data
+ * @param {[]} inputArray  - the whole array of inputs that you want the API to process
+ * @param {number} n - Generally the first index number of your inputArray
+ * @param {number} queryLimitNum - the maximum query limit (measured query/unit time) of your specific API. The function will query the API this many times before pausing for queryLimitTime specified duration in milliseconds
+ * @param {*} queryLimitTime - the duration (in milliseconds) that you want to wait between one batch of API calls (batch size = queryLimitNum), and the next batch
+ */
+async function manyGeocodes(fileName, inputArray, n, queryLimitNum, queryLimitTime) {
+    let len = inputArray.length;
+    let currentNum = n;
+
+    for (let i = n; i < n + queryLimitNum; i++) {
+        Promise.all([
+            // ----- ADJUST this fetch function's Argument to satisfy your API request requirements -----
+            fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=` + inputArray[i] + `&key=AIzaSyBhcNo_EDGsF_lGfThVgAVtweh_DlciUCQ`),
+        ]).then(function(responses) {
+                return Promise.all(responses.map(function (response){
+                    return response.json();
+                }));
+        // -------- Write logic to Process the returned data in the ".then" block below: --------
+        }).then(function (data) {
+            /**  ---***VERY IMPORTANT - please read ALL COMMENTS ***---
+             * Use an IF/ELSE statement to pre-validate your data before you process it and write it in a file. 
+             * If you try to reference or use an undefined property/variable while processing below, the whole function will NOT WORK 
+             */
+
+            // if statement functionality: tests to make sure that the properties I am looking for actually exist
+            if (data[0] && data[0].results && data[0].results[0]) {
+
+                let lat = data[0].results[0].geometry.location.lat;
+                let lng = data[0].results[0].geometry.location.lng;
+
+                let latLngOutput = '\n' + inputArray[i] + "," + lat + "," + lng;
+                // ----- if data conditions ARE met, this line will be written to file -----
+                fs.appendFile(fileName,latLngOutput, err);
+            // else statement functionality: if any of the properties I need are unsatisfactory, write an alternative line in the .txt file
+            } else {
+                // ----- if data conditions ARE NOT met, this line will be written to file -----
+                fs.appendFile(fileName, '\n' + 'FAILED: ' + inputArray[i] + ', null, null', err);
+            }
+        }).catch(function (error) {
+            console.log("The API did not like this input value: " + inputArray[i]);
+            console.log("see the error message below to figure out why: ");
+            console.log("");
+            console.log(error);
+            fs.appendFile(fileName, '\n' + 'FAILED: ' + inputArray[i] + ', null, null', err);
+            console.log("SUCCESS: just trying to figure out if we made it this far")
+        });
+        currentNum++;
     }
-    fs.writeFileSync('/Users/msheslow/mapper/latLng2',txt_str);
+
+    if (currentNum <= len - queryLimitNum) {
+        console.log("set a timeout at: " + currentNum);
+        setTimeout(manyGeocodes, queryLimitTime, fileName, inputArray, currentNum, queryLimitNum, queryLimitTime);
+    } else if (currentNum < len - 1 ){
+        console.log("set a timeout at: " + currentNum)
+        let remainder = len - currentNum;
+        setTimeout(manyGeocodes, queryLimitTime, fileName, inputArray, currentNum, remainder, queryLimitTime);
+    } else {
+        console.log("ended api calls at: " + currentNum)
+        return;
+    }
 }
 
-dummy();
+function err(e) {
+}
+
+// THIS IS THE MAIN FUNCTION CALL
+manyGeocodes('/Users/msheslow/mapper/latLng2_1', parkArray, 0, 50, 2000);
